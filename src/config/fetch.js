@@ -1,9 +1,9 @@
 import Vue from "vue";
 import {AjaxPlugin} from "vux";
+import {baseUrl} from 'src/config/env';
 
-Vue.use(AjaxPlugin); //console.log(Vue.http) this.$http
+Vue.use(AjaxPlugin);
 
-const baseUrl = 'http://localhost:3001';
 export default async (url, data, method) => {
   const m = method ? 'POST' : 'GET';
   if (!data) {

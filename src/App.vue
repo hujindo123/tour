@@ -20,8 +20,6 @@
   }
 </script>
 
-<style lang="less">
-  body {
-    background-color: #fbf9fe;
-  }
+<style scoped>
+  @import "./style/reset.scss";
 </style>
