@@ -5,7 +5,7 @@ import FastClick from 'fastclick'
 import App from './App'
 import router from 'src/router/index'
 import store from './store/index'
-import './config/rem';
+//import './config/rem';
 
 router.beforeEach((to, from, next) => {
   store.commit('updateLoadingStatus', {isLoading: true});
