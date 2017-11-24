@@ -1,25 +1,11 @@
 <template>
-  <div class="login">
-    <div class="login_top">
+  <div class="register">
+    <div class="register_top">
       <span class="iconfont icon-icon08"></span>
-      <span class="iconfont login_singin">
-        <router-link to="/register">注册</router-link>
-      </span>
+      <span class="register_singin">注册账号</span>
     </div>
-    <tab :line-width="1" :custom-bar-width="getBarWidth">
-      <tab-item selected @on-item-click="accountShow">账号登录</tab-item>
-      <tab-item @on-item-click="accountShow">手机验证码登录</tab-item>
-    </tab>
     <div class="account_div">
-      <div class="account_m" v-if="!index">
-        <group class="account input">
-          <x-input placeholder="请输入手机号码" v-model="login.phone"></x-input>
-        </group>
-        <group class="account input">
-          <x-input type="password" placeholder="请输入密码" v-model="login.password"></x-input>
-        </group>
-      </div>
-      <div class="phone_m" v-if="index">
+      <div class="account_m">
         <group class="account input">
           <x-input placeholder="请输入手机号码" v-model="login.phone"></x-input>
         </group>
@@ -28,25 +14,20 @@
             <span slot="right" class="time" :class="{'hasSend': hasSend}">{{login.desc}}</span>
           </x-input>
         </group>
+        <group class="account input">
+          <x-input placeholder="请输入新密码（最少xx位，数字+字母）" v-model="login.password"></x-input>
+        </group>
       </div>
-      <x-button type="primary" class="login_btn">登录</x-button>
-      <divider>第三方账号登录</divider>
-      <div class="third">
-        <i class="iconfont icon-weixin"></i>
-        <i class="iconfont icon-tengxun"></i>
-        <i class="iconfont icon-iconfonticonfontweibo"></i>
-      </div>
+      <x-button type="primary" class="login_btn">注册</x-button>
     </div>
   </div>
 </template>
 
 <script>
-  import {XInput, Group, XButton, Tab, TabItem, Divider, Cell} from 'vux';
+  import {XInput, Group, XButton, Divider, Cell} from 'vux';
 
   export default {
     components: {
-      Tab,
-      TabItem,
       Cell,
       Group,
       XInput,
@@ -55,10 +36,7 @@
     },
     data () {
       return {
-        index: 0,
-        getBarWidth: function (v) {
-          return (v + 1) * 50 + 'px'
-        },
+        accountShow: true,
         hasSend: false,
         login: {
           phone: '',
@@ -68,20 +46,16 @@
         }
       }
     },
-    methods: {
-      accountShow(i){
-        this.index = i ? true : false;
-      }
-    },
+    methods: {}
   }
 </script>
 <style lang="scss">
   @import "../../style/mixin";
 
-  .login {
+  .register {
     display: flex;
     flex-flow: column;
-    .login_top {
+    .register_top {
       display: flex;
       @include wh(100%, 44px);
       box-sizing: border-box;
@@ -94,17 +68,15 @@
         padding: 4px 12px 0 12px;
         @include sc(16px, rgba(76, 76, 76, 1));
       }
-      .login_singin {
+      .register_singin {
+        width: 100%;
+        position: relative;
+        box-sizing: border-box;
         padding-right: 20px;
         padding-left: 12px;
-        a {
-          @include sc(14px, rgba(76, 76, 76, 1));
-          text-decoration: none;
-        }
+        text-align: center;
+        @include sc(14px, rgba(76, 76, 76, 1))
       }
-    }
-    .vux-tab .vux-tab-item{
-      background: transparent;
     }
     .account_div {
       padding: 5px 30px;

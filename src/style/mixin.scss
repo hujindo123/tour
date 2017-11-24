@@ -70,3 +70,13 @@ $fc: #159C5E;
   align-items: $align;
 
 }
+
+@mixin rs() {
+  .weui-cells {
+    padding: 0;
+    margin: 0;
+    &:before {
+      border: 0;
+    }
+  }
+}
