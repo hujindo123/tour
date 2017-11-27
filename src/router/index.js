@@ -9,6 +9,8 @@ import register from 'src/page/register/register';
 import third from 'src/page/third/third';
 import user from 'src/page/user/user';
 import editorUserMessage from 'src/page/user/editorUserMessage';
+import updatePhone from 'src/page/user/updatePhone';
+import introduce from 'src/page/user/introduce';
 
 export default new Router({
   mode,
@@ -29,7 +31,7 @@ export default new Router({
     },
     {
       path: '/register',
-      name: '登录',
+      name: '注册',
       component: register
     },
     {
@@ -46,6 +48,16 @@ export default new Router({
       path: '/editorUserMessage',
       name: '编辑个人信息',
       component: editorUserMessage
+    },
+    {
+      path: '/updatePhone',
+      name: '修改电话号码',
+      component: updatePhone
+    },
+    {
+      path: '/introduce',
+      name: '自我介绍信息',
+      component: introduce
     },
     {
       path: '/a',

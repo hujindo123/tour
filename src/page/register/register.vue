@@ -1,9 +1,6 @@
 <template>
   <div class="register">
-    <div class="register_top">
-      <span class="iconfont icon-icon08"></span>
-      <span class="register_singin">注册账号</span>
-    </div>
+    <vHeader></vHeader>
     <div class="account_div">
       <div class="account_m">
         <group class="account input">
@@ -24,10 +21,12 @@
 </template>
 
 <script>
+  import vHeader from '../../components/login/header';
   import {XInput, Group, XButton, Divider, Cell} from 'vux';
 
   export default {
     components: {
+      vHeader,
       Cell,
       Group,
       XInput,

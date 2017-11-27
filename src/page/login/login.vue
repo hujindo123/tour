@@ -1,11 +1,6 @@
 <template>
   <div class="login">
-    <div class="login_top">
-      <span class="iconfont icon-icon08"></span>
-      <span class="iconfont login_singin">
-        <router-link to="/register">注册</router-link>
-      </span>
-    </div>
+    <vHeader :type="true"></vHeader>
     <tab :line-width="1" :custom-bar-width="getBarWidth">
       <tab-item selected @on-item-click="accountShow">账号登录</tab-item>
       <tab-item @on-item-click="accountShow">手机验证码登录</tab-item>
@@ -29,7 +24,7 @@
           </x-input>
         </group>
       </div>
-      <x-button type="primary" class="login_btn">登录</x-button>
+      <x-button type="primary" class="login_btn" >登录</x-button>
       <divider>第三方账号登录</divider>
       <div class="third">
         <i class="iconfont icon-weixin"></i>
@@ -41,10 +36,12 @@
 </template>
 
 <script>
+  import vHeader from '../../components/login/header';
   import {XInput, Group, XButton, Tab, TabItem, Divider, Cell} from 'vux';
 
   export default {
     components: {
+      vHeader,
       Tab,
       TabItem,
       Cell,
@@ -81,28 +78,6 @@
   .login {
     display: flex;
     flex-flow: column;
-    .login_top {
-      display: flex;
-      @include wh(100%, 44px);
-      box-sizing: border-box;
-      flex-flow: row;
-      @include sc(14px, rgba(153, 153, 153, 1));
-      @include fj();
-      line-height: 44px;
-      overflow: hidden;
-      .icon-icon08 {
-        padding: 4px 12px 0 12px;
-        @include sc(16px, rgba(76, 76, 76, 1));
-      }
-      .login_singin {
-        padding-right: 20px;
-        padding-left: 12px;
-        a {
-          @include sc(14px, rgba(76, 76, 76, 1));
-          text-decoration: none;
-        }
-      }
-    }
     .vux-tab .vux-tab-item{
       background: transparent;
     }

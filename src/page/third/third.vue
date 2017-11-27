@@ -1,9 +1,6 @@
 <template>
   <div class="register">
-    <div class="register_top">
-      <span class="iconfont icon-icon08"></span>
-      <span class="register_singin">绑定手机号</span>
-    </div>
+    <vHeader :type="true" :title="'绑定手机号'"></vHeader>
     <div class="account_div">
       <div class="account_m">
         <group class="account desc" title="授权成功，请绑定手机号">
@@ -23,10 +20,13 @@
 </template>
 
 <script>
+  import vHeader from '../../components/login/header';
+
   import {XInput, Group, XButton, Divider, Cell} from 'vux';
 
   export default {
     components: {
+      vHeader,
       Cell,
       Group,
       XInput,
@@ -54,28 +54,6 @@
   .register {
     display: flex;
     flex-flow: column;
-    .register_top {
-      display: flex;
-      @include wh(100%, 44px);
-      box-sizing: border-box;
-      flex-flow: row;
-      @include sc(14px, rgba(153, 153, 153, 1));
-      @include fj();
-      line-height: 44px;
-      overflow: hidden;
-      .icon-icon08 {
-        padding: 4px 12px 0 12px;
-        @include sc(16px, rgba(76, 76, 76, 1));
-      }
-      .register_singin {
-        width: 100%;
-        position: relative;
-        box-sizing: border-box;
-        padding-right: 32px;
-        text-align: center;
-        @include sc(14px, rgba(76, 76, 76, 1))
-      }
-    }
     .account_div {
       padding: 5px 30px;
       .account, .input {
@@ -112,16 +90,16 @@
         margin-top: 30px;
         line-height: 2.65;
       }
-     /* .vux-divider {
-        @include sc(11px, rgba(205, 207, 209, 1));
-      }
-      .third {
-        display: flex;
-        @include fj(space-around);
-        .iconfont {
-          @include sc(25px, rgb(225, 227, 229));
-        }
-      }*/
+      /* .vux-divider {
+         @include sc(11px, rgba(205, 207, 209, 1));
+       }
+       .third {
+         display: flex;
+         @include fj(space-around);
+         .iconfont {
+           @include sc(25px, rgb(225, 227, 229));
+         }
+       }*/
     }
   }
 </style>

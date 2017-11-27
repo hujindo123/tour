@@ -4,99 +4,112 @@
       <img id="image" :src="url" alt="Picture">
       <button type="button" id="button" @click="crop">确定</button>
     </div>
-    <div class="user_top">
-      <span class="iconfont icon-fanhui"></span>
-      <span class="register_singin">编辑个人资料</span>
+    <div v-show="!panel">
+      <vTitle name="编辑个人资料"></vTitle>
+      <scroller lock-x height="-44">
+        <div class="user_basic_message">
+          <div class="tp">
+            <div class="tp_left">
+              头像
+            </div>
+            <div class="tp_right">
+              <div  class="picture"
+                   :style="headerImage?'backgroundImage:url('+headerImage+')':'backgroundImage:url('+url+')'"></div>
+              <input type="file" id="change" name="file" accept="image/png,image/gif,image/jpeg" @change="change">
+            <!--  <i class="iconfont icon-touxiang" ></i>-->
+              <i class="iconfont icon-fanhui-copy"></i>
+            </div>
+          </div>
+          <div class="bs_other">
+            <group>
+              <cell :title="'昵称'" is-link @click.native="showComponents('昵称', '鲁迅居然姓周')" :value="'鲁迅居然姓周'"
+                    class="require"></cell>
+            </group>
+            <group>
+              <cell :title="'真实姓名'" @click.native="showComponents('真实姓名', '设置')" is-link :value="'设置'"></cell>
+            </group>
+            <group>
+              <cell :title="'性别'" is-link @click.native="showComponents1('性别', '女')" :value="'女'" class="require"></cell>
+            </group>
+            <group>
+              <datetime
+                v-model="birthday"
+                :title="'生日'"
+                @on-cancel="log('cancel')"
+                class="require"></datetime>
+              <!--
+                          <cell :title="'生日'" is-link :link="{path:'/demo'}" :value="'1995-12-26'" class="require"></cell>
+              -->
+            </group>
+            <group>
+              <cell :title="'电话'" is-link @click.native="showComponents1('电话', '135***2666', 'phone')"
+                    :value="'135***2666'"></cell>
+            </group>
+            <group>
+              <cell :title="'QQ'" @click.native="showComponents('QQ','设置' ,1)" is-link :value="'设置'"></cell>
+            </group>
+            <group>
+              <cell :title="'微信'" @click.native="showComponents('微信','设置' ,1)" is-link :value="'设置'"></cell>
+            </group>
+            <group>
+              <cell :title="'驾驶证'" is-link :link="{path:'/demo'}" :value="'上传'"></cell>
+            </group>
+            <group>
+              <cell :title="'个人简介'" is-link :link="{path:'/introduce'}" :value="'设置'" class="require"></cell>
+            </group>
+          </div>
+        </div>
+      </scroller>
+      <update v-if="inputShow" :keys="keys" :value="value" v-on:hide="hide"></update>
+      <vRadio v-if="radioShow" :keys="keys" :value="value" :link="link" v-on:hide="hide"></vRadio>
     </div>
-    <scroller lock-x height="-44">
-      <div class="user_basic_message">
-        <div class="tp">
-          <div class="tp_left">
-            头像
-          </div>
-          <div class="tp_right">
-            <div class="picture"
-                 :style="headerImage?'backgroundImage:url('+headerImage+')':'backgroundImage:url('+url+')'"></div>
-            <input type="file" id="change" name="file" accept="image/png,image/gif,image/jpeg" @change="change">
-            <i class="iconfont icon-touxiang" style="display: none;"></i>
-            <i class="iconfont icon-fanhui-copy"></i>
-          </div>
-        </div>
-
-        <div class="bs_other">
-          <group>
-            <cell :title="'昵称'" is-link @click.native="showComponents('昵称')" :value="'鲁迅居然姓周'" class="require"></cell>
-          </group>
-          <group>
-            <cell :title="'真实姓名'" is-link :link="{path:'/demo'}" :value="'设置'"></cell>
-          </group>
-          <group>
-            <cell :title="'性别'" is-link :link="{path:'/demo'}" :value="'女'" class="require"></cell>
-          </group>
-          <group>
-            <cell :title="'生日'" is-link :link="{path:'/demo'}" :value="'1995-12-26'" class="require"></cell>
-          </group>
-          <group>
-            <cell :title="'电话'" is-link :link="{path:'/demo'}" :value="'135***2666'"></cell>
-          </group>
-          <group>
-            <cell :title="'QQ'" is-link :link="{path:'/demo'}" :value="'设置'"></cell>
-          </group>
-          <group>
-            <cell :title="'微信'" is-link :link="{path:'/demo'}" :value="'设置'"></cell>
-          </group>
-          <group>
-            <cell :title="'驾驶证'" is-link :link="{path:'/demo'}" :value="'上传'"></cell>
-          </group>
-          <group>
-            <cell :title="'个人简介'" is-link :link="{path:'/demo'}" :value="'设置'" class="require"></cell>
-          </group>
-        </div>
-
-      </div>
-    </scroller>
-    <update v-show="isShow" :type="type"></update>
   </div>
 </template>
 
 <script>
   import Cropper from 'cropperjs';
-  import {Scroller, Badge, Group, CellBox, Cell} from 'vux';
-  import update from 'src/components/update/update';
+  import {Scroller, Badge, Group, CellBox, Cell, Datetime} from 'vux';
+  import update from 'src/components/user/update';
+  import vTitle from 'src/components/user/header';
+  import vRadio from 'src/components/user/radio';
   export default {
     components: {
       Scroller,
       Badge,
       Group,
+      Datetime,
       CellBox,
       Cell,
-      update
+      update,
+      vTitle,
+      vRadio
     },
     data () {
       return {
         panel: false,
-        url: '',
+        birthday: '2015-11-12',
+        url: '../../static/img/tx.png',
         headerImage: '',
-        isShow: false,
-        type: ''
+        inputShow: false,
+        radioShow: false,
+        keys: '',
+        value: ''
       }
     },
     mounted () {
       //初始化这个裁剪框
-      var self = this;
-      var image = document.getElementById('image');
+      let image = document.getElementById('image');
       this.cropper = new Cropper(image, {
         aspectRatio: 1,
         viewMode: 1,
         background: false,
         zoomable: false,
         ready: function () {
-          self.croppable = true;
+          this.croppable = true;
         }
       });
     },
     methods: {
-      /*图片*/
       getObjectURL (file) {
         var url = null;
         if (window.createObjectURL !== undefined) { //basic
@@ -170,16 +183,32 @@
           sessionStorage.setItem('header', data.data.header);
         });
       },
-      showComponents(v){
-        this.type = v;
-        this.isShow = true;
-      }
+
+
+      showComponents(key, value){
+        this.keys = key;
+        this.value = value;
+        this.inputShow = true;
+      },
+      showComponents1(key, value, link){
+        this.keys = key;
+        this.value = value;
+        this.link = link;
+        this.radioShow = true;
+      },
+      hide(){
+        this.radioShow = false;
+        this.inputShow = false;
+      },
+     /* change (val, label) {
+        console.log('change', val, label)
+      }*/
     }
   }
 </script>
 <style lang="scss">
-  @import "../../style/mixin";
   @import "../../../node_modules/cropperjs/dist/cropper.css";
+  @import "../../style/mixin";
 
   .editor_user {
     width: 100%;
@@ -191,7 +220,7 @@
       height: 100%;
       width: 100%;
       box-sizing: border-box;
-      z-index: 99;
+      z-index: 1000;
       position: absolute;
       left: 0;
       top: 0;
@@ -206,29 +235,6 @@
         border: none;
         border-radius: 5px;
         background: white;
-      }
-    }
-    .user_top {
-      display: flex;
-      background: $fc;
-      @include wh(100%, 44px);
-      box-sizing: border-box;
-      flex-flow: row;
-      @include sc(14px, #fff);
-      @include fj();
-      line-height: 44px;
-      overflow: hidden;
-      .iconfont {
-        padding: 2px 12px 0 12px;
-        @include sc(22px, #fff);
-      }
-      .register_singin {
-        width: 100%;
-        position: relative;
-        box-sizing: border-box;
-        padding-right: 46px;
-        text-align: center;
-        @include sc(14px, #fff)
       }
     }
     .user_basic_message {
@@ -280,8 +286,7 @@
             padding: 3px;
             border: 1px solid #c7c7c7;
             border-radius: 15px;
-            font-size: 12px;
-            color: #fff;
+            @include sc(12px, #fff);
           }
 
         }
@@ -302,6 +307,19 @@
               }
             }
           }
+          &.vux-datetime {
+            div p {
+              @include sc(15px, rgba(57, 64, 67, 1));
+              &:before {
+                content: "*";
+                color: red;
+                left: 0;
+                margin-right: 6px;
+                vertical-align: middle;
+                top: 15px;
+              }
+            }
+          }
         }
 
         .weui-cells {
@@ -310,9 +328,16 @@
           &:before {
             border: 0;
           }
+          a:-webkit-any-link {
+            text-decoration: none;
+          }
         }
         .weui-cell_access .weui-cell__ft:after {
           border-width: 1px 1px 0 0
+        }
+        .scroller-content > .scroller-item {
+          font-size: 0;
+          color: red !important;
         }
       }
     }

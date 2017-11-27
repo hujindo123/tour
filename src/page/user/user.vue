@@ -9,7 +9,7 @@
     </div>
     <div class="user_basic_message">
       <div class="tp">
-        <router-link to="/login">
+        <router-link to="/editorUserMessage">
           <div class="tp_left">
             <i class="iconfont icon-touxiang"></i>
             <!-- <img src="https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=547138142,3998729701&fm=27&gp=0.jpg"
