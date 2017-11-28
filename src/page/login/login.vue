@@ -1,30 +1,36 @@
 <template>
   <div class="login">
     <vHeader :type="true"></vHeader>
-    <tab :line-width="1" :custom-bar-width="getBarWidth">
+    <tab :line-width="1" :custom-bar-width="getBarWidth" v-model="index">
       <tab-item selected @on-item-click="accountShow">账号登录</tab-item>
       <tab-item @on-item-click="accountShow">手机验证码登录</tab-item>
     </tab>
     <div class="account_div">
-      <div class="account_m" v-if="!index">
-        <group class="account input">
-          <x-input placeholder="请输入手机号码" v-model="login.phone"></x-input>
-        </group>
-        <group class="account input">
-          <x-input type="password" placeholder="请输入密码" v-model="login.password"></x-input>
-        </group>
-      </div>
-      <div class="phone_m" v-if="index">
-        <group class="account input">
-          <x-input placeholder="请输入手机号码" v-model="login.phone"></x-input>
-        </group>
-        <group class="account input">
-          <x-input placeholder="请输入验证码" v-model="login.code">
-            <span slot="right" class="time" :class="{'hasSend': hasSend}">{{login.desc}}</span>
-          </x-input>
-        </group>
-      </div>
-      <x-button type="primary" class="login_btn" >登录</x-button>
+      <swiper v-model="index" height="100px" :show-dots="false">
+        <swiper-item >
+          <div class="account_m">
+            <group class="account input">
+              <x-input placeholder="请输入手机号码" v-model="login.phone"></x-input>
+            </group>
+            <group class="account input">
+              <x-input type="password" placeholder="请输入密码" v-model="login.password"></x-input>
+            </group>
+          </div>
+        </swiper-item>
+        <swiper-item >
+          <div class="phone_m">
+            <group class="account input">
+              <x-input placeholder="请输入手机号码" v-model="login.phone"></x-input>
+            </group>
+            <group class="account input">
+              <x-input placeholder="请输入验证码" v-model="login.code">
+                <span slot="right" class="time" :class="{'hasSend': hasSend}">{{login.desc}}</span>
+              </x-input>
+            </group>
+          </div>
+        </swiper-item>
+      </swiper>
+      <x-button type="primary" class="login_btn">登录</x-button>
       <divider>第三方账号登录</divider>
       <div class="third">
         <i class="iconfont icon-weixin"></i>
@@ -37,7 +43,7 @@
 
 <script>
   import vHeader from '../../components/login/header';
-  import {XInput, Group, XButton, Tab, TabItem, Divider, Cell} from 'vux';
+  import {XInput, Group, XButton, Tab, TabItem, Divider, Cell, Swiper, SwiperItem} from 'vux';
 
   export default {
     components: {
@@ -48,6 +54,8 @@
       Group,
       XInput,
       XButton,
+      Swiper,
+      SwiperItem,
       Divider
     },
     data () {
@@ -67,7 +75,7 @@
     },
     methods: {
       accountShow(i){
-        this.index = i ? true : false;
+        this.index = i;
       }
     },
   }
@@ -78,7 +86,7 @@
   .login {
     display: flex;
     flex-flow: column;
-    .vux-tab .vux-tab-item{
+    .vux-tab .vux-tab-item {
       background: transparent;
     }
     .account_div {

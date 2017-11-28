@@ -11,7 +11,7 @@ import user from 'src/page/user/user';
 import editorUserMessage from 'src/page/user/editorUserMessage';
 import updatePhone from 'src/page/user/updatePhone';
 import introduce from 'src/page/user/introduce';
-
+import message from 'src/page/message/message';
 export default new Router({
   mode,
   routes: [
@@ -19,7 +19,7 @@ export default new Router({
       path: '/',
       name: '主页',
       component: resolve => {
-        require(['src/components/HelloWorld'], resolve)
+        require(['src/page/index/index'], resolve)
       }
     },
     {
@@ -58,6 +58,11 @@ export default new Router({
       path: '/introduce',
       name: '自我介绍信息',
       component: introduce
+    },
+    {
+      path: '/message',
+      name: '消息中心',
+      component: message
     },
     {
       path: '/a',
