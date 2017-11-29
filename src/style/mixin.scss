@@ -85,6 +85,12 @@ $fc: #159C5E;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+@mixin ess($n){
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: $n;
+  overflow: hidden;
+}
 .weui-cell_access .weui-cell__ft:after {
   border-width: 1px 1px 0 0
 }

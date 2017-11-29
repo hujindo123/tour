@@ -12,15 +12,31 @@ import editorUserMessage from 'src/page/user/editorUserMessage';
 import updatePhone from 'src/page/user/updatePhone';
 import introduce from 'src/page/user/introduce';
 import message from 'src/page/message/message';
+import index from 'src/page/index/index';
 export default new Router({
   mode,
   routes: [
     {
       path: '/',
       name: '主页',
-      component: resolve => {
-        require(['src/page/index/index'], resolve)
-      }
+      component: index,
+      redirect: '/main',
+      children: [
+        {
+          path: '/main',
+          name: '首页',
+          component: resolve => {
+            require(['src/page/index/main'], resolve)
+          },
+        },
+        {
+          path: '/action',
+          name: '活动',
+          component: resolve => {
+            require(['src/page/index/action'], resolve)
+          },
+        }
+      ]
     },
     {
       path: '/login',
