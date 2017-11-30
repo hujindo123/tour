@@ -1,21 +1,18 @@
 <template>
   <div class="index">
-    <view-box>
-      <keep-alive>
-        <router-view slot="default" class="main"></router-view>
-      </keep-alive>
-      <vfooter slot="bottom"></vfooter>
-    </view-box>
+    <keep-alive>
+      <router-view slot="default" class="main"></router-view>
+    </keep-alive>
+    <vfooter slot="bottom"></vfooter>
   </div>
 </template>
 
 <script>
   import vfooter from 'src/components/footer/footer';
-  import {ViewBox,Scroller} from 'vux';
+  import {ViewBox, Scroller} from 'vux';
 
   export default {
     components: {
-      ViewBox,
       vfooter,
       Scroller,
     },

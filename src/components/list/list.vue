@@ -1,6 +1,6 @@
 <template>
   <div class="list_tab">
-    <div class="title">成都的“香格里拉”，周边三日游的绝佳去处</div>
+    <div class="title">成都的“香格里拉”，周边三日游的绝佳去处到泸沽湖</div>
     <div class="tab_center">
       <div class="tab_center_left">
         <img src="https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=977430626,2956604235&fm=27&gp=0.jpg" alt="">
@@ -38,7 +38,6 @@
 </template>
 
 <script>
-  import vTitle from 'src/components/user/header';
   export default {
     data () {
       return {}
@@ -52,21 +51,25 @@
   @import "../../style/mixin";
 
   .list_tab {
-    width: 100%;
-    padding: 12px;
+    position: relative;
+    overflow: hidden;
+    @include wh(100%, 218px);
+    padding: 12px 12px 5px 12px;
     background: #fff;
     box-sizing: border-box;
     display: flex;
     flex-flow: column;
+    font-size: 0;
     .title {
       line-height: 1.2;
       @include sc(18px, rgba(77, 77, 77, 1));
       @include ess(2);
     }
     .tab_center {
-      margin-top: 9px;
+      margin-top: 8px;
       @include wh(100%, 117px);
       position: relative;
+      overflow: hidden;
       display: flex;
       flex-flow: row;
       .tab_center_left {
@@ -78,32 +81,41 @@
         }
       }
       .tab_center_right {
+        height: 117px;
         padding-left: 10px;
         flex: 1;
         flex-flow: column;
+        position: relative;
+        font-size: 0;
         .label {
-          vertical-align: text-top;
+          height: 18px;
+          font-size: 0;
           .iconfont {
+            vertical-align: middle;
+            margin-top: -3px;
+            margin-right: 5px;
             display: inline-block;
-            vertical-align: text-top;
-            @include sc(11px, rgba(230, 230, 230, 1));
+            @include sc(10px, rgba(230, 230, 230, 1));
           }
           span {
-            vertical-align: top;
+            height: 18px;
+            box-sizing: border-box;
+            line-height: 18px;
             margin-left: 5px;
-            padding: 3px 6px;
+            padding: 2px 5px;
+            @include borderRadius(3px);
             background: rgba(230, 230, 230, 1);
             @include sc(9px, rgba(153, 153, 153, 1));
           }
 
         }
         .desc {
+          margin-top: 5px;
           line-height: 1.4;
           @include sc(12px, rgba(26, 26, 26, 1));
           @include ess(4);
         }
         .singup {
-          margin-top: 9px;
           @include wh(161px, 25px);
           line-height: 24px;
           box-sizing: border-box;
@@ -129,7 +141,9 @@
       }
     }
     .tab_bottom {
-      padding: 10px 0;
+      position: relative;
+      height: 23px;
+      margin-top: 10px;
       @include wh(100%, 23px);
       line-height: 23px;
       display: flex;
