@@ -2,7 +2,12 @@
   <div class="action_components">
     <div class="action_top">
       <span class="city">
-         <label @click="cityShow =true">成都 <i class="iconfont icon-gengduo"></i></label>
+            <x-address style="display:none;" :hide-district=true :title="title" @on-shadow-change="onShadowChange"
+                       :list="addressData"
+                       :show.sync="showAddress"></x-address>
+         <label @click="showAddress = true">
+           {{name[0]}}
+           <i class="iconfont icon-gengduo"></i></label>
       </span>
       <span></span>
       <span class="iconfont icon-sousuo">
@@ -39,14 +44,6 @@
       </swiper-item>
     </swiper>
     <div v-transfer-dom>
-      <popup v-model="cityShow" position="left" width="100%">
-        <city v-on:hide="hide"></city>
-        <!--<div class="position-horizontal-demo">
-          <span class="vux-close" @click="show8 = false"></span>
-        </div>-->
-      </popup>
-    </div>
-    <div v-transfer-dom>
       <popup v-model="searchShow" position="left" width="100%">
         <search v-on:hide="hide"></search>
         <!--<div class="position-horizontal-demo">
@@ -64,7 +61,19 @@
   import List2 from 'src/components/list/list2';
   import city from 'src/components/city/city';
   import search from 'src/components/search/search';
-  import {Swiper, SwiperItem, Scroller, Tab, TabItem, LoadMore, TransferDom, Popup} from 'vux';
+  import {
+    Swiper,
+    SwiperItem,
+    Scroller,
+    Tab,
+    TabItem,
+    LoadMore,
+    TransferDom,
+    Popup,
+    XAddress,
+    ChinaAddressV4Data,
+    Value2nameFilter as value2name
+  } from 'vux';
   export default {
     directives: {
       TransferDom
@@ -77,6 +86,7 @@
       TabItem,
       LoadMore,
       Popup,
+      XAddress,
       List,
       List1,
       List2,
@@ -85,8 +95,12 @@
     },
     data () {
       return {
+        title: '',
+        name: ['成都'],
+        addressData: ChinaAddressV4Data,
         index: 0,
         cityShow: false,
+        showAddress: false,
         searchShow: false,
         onFetching: false,
         bottomCount: 10
@@ -99,6 +113,10 @@
       },
       hide(){
         this.cityShow = false;
+      },
+      onShadowChange (ids, names) {
+        //console.log(ids, names)
+        this.name = names || ['成都'];
       },
       onScrollBottom () {
         if (this.onFetching) {
@@ -115,6 +133,11 @@
         }
       },
     },
+    computed: {
+      getName(){
+        return value2name(this.value, ChinaAddressV4Data)
+      }
+    }
   }
 </script>
 <style lang="scss">

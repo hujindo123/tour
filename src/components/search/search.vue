@@ -39,7 +39,6 @@
 
   .list_city {
     @include wh(100%, 100%);
-    background: #fff;
     box-sizing: border-box;
     display: flex;
     flex-flow: column;

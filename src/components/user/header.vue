@@ -16,6 +16,7 @@
     methods: {
       back(){
         this.$emit('hide');
+        this.$router.go(-1);
       }
     }
   }

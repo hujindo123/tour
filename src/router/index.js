@@ -35,7 +35,12 @@ export default new Router({
           component: resolve => {
             require(['src/page/index/action'], resolve)
           },
-        }
+        },
+        {
+          path: '/user',
+          name: '用户中心',
+          component: user
+        },
       ]
     },
     {
@@ -54,11 +59,6 @@ export default new Router({
       path: '/third',
       name: '绑定手机',
       component: third
-    },
-    {
-      path: '/user',
-      name: '用户中心',
-      component: user
     },
     {
       path: '/editorUserMessage',

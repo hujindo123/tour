@@ -1,85 +1,72 @@
 <template>
   <div class="box_view">
-    <view-box ref="BoxView">
-      <div style="position: fixed;top: 0" >{{onscroll}}</div>
-      <div class="banner">
-        <swiper :list="baseList" loop auto :aspect-ratio="400/750" dots-position="center"
-                dots-class="banner_active"></swiper>
+    <scroller lock-x :scrollbar-y=false :bounce=false @on-scroll-bottom="onScrollBottom"
+              ref="scrollerBottom"
+              :scroll-bottom-offst="100" :height="'-50px'">
+      <div>
+        <swiper ref="swiper" :aspect-ratio="400/750" @on-get-height="showList">
+          <swiper-item class="swiper-demo-img" v-for="(item, index) in test.guanggao" :key="index">
+            <img :src="item" style="width: 100%">
+          </swiper-item>
+        </swiper>
+        <div v-show="mainShow">
+          <scroller lock-y :scrollbar-x=false :bounce=false>
+            <div class="box" ref="div">
+              <div class="box-item">
+                <div class="tab"><i class="iconfont icon-mingpianxuanzhong06"></i>热度</div>
+              </div>
+              <div class="box-item">
+                <div class="tab"><i class="iconfont icon-qinzi"></i>亲子</div>
+              </div>
+              <div class="box-item">
+                <div class="tab"><i class="iconfont icon-friend"></i>爱心</div>
+              </div>
+              <div class="box-item">
+                <div class="tab"><i class="iconfont icon-mingpianxuanzhong06"></i>热度</div>
+              </div>
+              <div class="box-item">
+                <div class="tab"><i class="iconfont icon-qinzi"></i>亲子</div>
+              </div>
+              <div class="box-item">
+                <div class="tab"><i class="iconfont icon-friend"></i>爱心</div>
+              </div>
+            </div>
+          </scroller>
+          <scroller lock-y :scrollbar-x=false :bounce=false>
+            <div class="Img_banner" ref="divs">
+              <div class="box-img" v-for="x in test.guanggao">
+                <img :src=x alt="">
+              </div>
+            </div>
+          </scroller>
+          <tab :line-width="1" class="tab_message" v-model="index">
+            <tab-item selected @on-item-click="tab">最新活动</tab-item>
+            <tab-item @on-item-click="tab">
+              回顾活动
+            </tab-item>
+            <tab-item @on-item-click="tab">目的地</tab-item>
+            <tab-item @on-item-click="tab">图片新闻</tab-item>
+          </tab>
+          <div class="main_list">
+            <list :list="test.list" v-if="index===0"></list>
+            <list v-if="index===1"></list>
+            <list v-if="index===2"></list>
+            <list v-if="index===3"></list>
+          </div>
+          <load-more tip="loading"></load-more>
+        </div>
       </div>
-      <scroller lock-y :scrollbar-x=false :bounce=false>
-        <div class="box" ref="div">
-          <div class="box-item">
-            <div class="tab"><i class="iconfont icon-mingpianxuanzhong06"></i>热度</div>
-          </div>
-          <div class="box-item">
-            <div class="tab"><i class="iconfont icon-qinzi"></i>亲子</div>
-          </div>
-          <div class="box-item">
-            <div class="tab"><i class="iconfont icon-friend"></i>爱心</div>
-          </div>
-          <div class="box-item">
-            <div class="tab"><i class="iconfont icon-mingpianxuanzhong06"></i>热度</div>
-          </div>
-          <div class="box-item">
-            <div class="tab"><i class="iconfont icon-qinzi"></i>亲子</div>
-          </div>
-          <div class="box-item">
-            <div class="tab"><i class="iconfont icon-friend"></i>爱心</div>
-          </div>
-        </div>
-      </scroller>
-      <scroller lock-y :scrollbar-x=false :bounce=false>
-        <div class="Img_banner" ref="divs">
-          <div class="box-img">
-            <img src="https://static.vux.li/demo/1.jpg" alt="">
-          </div>
-          <div class="box-img">
-            <img src="https://static.vux.li/demo/1.jpg" alt="">
-          </div>
-          <div class="box-img">
-            <img src="https://static.vux.li/demo/1.jpg" alt="">
-          </div>
-          <div class="box-img">
-            <img src="https://static.vux.li/demo/1.jpg" alt="">
-          </div>
-        </div>
-      </scroller>
-      <tab :line-width="1" class="tab_message" v-model="index">
-        <tab-item selected @on-item-click="tab">最新活动</tab-item>
-        <tab-item @on-item-click="tab">
-          回顾活动
-        </tab-item>
-        <tab-item @on-item-click="tab">目的地</tab-item>
-        <tab-item @on-item-click="tab">图片新闻</tab-item>
-      </tab>
-      <swiper v-model="index" :show-dots="false" ref="swiper">
-        <swiper-item>
-          <template v-for="i in bottomCount">
-            <list></list>
-          </template>
-        </swiper-item>
-        <swiper-item>
-
-        </swiper-item>
-        <swiper-item>
-
-        </swiper-item>
-        <swiper-item>
-
-        </swiper-item>
-      </swiper>
-      <load-more tip="loading"></load-more>
-    </view-box>
-
+    </scroller>
+    <scrollTop v-on:scrollTop="top"></scrollTop>
   </div>
-
 </template>
 
 <script>
+  import scrollTop from 'src/components/little/scrollTop';
   import List from 'src/components/list/list';
   /*import List1 from 'src/components/list/list1';
    import List2 from 'src/components/list/list2';*/
-  import {Swiper, SwiperItem, Scroller, Tab, TabItem, LoadMore, ViewBox} from 'vux';
+  import {Swiper, SwiperItem, Scroller, Tab, TabItem, LoadMore} from 'vux';
 
   export default {
     components: {
@@ -89,71 +76,115 @@
       Tab,
       TabItem,
       LoadMore,
-      ViewBox,
       List,
+      scrollTop
       /* List1,
        List2,*/
     },
     data () {
       return {
-        baseList: [
-          {
-            url: 'http://www.baidu.com',
-            img: 'https://static.vux.li/demo/1.jpg',
-
-          }, {
-            url: 'javascript:',
-            img: 'https://static.vux.li/demo/2.jpg',
-
-          },
-          {
-            url: 'javascript:',
-            img: 'https://static.vux.li/demo/3.jpg',
-
-            fallbackImg: 'https://static.vux.li/demo/3.jpg'
-          }],
         index: 0,
-        basicHeight: 218,
+        mainShow: false,
         onFetching: false,
         bottomCount: 5,
-        scroll: 0
+        test: {
+          guanggao: [
+            'https://static.vux.li/demo/1.jpg',
+            'https://static.vux.li/demo/1.jpg',
+            'https://static.vux.li/demo/1.jpg',
+            'https://static.vux.li/demo/1.jpg',
+            'https://static.vux.li/demo/1.jpg',
+            'https://static.vux.li/demo/1.jpg'
+          ],
+          list: [
+            {
+              title: "成都的“香格里拉”，周边三日游的绝佳去处到泸沽湖",
+              img: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1512116865699&di=da0eea64a26c83bf65a83d9d40409676&imgtype=0&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F0104cd5598bec26ac7253264c9598d.png',
+              label: ['自驾', '大明湖', '情侣'],
+              intru: '5月1日 从成都出发，到泸沽湖、香格里径西昌行程总计大概6天来回、要求带车性别不限人数4人，绝佳去处、美丽山河约一起准备出发吧。',
+              singup: '14月28日',
+              url: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1512116865914&di=dd4ecf4506ba07fb4f9cc7ed537dcce5&imgtype=0&src=http%3A%2F%2Fwww.qqzhuangban.com%2Fuploadfile%2F2014%2F07%2F1%2F20140731061147783.jpg',
+              name: 'FGRLSxlkd',
+              id: '11144',
+              time: '04-18 11:02',
+              see: 5673,
+              say: 5267
+            },
+            {
+              title: "成都的“香格里拉”，周边三日游的绝佳去处到泸沽湖",
+              img: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1512116865914&di=dd4ecf4506ba07fb4f9cc7ed537dcce5&imgtype=0&src=http%3A%2F%2Fwww.qqzhuangban.com%2Fuploadfile%2F2014%2F07%2F1%2F20140731061147783.jpg',
+              label: ['自驾', '大明湖', '情侣'],
+              intru: '5月1日 从成都出发，到泸沽湖、香格里径西昌行程总计大概6天来回、要求带车性别不限人数4人，绝佳去处、美丽山河约一起准备出发吧。',
+              singup: '14月28日',
+              url: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1512116865914&di=dd4ecf4506ba07fb4f9cc7ed537dcce5&imgtype=0&src=http%3A%2F%2Fwww.qqzhuangban.com%2Fuploadfile%2F2014%2F07%2F1%2F20140731061147783.jpg',
+              name: 'FGRLSxlkd',
+              id: '11144',
+              time: '04-18 11:02',
+              see: 5673,
+              say: 5267
+            },
+            {
+              title: "成都的“香格里拉”，周边三日游的绝佳去处到泸沽湖",
+              img: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1512116865901&di=a2fb4a7a620afb4bf36f088f6f94bd99&imgtype=0&src=http%3A%2F%2Fdl.bbs.9game.cn%2Fattachments%2Fforum%2F201603%2F16%2F231420io1ozrprnp6iik6r.jpg',
+              label: ['自驾', '大明湖', '情侣'],
+              intru: '5月1日 从成都出发，到泸沽湖、香格里径西昌行程总计大概6天来回、要求带车性别不限人数4人，绝佳去处、美丽山河约一起准备出发吧。',
+              singup: '14月28日',
+              url: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1512116865901&di=a2fb4a7a620afb4bf36f088f6f94bd99&imgtype=0&src=http%3A%2F%2Fdl.bbs.9game.cn%2Fattachments%2Fforum%2F201603%2F16%2F231420io1ozrprnp6iik6r.jpg',
+              name: 'FGRLSxlkd',
+              id: '11144',
+              time: '04-18 11:02',
+              see: 5673,
+              say: 5267
+            },
+            {
+              title: "成都的“香格里拉”，周边三日游的绝佳去处到泸沽湖",
+              img: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1512116865895&di=1aeccc96546e81af4420278f460b7ace&imgtype=0&src=http%3A%2F%2Fwww.qqzhuangban.com%2Fuploadfile%2F2014%2F07%2F1%2F20140726053359626.jpg',
+              label: ['自驾', '大明湖', '情侣'],
+              intru: '5月1日 从成都出发，到泸沽湖、香格里径西昌行程总计大概6天来回、要求带车性别不限人数4人，绝佳去处、美丽山河约一起准备出发吧。',
+              singup: '14月28日',
+              url: 'https://static.vux.li/demo/1.jpg',
+              name: 'FGRLSxlkd',
+              id: '11144',
+              time: '04-18 11:02',
+              see: 5673,
+              say: 5267
+            }
+
+          ]
+        }
       }
     },
-    mounted(){
-      this.$refs.div.style.width = (98 + 15) * this.$refs.div.children.length > window.innerWidth ? (98 + 15) * this.$refs.div.children.length + 'px' : '100%';
-      this.$refs.divs.style.width = (160 + 4) * this.$refs.divs.children.length > window.innerWidth ? (160 + 4) * this.$refs.divs.children.length + 'px' : '100%';
-      this.$nextTick(() => {
-        this.$refs.swiper.xheight = this.basicHeight * this.bottomCount + 'px';
-      });
+    created(){
     },
-    computed: {
-      onscroll(){
-        let s = this.$refs.BoxView.getScrollTop();
-        return s;
-      }
-    },
+    computed: {},
     methods: {
-      get(v, s, d, e){
-        debugger
+      top(){
+        this.$refs.scrollerBottom._xscroll.scrollTop(0);
+      },
+      showList(){
+        this.mainShow = true;
+        this.$refs.div.style.width = (98 + 15) * this.$refs.div.children.length > window.innerWidth ? (98 + 15) * this.$refs.div.children.length + 'px' : '100%';
+        this.$refs.divs.style.width = (160 + 4) * this.$refs.divs.children.length > window.innerWidth ? (160 + 4) * this.$refs.divs.children.length + 'px' : '100%';
       },
       tab(index){
         this.index = index;
       },
       onScrollBottom () {
+        console.log(1);
         if (this.onFetching) {
           // do nothing
         } else {
           this.onFetching = true;
           setTimeout(() => {
-            this.bottomCount += 10;
+            this.bottomCount += 1;
             this.$nextTick(() => {
               this.$refs.scrollerBottom.reset();
-              this.$refs.swiper.xheight = this.basicHeight * this.bottomCount + 'px';
+              //this.$refs.swiper.xheight = this.basicHeight * this.bottomCount + 'px';
             })
             this.onFetching = false
           }, 2000)
         }
-      },
+      }
     },
   }
 </script>
@@ -161,8 +192,8 @@
   @import "../../style/mixin";
 
   .box_view {
-    @include wh(100%, 100%);
     .banner {
+      position: relative;
       .vux-slider > .vux-indicator > a > .vux-icon-dot, .vux-slider .vux-indicator-right > a > .vux-icon-dot {
         background-color: #fff;
         opacity: 0.5;

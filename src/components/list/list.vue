@@ -1,38 +1,35 @@
 <template>
-  <div class="list_tab">
-    <div class="title">成都的“香格里拉”，周边三日游的绝佳去处到泸沽湖</div>
-    <div class="tab_center">
-      <div class="tab_center_left">
-        <img src="https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=977430626,2956604235&fm=27&gp=0.jpg" alt="">
-      </div>
-      <div class="tab_center_right">
-        <div class="label">
-          <i class="iconfont icon-biaoqian1"></i>
-          <span>自驾</span>
-          <span>泸沽湖</span>
-          <span>亲子游</span>
+  <div>
+    <div class="list_tab" v-if="list" v-for="x in list">
+      <div class="title">{{x.title}}</div>
+      <div class="tab_center">
+        <div class="tab_center_left">
+          <img :src=x.img alt="">
         </div>
-        <div class="desc">
-          5月1日 从成都出发，到泸沽湖、香格里
-          径西昌行程总计大概6天来回、要求带车
-          性别不限人数4人，绝佳去处、美丽山河
-          约一起准备出发吧。
-        </div>
-        <div class="singup">
-          <div class="time">报名截止：14月28日</div>
-          <div class="btn">我要报名</div>
+        <div class="tab_center_right">
+          <div class="label">
+            <i class="iconfont icon-biaoqian1"></i>
+            <span v-for="item in x.label">{{item}}</span>
+          </div>
+          <div class="desc">
+            {{x.intru}}
+          </div>
+          <div class="singup">
+            <div class="time">报名截止：{{x.singup}}</div>
+            <div class="btn">我要报名</div>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="tab_bottom">
+      <div class="tab_bottom">
       <span>
-       <img src="https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=977430626,2956604235&fm=27&gp=0.jpg" alt="">
+       <img :src=x.url alt="">
       </span>
-      <span class="name">Gdkskwfrkf11</span>
-      <span class="userid">ID:000001</span>
-      <span class="time">04-18 11:02</span>
-      <span><i class="iconfont icon-liulan"></i>5673</span>
-      <span><i class="iconfont icon-pinglun"></i>5673</span>
+        <span class="name">{{x.name}}</span>
+        <span class="userid">{{x.id}}</span>
+        <span class="time">{{x.time}}</span>
+        <span><i class="iconfont icon-liulan"></i>{{x.see}}</span>
+        <span><i class="iconfont icon-pinglun"></i>{{x.say}}</span>
+      </div>
     </div>
   </div>
 </template>
@@ -43,7 +40,12 @@
       return {}
     },
     components: {},
-    props: {},
+    props: {
+      list: {
+        type: Array,
+        default: null
+      }
+    },
     methods: {}
   }
 </script>
@@ -53,7 +55,6 @@
   .list_tab {
     position: relative;
     overflow: hidden;
-    @include wh(100%, 218px);
     padding: 12px 12px 5px 12px;
     background: #fff;
     box-sizing: border-box;
@@ -66,7 +67,7 @@
       @include ess(2);
     }
     .tab_center {
-      margin-top: 8px;
+      margin-top: 5px;
       @include wh(100%, 117px);
       position: relative;
       overflow: hidden;
@@ -143,7 +144,7 @@
     .tab_bottom {
       position: relative;
       height: 23px;
-      margin-top: 10px;
+      margin-top: 5px;
       @include wh(100%, 23px);
       line-height: 23px;
       display: flex;
@@ -153,6 +154,7 @@
         @include wh(23px, 23px);
         flex: 0 0 23px;
         vertical-align: bottom;
+        @include borderRadius(50%)
       }
       .name {
         width: 63px;
