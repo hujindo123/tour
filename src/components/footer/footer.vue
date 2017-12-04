@@ -14,7 +14,7 @@
         <span slot="label">发起</span>
       </tabbar-item>
 
-      <tabbar-item link="/component/demo">
+      <tabbar-item link="/place">
         <span slot="icon" class="iconfont icon-mudedi"></span>
         <span slot="label">目的地</span>
       </tabbar-item>

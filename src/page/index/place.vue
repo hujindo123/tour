@@ -1,111 +1,117 @@
 <template>
-  <div class="box_view" ref="ss">
-
-    <!--   <scrollTop v-on:scrollTop="top"></scrollTop>-->
-    <scroller lock-x :scrollbar-y=false ref="scrollerBottom">
-      <!--:stickyElements="stickyElements" :bounce=false @on-scroll-bottom="onScrollBottom"
+  <div class="place_components">
+    <div class="action_top">
+      <span class="city">
+            <x-address style="display:none;" :hide-district=true :title="title" @on-shadow-change="onShadowChange"
+                       :list="addressData"
+                       :show.sync="showAddress"></x-address>
+         <label for="a" @click="showAddress = true">
+           {{name[0]}}
+           <i class="iconfont icon-gengduo" id="a"></i></label>
+      </span>
+      <span class="iconfont icon-sousuo">
+        <i @click="searchShow =true"></i>
+      </span>
+    </div>
+    <div class="choicePlace">
+      <span class="city">
+         <x-address style="display:none;" :hide-district=true :title="title" @on-shadow-change="onShadowChange"
+                    :list="addressData"
+                    :show.sync="showAddress"></x-address>
+         <label @click="showAddress = true">目的地<i class="iconfont icon-gengduo"></i></label>
+          <x-address style="display:none;" :hide-district=true :title="title" @on-shadow-change="onShadowChange"
+                     :list="addressData"
+                     :show.sync="showAddress"></x-address>
+        <label for="b">标签 <i class="iconfont icon-gengduo" id="b"></i></label>
+      </span>
+    </div>
+    <div class="hot_search">
+     <span>九寨沟</span>
+     <span>九寨沟</span>
+     <span>上古古镇</span>
+     <span>九寨沟</span>
+   </div>
+    <scroller lock-x :scrollbar-y=false :bounce=false @on-scroll-bottom="onScrollBottom"
               ref="scrollerBottom"
-              :scroll-bottom-offst="100" :height="'-50px'"-->
+              :scroll-bottom-offst="100" :height="'-94px'">
       <div>
-        <swiper ref="swiper" :aspect-ratio="400/750" @on-get-height="showList">
-          <swiper-item class="swiper-demo-img" v-for="(item, index) in test.guanggao" :key="index">
-            <img :src="item" style="width: 100%">
-          </swiper-item>
-        </swiper>
-        <div v-show="mainShow">
-          <scroller lock-y :scrollbar-x=false :bounce=false>
-            <div class="box" ref="div">
-              <div class="box-item">
-                <div class="tab"><i class="iconfont icon-mingpianxuanzhong06"></i>热度</div>
-              </div>
-              <div class="box-item">
-                <div class="tab"><i class="iconfont icon-qinzi"></i>亲子</div>
-              </div>
-              <div class="box-item">
-                <div class="tab"><i class="iconfont icon-friend"></i>爱心</div>
-              </div>
-              <div class="box-item">
-                <div class="tab"><i class="iconfont icon-mingpianxuanzhong06"></i>热度</div>
-              </div>
-              <div class="box-item">
-                <div class="tab"><i class="iconfont icon-qinzi"></i>亲子</div>
-              </div>
-              <div class="box-item">
-                <div class="tab"><i class="iconfont icon-friend"></i>爱心</div>
-              </div>
-            </div>
-          </scroller>
-          <scroller lock-y :scrollbar-x=false :bounce=false>
-            <div class="Img_banner" ref="divs">
-              <div class="box-img" v-for="x in test.guanggao">
-                <img :src=x alt="">
-              </div>
-            </div>
-          </scroller>
-          <sticky scroll-box="scrollerBottom" :offset="44">
-            <tab :line-width="1" class="tab_message" v-model="index">
-              <tab-item selected @on-item-click="tab">最新活动</tab-item>
-              <tab-item @on-item-click="tab">
-                回顾活动
-              </tab-item>
-              <tab-item @on-item-click="tab">目的地</tab-item>
-              <tab-item @on-item-click="tab">图片新闻</tab-item>
-            </tab>
-          </sticky>
-          <div class="main_list">
-            <!--最新活动-->
-            <list :list="test.list" v-if="index===0"></list>
-            <!--回顾活动-->
-            <list :list="test.list" v-if="index===1" :notButton="true"></list>
-            <!--目的地-->
-            <list :list="test.list" v-if="index===2" :notButton="true"></list>
-            <!--图片新闻-->
-            <list2 v-if="index===3"></list2>
-          </div>
-          <load-more tip="loading"></load-more>
+
+        <div class="main_list">
+          <!--最新活动-->
+          <list :list="test.list" v-if="index===0"></list>
+          <!--回顾活动-->
+          <list :list="test.list" v-if="index===1" :notButton="true"></list>
+          <!--目的地-->
+          <list :list="test.list" v-if="index===2" :notButton="true"></list>
+          <!--图片新闻-->
+          <list2 v-if="index===3"></list2>
         </div>
-
+        <load-more tip="loading"></load-more>
       </div>
-
     </scroller>
+    <!--滑出搜索-->
+    <div v-transfer-dom>
+      <popup v-model="searchShow" position="left" width="100%">
+        <search v-on:hide="searchShow=false"></search>
+      </popup>
+    </div>
+    <!--返回顶部-->
+    <scrollTop v-on:scrollTop="$refs.scrollerBottom._xscroll.scrollTop(0)"></scrollTop>
 
   </div>
 </template>
 
 <script>
+  import vTitle from 'src/components/user/header';
   import scrollTop from 'src/components/little/scrollTop';
   import List from 'src/components/list/list';
   import List2 from 'src/components/list/list2'
-  import {Swiper, SwiperItem, Sticky, Scroller, Tab, TabItem, LoadMore} from 'vux';
-
+  import city from 'src/components/city/city';
+  import search from 'src/components/search/search';
+  import {
+    Swiper,
+    SwiperItem,
+    Scroller,
+    Tab,
+    TabItem,
+    LoadMore,
+    TransferDom,
+    Popup,
+    XAddress,
+    ChinaAddressV4Data,
+    Value2nameFilter as value2name
+  } from 'vux';
   export default {
+    directives: {
+      TransferDom
+    },
     components: {
-      Sticky,
       Swiper,
       SwiperItem,
       Scroller,
       Tab,
       TabItem,
       LoadMore,
-      scrollTop,
+      Popup,
+      XAddress,
       List,
       List2,
+      city,
+      search,
+      scrollTop,
     },
     data () {
       return {
+        title: '',
+        name: ['成都'],
+        addressData: ChinaAddressV4Data,
         index: 0,
-        mainShow: false,
+        cityShow: false,
+        showAddress: false,
+        searchShow: false,
         onFetching: false,
-        bottomCount: 5,
+        bottomCount: 10,
         test: {
-          guanggao: [
-            'https://static.vux.li/demo/1.jpg',
-            'https://static.vux.li/demo/1.jpg',
-            'https://static.vux.li/demo/1.jpg',
-            'https://static.vux.li/demo/1.jpg',
-            'https://static.vux.li/demo/1.jpg',
-            'https://static.vux.li/demo/1.jpg'
-          ],
           list: [
             {
               title: "成都的“香格里拉”，周边三日游的绝佳去处到泸沽湖",
@@ -161,28 +167,17 @@
             }
 
           ]
-        }
+        },
       }
     },
-    mounted(){
-      console.log(  this.$refs.scrollerBottom);
-      debugger;
-    },
-    computed: {},
     methods: {
-      bt(){
-          debugger;
-      },
-      top(){
-        this.$refs.scrollerBottom._xscroll.scrollTop(0);
-      },
-      showList(){
-        this.mainShow = true;
-        this.$refs.div.style.width = (98 + 15) * this.$refs.div.children.length > window.innerWidth ? (98 + 15) * this.$refs.div.children.length + 'px' : '100%';
-        this.$refs.divs.style.width = (160 + 4) * this.$refs.divs.children.length > window.innerWidth ? (160 + 4) * this.$refs.divs.children.length + 'px' : '100%';
-      },
+      /*切换导航*/
       tab(index){
         this.index = index;
+      },
+      onShadowChange (ids, names) {
+        //console.log(ids, names)
+        this.name = names || ['成都'];
       },
       onScrollBottom () {
         if (this.onFetching) {
@@ -190,72 +185,95 @@
         } else {
           this.onFetching = true;
           setTimeout(() => {
-            this.bottomCount += 1;
+            this.bottomCount += 10
             this.$nextTick(() => {
-              this.$refs.scrollerBottom.reset();
-              //this.$refs.swiper.xheight = this.basicHeight * this.bottomCount + 'px';
+              this.$refs.scrollerBottom.reset()
             })
             this.onFetching = false
           }, 2000)
         }
-      }
+      },
     },
+    computed: {
+      getName(){
+        return value2name(this.value, ChinaAddressV4Data)
+      }
+    }
   }
 </script>
 <style lang="scss">
   @import "../../style/mixin";
 
-  .box_view {
-    .banner {
-      position: relative;
-      .vux-slider > .vux-indicator > a > .vux-icon-dot, .vux-slider .vux-indicator-right > a > .vux-icon-dot {
-        background-color: #fff;
-        opacity: 0.5;
-      }
-      .vux-slider > .vux-indicator > a > .active {
-        background-color: rgba(255, 255, 255, 1);
-        opacity: 1;
-      }
-    }
-
-    .box {
-      padding: 15px 0;
-      box-sizing: border-box;
+  .place_components {
+    .action_top, .choicePlace {
       display: flex;
+      background: $fc;
+      @include wh(100%, 44px);
+      box-sizing: border-box;
       flex-flow: row;
-      @include fj(space-around);
-      .box-item {
-        @include borderRadius(20px);
-        width: 98px;
-        @include sc(11px, rgba(77, 77, 77, 1));
+      @include sc(14px, #fff);
+      @include fj();
+      padding: 0 12px;
+      line-height: 44px;
+      overflow: hidden;
+      @include fj();
+      span {
+        flex: 1;
         text-align: center;
-        padding: 8px 0;
-        background: rgba(229, 229, 229, 1);
-        .tab {
-          letter-spacing: 6px;
-          .iconfont {
-            font-size: 12px;
+        &.city {
+          text-align: left;
+          vertical-align: middle;
+          label {
+            display: inline-block;
+            height: 44px;
+            .iconfont {
+              font-size: 12px;
+              line-height: 38px;
+              margin-left: 5px;
+              vertical-align: middle;
+              height: 44px;
+              padding-right: 20px;
+              display: inline-block;
+            }
+          }
+
+        }
+        &.icon-sousuo {
+          text-align: right;
+          i {
+            position: absolute;
+            right: 0;
+            display: inline-block;
+            @include wh(60px, 44px);
           }
         }
       }
     }
-
-    .Img_banner {
-      display: flex;
-      flex-flow: row;
-      @include fj();
-      .box-img {
-        img {
-          box-sizing: border-box;
-          padding: 0 1px;
-          @include wh(160px, 90px);
-        }
+    .choicePlace {
+      background: #fff;
+      @include sc(13px, rgba(77, 77, 77, 1));
+      .icon-gengduo {
+        padding-right: 10px;
+      }
+      i {
+        font-style: normal;
       }
     }
-
-    .tab_message {
-      .vux-tab-item {
-        @include sc(15px, rgba(77, 77, 77, 1));
+    .hot_search {
+      box-sizing: border-box;
+      padding: 9px 12px 20px 12px;
+      .weui-cells__title {
+        padding-left: 0;
+        margin-top: 25px;
+      }
+      span {
+        @include sc(13px, rgba(76, 76, 76, 1));
+        padding: 2px 15px;
+        border-radius: 3px;
+        border: 1px solid #b1b1b1;
+        margin-top: 10px;
+        display: inline-block;
+        margin-right: 13px;
       }
     }
   }

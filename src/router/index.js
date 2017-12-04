@@ -37,6 +37,13 @@ export default new Router({
           },
         },
         {
+          path: '/place',
+          name: '目的地',
+          component: resolve => {
+            require(['src/page/index/place'], resolve)
+          },
+        },
+        {
           path: '/user',
           name: '用户中心',
           component: user

@@ -11,10 +11,10 @@
             <i class="iconfont icon-biaoqian1"></i>
             <span v-for="item in x.label">{{item}}</span>
           </div>
-          <div class="desc">
+          <div class="desc" :class="{nobuttton:notButton}">
             {{x.intru}}
           </div>
-          <div class="singup">
+          <div class="singup" :class="{isHide:notButton}">
             <div class="time">报名截止：{{x.singup}}</div>
             <div class="btn">我要报名</div>
           </div>
@@ -44,6 +44,10 @@
       list: {
         type: Array,
         default: null
+      },
+      notButton: {
+        type: Boolean,
+        default: false
       }
     },
     methods: {}
@@ -93,7 +97,7 @@
           font-size: 0;
           .iconfont {
             vertical-align: middle;
-            margin-top: -3px;
+            margin-top: -5px;
             margin-right: 5px;
             display: inline-block;
             @include sc(10px, rgba(230, 230, 230, 1));
@@ -115,6 +119,9 @@
           line-height: 1.4;
           @include sc(12px, rgba(26, 26, 26, 1));
           @include ess(4);
+          &.nobuttton {
+            @include ess(6);
+          }
         }
         .singup {
           @include wh(161px, 25px);
@@ -138,6 +145,9 @@
             background: $fc;
             @include sc(12px, rgba(255, 255, 255, 1))
           }
+        }
+        .isHide {
+          display: none;
         }
       }
     }
