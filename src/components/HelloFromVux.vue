@@ -1,58 +1,108 @@
 <template>
-  <div>
-    <div class="vux-demo">
-      <img class="logo" src="../assets/vux_logo.png">
-      <div class="h1"> 1231</div>
-      <br>
-      <div style="font-size: 14px; width: 50%;height: 40px;  background: red;  line-height: 40px;">1231</div>
-    </div>
+  <div id="app">
+
+
+    <scroller style="top: 44px"
+              :on-refresh="refresh"
+              :on-infinite="infinite">
+      <h1>1</h1>
+      <h2>2</h2>
+      <h3>3</h3>
+      <h4>5</h4>
+      <sticky :offset="100">
+        <div class="stickyed">sticky</div>
+      </sticky>
+      <div v-for="(item, index) in items" class="row" :class="{'grey-bg': index % 2 == 0}">
+        {{ item }}
+      </div>
+    </scroller>
   </div>
 </template>
+<style>
+  html, body {
+    margin: 0;
+  }
 
+  * {
+    box-sizing: border-box;
+  }
+
+  .row {
+    width: 100%;
+    height: 50px;
+    padding: 10px 0;
+    font-size: 16px;
+    line-height: 30px;
+    text-align: center;
+    color: #444;
+    background-color: #fff;
+  }
+
+  .grey-bg {
+    background-color: #eee;
+  }
+
+  .header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 44px;
+    width: 100%;
+    box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    z-index: 1000;
+    color: #666;
+  }
+
+  .header > .title {
+    font-size: 16px;
+    line-height: 44px;
+    text-align: center;
+    margin: 0 auto;
+  }
+</style>
 <script>
-  import {Group, Cell} from 'vux'
-  import {getUserMessage} from 'src/service/getDate';
+  import Vue from 'vue'
+  import VueScroller from 'vue-scroller'
+  import {Sticky} from 'vux';
+  Vue.use(VueScroller)
   export default {
-    components: {
-      Group,
-      Cell
-    },
-    data(){
+    data() {
       return {
-        // note: changing this line won't causes changes
-        // with hot-reload because the reloaded component
-        // preserves its current state and we are modifying
-        // its initial state.
-        msg: 'Hello World!',
+        items: []
       }
     },
-    mounted(){
-      //console.log(this.$wechat.config);
-      this.test();
+    components: {
+      Sticky
+    },
+    mounted() {
+      for (var i = 1; i <= 20; i++) {
+        this.items.push(i + ' - keep walking, be 2 with you.')
+      }
+      this.top = 1
+      this.bottom = 20
     },
     methods: {
-      async test(){
-        let result = await getUserMessage();
+      refresh (done) {
+        setTimeout(() => {
+          var start = this.top - 1
+          for (var i = start; i > start - 10; i--) {
+            this.items.splice(0, 0, i + ' - keep walking, be 2 with you.')
+          }
+          this.top = this.top - 10
+          done()
+        }, 1500)
+      },
+      infinite (done) {
+        setTimeout(() => {
+          var start = this.bottom + 1
+          for (var i = start; i < start + 10; i++) {
+            this.items.push(i + ' - keep walking, be 2 with you.')
+          }
+          this.bottom = this.bottom + 10
+          done()
+        }, 1500)
       }
     }
   }
 </script>
-
-<style>
-  .vux-demo {
-    text-align: center;
-  }
-
-  .logo {
-    width: 100px;
-    height: 100px
-  }
-
-  .h1 {
-    width: 16rem;
-    height: 4rem;
-    line-height: 4rem;
-    background: red;
-    font-size: 1.4rem;
-  }
-</style>

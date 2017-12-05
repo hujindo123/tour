@@ -27,6 +27,7 @@
     text-align: center;
     border: 1px solid #d2d2d2;
     border-radius: 50%;
+    z-index: 3000;
     background: transparent;
     .icon-huidingbu{
       @include sc(20px, #d2d2d2);

@@ -15,15 +15,18 @@
       <span>九寨沟</span>
     </div>-->
     <div class="search_tab">
-      <tab :line-width="1" custom-bar-width="40px" class="tab_message" v-model="index">
-        <tab-item selected @on-item-click="tab">活动</tab-item>
-        <tab-item @on-item-click="tab">
-          回顾
-        </tab-item>
-        <tab-item @on-item-click="tab">目的地</tab-item>
-      </tab>
+      <sticky :check-sticky-support="false" :offset="0">
+        <tab :line-width="1" custom-bar-width="40px" class="tab_message" v-model="index">
+          <tab-item selected @on-item-click="tab">活动</tab-item>
+          <tab-item @on-item-click="tab">
+            回顾
+          </tab-item>
+          <tab-item @on-item-click="tab">目的地</tab-item>
+        </tab>
+      </sticky>
     </div>
-    <Scroller lock-x :scrollbar-y=false :bounce=false @on-scroll-bottom="onScrollBottom" ref="scrollerBottom" :scroll-bottom-offst="100" :height="'-88px'">
+    <Scroller lock-x :scrollbar-y=false :bounce=false @on-scroll-bottom="onScrollBottom" ref="scrollerBottom"
+              :scroll-bottom-offst="100" :height="'-88px'">
       <div class="main_list">
         <!--最新活动-->
         <list :list="test.list" v-if="index===0"></list>
@@ -43,7 +46,7 @@
 <script>
   import List from 'src/components/list/list';
   import List2 from 'src/components/list/list2'
-  import {Scroller, XInput, Icon, Group, Tab, TabItem, LoadMore} from 'vux';
+  import {Scroller, XInput, Icon, Group, Tab, TabItem, LoadMore,Sticky} from 'vux';
   export default {
     data () {
       return {
@@ -113,6 +116,7 @@
       Scroller,
       XInput,
       Icon,
+      Sticky,
       Group,
       Tab,
       TabItem,
@@ -185,7 +189,7 @@
     flex-flow: column;
     background: #fff;
     .top_search {
-      @include wh(100%,44px);
+      @include wh(100%, 44px);
       padding: 9px 12px;
       flex: 0 0 44px;
       box-sizing: border-box;

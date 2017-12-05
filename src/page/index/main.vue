@@ -1,11 +1,9 @@
 <template>
-  <div class="box_view" ref="ss">
-
-    <!--   <scrollTop v-on:scrollTop="top"></scrollTop>-->
-    <scroller lock-x :scrollbar-y=false ref="scrollerBottom">
-      <!--:stickyElements="stickyElements" :bounce=false @on-scroll-bottom="onScrollBottom"
+  <div class="box_view">
+    <scrollTop v-on:scrollTop="top"></scrollTop>
+    <scroller lock-x :scrollbar-y=false :bounce=false @on-scroll-bottom="onScrollBottom"
               ref="scrollerBottom"
-              :scroll-bottom-offst="100" :height="'-50px'"-->
+              :scroll-bottom-offst="100" :height="'-50px'">
       <div>
         <swiper ref="swiper" :aspect-ratio="400/750" @on-get-height="showList">
           <swiper-item class="swiper-demo-img" v-for="(item, index) in test.guanggao" :key="index">
@@ -42,7 +40,7 @@
               </div>
             </div>
           </scroller>
-          <sticky scroll-box="scrollerBottom" :offset="44">
+          <sticky :offset="44">
             <tab :line-width="1" class="tab_message" v-model="index">
               <tab-item selected @on-item-click="tab">最新活动</tab-item>
               <tab-item @on-item-click="tab">
@@ -64,9 +62,7 @@
           </div>
           <load-more tip="loading"></load-more>
         </div>
-
       </div>
-
     </scroller>
 
   </div>
@@ -165,14 +161,10 @@
       }
     },
     mounted(){
-      console.log(  this.$refs.scrollerBottom);
-      debugger;
     },
     computed: {},
     methods: {
-      bt(){
-          debugger;
-      },
+
       top(){
         this.$refs.scrollerBottom._xscroll.scrollTop(0);
       },
@@ -188,6 +180,7 @@
         if (this.onFetching) {
           // do nothing
         } else {
+          console.log(1);
           this.onFetching = true;
           setTimeout(() => {
             this.bottomCount += 1;

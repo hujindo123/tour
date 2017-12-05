@@ -14,10 +14,8 @@
         <i @click="searchShow =true"></i>
       </span>
     </div>
-    <scroller lock-x :scrollbar-y=false :bounce=false @on-scroll-bottom="onScrollBottom"
-              ref="scrollerBottom"
-              :scroll-bottom-offst="100" :height="'-94px'">
-      <div>
+    <div class="stickyed" style="height: 44px">
+      <sticky :check-sticky-support="false" :offset="0">
         <tab :line-width="1" class="tab_message" v-model="index">
           <tab-item selected @on-item-click="tab">最新活动</tab-item>
           <tab-item @on-item-click="tab">
@@ -26,6 +24,13 @@
           <tab-item @on-item-click="tab">目的地</tab-item>
           <tab-item @on-item-click="tab">图片新闻</tab-item>
         </tab>
+      </sticky>
+    </div>
+
+    <scroller lock-x :scrollbar-y=false :bounce=false @on-scroll-bottom="onScrollBottom"
+              ref="scrollerBottom"
+              :scroll-bottom-offst="100" :height="'-138px'">
+      <div>
         <div class="main_list">
           <!--最新活动-->
           <list :list="test.list" v-if="index===0"></list>
@@ -72,6 +77,7 @@
     Popup,
     XAddress,
     ChinaAddressV4Data,
+    Sticky,
     Value2nameFilter as value2name
   } from 'vux';
   export default {
@@ -87,6 +93,7 @@
       LoadMore,
       Popup,
       XAddress,
+      Sticky,
       List,
       List2,
       city,
@@ -164,7 +171,7 @@
       }
     },
     methods: {
-        /*切换导航*/
+      /*切换导航*/
       tab(index){
         this.index = index;
       },
