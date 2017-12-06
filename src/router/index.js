@@ -88,6 +88,20 @@ export default new Router({
       component: message
     },
     {
+      path: '/search',
+      name: '搜索',
+      component: resolve => {
+        require(['src/page/search/search'], resolve)
+      }
+    },
+    {
+      path: '/setAction',
+      name: '发起活动',
+      component: resolve => {
+        require(['src/page/action/setAction'], resolve)
+      }
+    },
+    {
       path: '/a',
       name: '测试',
       component: function (resolve) {

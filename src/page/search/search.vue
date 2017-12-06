@@ -5,7 +5,7 @@
                placeholder-align="left">
         <icon slot="label" type="search"></icon>
       </x-input>
-      <span @click="$emit('hide')">取消</span>
+      <span @click="$router.go(-1)">取消</span>
     </div>
     <!--<div class="hot_search">
       <group title="热门搜索"></group>
@@ -183,9 +183,6 @@
     z-index: 3000;
     box-sizing: border-box;
     display: flex;
-    position: absolute;
-    left: 0;
-    top: 0;
     flex-flow: column;
     background: #fff;
     .top_search {

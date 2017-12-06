@@ -67,7 +67,7 @@
   import List from 'src/components/list/list';
   import List2 from 'src/components/list/list2'
   import city from 'src/components/city/city';
-  import search from 'src/components/search/search';
+  import search from 'src/page/search/search';
   import {
     Swiper,
     SwiperItem,

@@ -1,6 +1,7 @@
 <template>
-  <div class="action_components">
-    <div class="action_top">
+  <div>
+    <div class="action_components">
+      <div class="action_top">
       <span class="city">
             <x-address style="display:none;" :hide-district=true :title="title" @on-shadow-change="onShadowChange"
                        :list="addressData"
@@ -9,54 +10,80 @@
            {{name[0]}}
            <i class="iconfont icon-gengduo"></i></label>
       </span>
-      <span></span>
-      <span class="iconfont icon-sousuo">
-        <i @click="searchShow =true"></i>
-      </span>
-    </div>
-    <div class="stickyed" style="height: 44px">
+        <span></span>
+        <router-link to="/search" class="iconfont icon-sousuo"></router-link>
+      </div>
       <sticky :check-sticky-support="false" :offset="0">
         <tab :line-width="1" class="tab_message" v-model="index">
           <tab-item selected @on-item-click="tab">最新活动</tab-item>
           <tab-item @on-item-click="tab">
             回顾活动
           </tab-item>
-          <tab-item @on-item-click="tab">目的地</tab-item>
-          <tab-item @on-item-click="tab">图片新闻</tab-item>
         </tab>
+        <scroller lock-y :scrollbar-x=false :bounce="false">
+          <div class="box vux-1px-b" ref="div">
+            <checker default-item-class="demo1-item" type="checkbox" selected-item-class="demo1-item-selected">
+              <checker-item :value="1">
+                <div class="box-item">
+                  <div class="tab">热度</div>
+                </div>
+              </checker-item>
+              <checker-item :value="2">
+                <div class="box-item">
+                  <div class="tab">交友</div>
+                </div>
+              </checker-item>
+              <checker-item :value="3">
+                <div class="box-item">
+                  <div class="tab">亲子游</div>
+                </div>
+              </checker-item>
+              <checker-item :value="4">
+                <div class="box-item">
+                  <div class="tab">近郊游</div>
+                </div>
+              </checker-item>
+              <checker-item :value="5">
+                <div class="box-item">
+                  <div class="tab">长途</div>
+                </div>
+              </checker-item>
+              <checker-item :value="6">
+                <div class="box-item">
+                  <div class="tab">民俗</div>
+                </div>
+              </checker-item>
+              <checker-item :value="7">
+                <div class="box-item">
+                  <div class="tab">民俗</div>
+                </div>
+              </checker-item>
+              <checker-item :value="8">
+                <div class="box-item">
+                  <div class="tab">民俗</div>
+                </div>
+              </checker-item>
+            </checker>
+          </div>
+        </scroller>
       </sticky>
-    </div>
-
-    <scroller lock-x :scrollbar-y=false :bounce=false @on-scroll-bottom="onScrollBottom"
-              ref="scrollerBottom"
-              :scroll-bottom-offst="100" :height="'-138px'">
-      <div>
-        <div class="main_list">
-          <!--最新活动-->
-          <list :list="test.list" v-if="index===0"></list>
-          <!--回顾活动-->
-          <list :list="test.list" v-if="index===1" :notButton="true"></list>
-          <!--目的地-->
-          <list :list="test.list" v-if="index===2" :notButton="true"></list>
-          <!--图片新闻-->
-          <list2 v-if="index===3"></list2>
+      <scroller lock-x :scrollbar-y=false :bounce=false @on-scroll-bottom="onScrollBottom" ref="scrollerBottom"  :height="'-178px'">
+        <div>
+          <div class="main_list">
+            <!--最新活动-->
+            <list :list="test.list" v-if="index===0"></list>
+            <!--回顾活动-->
+            <list :list="test.list" v-if="index===1" :notButton="true"></list>
+          </div>
+          <load-more tip="loading"></load-more>
         </div>
-        <load-more tip="loading"></load-more>
-      </div>
-    </scroller>
-    <!--滑出搜索-->
-    <div v-transfer-dom>
-      <popup v-model="searchShow" position="left" width="100%">
-        <search v-on:hide="searchShow=false"></search>
-        <!--<div class="position-horizontal-demo">
-          <span class="vux-close" @click="show8 = false"></span>
-        </div>-->
-      </popup>
-    </div>
-    <!--返回顶部-->
-    <scrollTop v-on:scrollTop="$refs.scrollerBottom._xscroll.scrollTop(0)"></scrollTop>
+      </scroller>
+      <!--返回顶部-->
+      <scrollTop v-on:scrollTop="$refs.scrollerBottom._xscroll.scrollTop(0)"></scrollTop>
 
+    </div>
   </div>
+
 </template>
 
 <script>
@@ -65,7 +92,6 @@
   import List from 'src/components/list/list';
   import List2 from 'src/components/list/list2'
   import city from 'src/components/city/city';
-  import search from 'src/components/search/search';
   import {
     Swiper,
     SwiperItem,
@@ -78,6 +104,8 @@
     XAddress,
     ChinaAddressV4Data,
     Sticky,
+    Checker,
+    CheckerItem,
     Value2nameFilter as value2name
   } from 'vux';
   export default {
@@ -94,10 +122,11 @@
       Popup,
       XAddress,
       Sticky,
+      Checker,
+      CheckerItem,
       List,
       List2,
       city,
-      search,
       scrollTop
     },
     data () {
@@ -170,6 +199,11 @@
         },
       }
     },
+    mounted(){
+      /* 设置scroll长度 设置每个初始长度为60px scroll长度= 初始长度* 子元素个数*长度*/
+      this.$refs.div.style.width = 62 * this.$refs.div.children[0].children.length > window.innerWidth ? 62
+        * this.$refs.div.children[0].children.length + 'px' : '100%';
+    },
     methods: {
       /*切换导航*/
       tab(index){
@@ -187,7 +221,7 @@
           setTimeout(() => {
             this.bottomCount += 10
             this.$nextTick(() => {
-              this.$refs.scrollerBottom.reset()
+//              /this.$refs.scrollerBottom.reset()
             })
             this.onFetching = false
           }, 2000)
@@ -249,17 +283,37 @@
         }
       }
     }
+    .box {
+      box-sizing: border-box;
+      display: flex;
+      flex-flow: row;
+      .vux-checker-box {
+        font-size: 0;
+        .demo1-item {
+          font-size: 0;
+          .box-item {
+            flex: 0 0 62px;
+            width: 62px;
+            @include sc(14px, rgba(163, 163, 163, 1));
+            text-align: center;
+            padding: 11px 0
+          }
+        }
+        .demo1-item-selected {
+          .box-item {
+            color: rgba(21, 156, 94, 1);
+          }
+        }
+      }
+    }
     .tab_message {
       .vux-tab-item {
         @include sc(15px, rgba(77, 77, 77, 1));
       }
     }
-    .city_components {
-      width: 100%;
-      position: fixed;
-      left: 0;
-      top: 0;
-      z-index: 3000;
+    a{
+      color: #fff;
+      text-decoration: none;
     }
   }
 

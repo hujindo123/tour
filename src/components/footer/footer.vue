@@ -43,8 +43,8 @@
     },
     methods: {
       click (key, item) {
-        if(key === 1){
-            window.location="http://www.baidu.com"
+        if(key === 0){
+            this.$router.push('/setAction');
         }
       }
     }
