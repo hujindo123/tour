@@ -7,10 +7,10 @@
     </div>
     <div class="editor_phone">
       <group>
-        <x-input placeholder="发起活动-内容填写"></x-input>
+        <x-input placeholder="请输入标题"></x-input>
       </group>
       <group>
-        <cell :title="'我的活动'" is-link @click.native="isShow=true"></cell>
+        <cell :title="'出行信息(请选择)'" is-link @click.native="isShow=true"></cell>
       </group>
       <group class="txt">
         <x-textarea autosize></x-textarea>

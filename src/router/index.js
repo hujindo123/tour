@@ -12,6 +12,7 @@ import editorUserMessage from 'src/page/user/editorUserMessage';
 import updatePhone from 'src/page/user/updatePhone';
 import introduce from 'src/page/user/introduce';
 import message from 'src/page/message/message';
+import details from 'src/page/action/details';
 import index from 'src/page/index/index';
 export default new Router({
   mode,
@@ -102,11 +103,18 @@ export default new Router({
       }
     },
     {
+      path: '/details',
+      name: '活动详情',
+      component: resolve => {
+        require(['src/page/action/details'], resolve)
+      }
+    },
+    {
       path: '/a',
       name: '测试',
       component: function (resolve) {
         require(['src/components/HelloFromVux'], resolve)
       }
-    }
+    },
   ]
 })

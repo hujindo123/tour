@@ -16,7 +16,7 @@
           </div>
           <div class="singup" :class="{isHide:notButton}">
             <div class="time">报名截止：{{x.singup}}</div>
-            <div class="btn">我要报名</div>
+            <router-link to="/details" class="btn" >我要报名</router-link>
           </div>
         </div>
       </div>
@@ -142,6 +142,7 @@
           .btn {
             flex: 0 0 60px;
             width: 60px;
+            text-decoration: none;
             background: $fc;
             @include sc(12px, rgba(255, 255, 255, 1))
           }

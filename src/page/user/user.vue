@@ -87,7 +87,7 @@
       line-height: 44px;
       overflow: hidden;
       .iconfont {
-        padding: 2px 12px 0 12px;
+        padding: 2px 12px 0 10px;
         @include sc(22px, #fff);
       }
       .badge {
