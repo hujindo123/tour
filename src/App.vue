@@ -22,6 +22,6 @@
 <style lang="less">
   @import '~vux/src/styles/1px.less';
 </style>
-<style scoped>
+<style scoped lang="scss">
   @import "./style/reset.scss";
 </style>

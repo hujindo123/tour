@@ -89,25 +89,20 @@
               </div>
             </div>
           </scroller>
-          <h2>评论列表</h2>
-          <comment></comment>
         </div>
       </div>
-      <!--<div class="love_say">
+      <div class="love_say">
         <i class="iconfont icon-aixin"></i>
-        <i class="iconfont icon-xiaoxi" @click="comment=true">
+        <i class="iconfont icon-xiaoxi" @click="goPath('/comment')">
           <badge text="222" class="badge"></badge>
         </i>
-      </div>-->
-      <vbottom></vbottom>
+      </div>
     </view-box>
-    <!--   -->
   </div>
 </template>
 
 <script>
-  import comment from 'src/components/action/comment';
-  import vbottom from 'src/components/action/bottom';
+
   import {Badge, Tab, TabItem, Scroller, Popover, ViewBox, Group, CellBox, Cell, XButton, Divider} from 'vux';
 
   export default {
@@ -119,7 +114,7 @@
       ViewBox,
       Cell,
       XButton, Divider,
-      Tab, TabItem, Scroller, comment, vbottom
+      Tab, TabItem, Scroller
 
     },
     data () {
@@ -135,9 +130,12 @@
 
     },
     methods: {
-        tab(index){
-            this.index = index;
-        }
+      tab(index){
+        this.index = index;
+      },
+      goPath(url){
+        this.$router.push(url)
+      }
     }
   }
 </script>
@@ -155,7 +153,7 @@
       @include sc(14px, #fff);
       @include fj();
       display: flex;
-      z-index: 3000;
+      z-index: 2000;
       background: $fc;
       position: absolute;
       left: 0;
@@ -377,20 +375,20 @@
     }
     .comment_pople {
       padding: 0 12px 12px;
-      .tab_message{
-        @include wh(160px,40px);
-        .vux-tab-item{
+      .tab_message {
+        @include wh(160px, 40px);
+        .vux-tab-item {
           background: transparent;
           @include sc(15px, rgba(77, 77, 77, 1));
           text-align: left;
         }
-        .vux-tab-bar-inner{
-         background-color: rgba(77, 77, 77, 1);
+        .vux-tab-bar-inner {
+          background-color: rgba(77, 77, 77, 1);
         }
-        .vux-tab-item.vux-tab-selected{
+        .vux-tab-item.vux-tab-selected {
           color: rgba(77, 77, 77, 1);
         }
-        .vux-tab-bar-inner{
+        .vux-tab-bar-inner {
           margin: 0;
         }
       }
@@ -420,9 +418,9 @@
     .love_say {
       @include wh(160px, 48px);
       position: fixed;
-      bottom: 65px;
+      bottom: 165px;
       left: 0;
-      background: rgba(255, 255, 255, 0.9);
+      background: rgba(255, 255, 255, 0.5);
       border-radius: 0 40px 40px 0;
       box-shadow: 0 0 2px rgba(60, 60, 60, 0.35);
       @include fj(space-around);

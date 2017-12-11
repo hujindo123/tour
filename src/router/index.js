@@ -110,6 +110,48 @@ export default new Router({
       }
     },
     {
+      path: '/follow',
+      name: '关注',
+      component: resolve => {
+        require(['src/page/user/follow'], resolve)
+      }
+    },
+    {
+      path: '/fans',
+      name: '粉丝',
+      component: resolve => {
+        require(['src/page/user/fans'], resolve)
+      }
+    },
+    {
+      path: '/friend',
+      name: '朋友主页',
+      component: resolve => {
+        require(['src/page/user/friend'], resolve)
+      }
+    },
+    {
+      path: '/comment',
+      name: '评论列表',
+      component: resolve => {
+        require(['src/page/action/comment'], resolve)
+      }
+    },
+    {
+      path: '/myAction',
+      name: '个人中心--->我的活动',
+      component: resolve => {
+        require(['src/page/user/myAction'], resolve)
+      }
+    },
+    {
+      path: '/myComment',
+      name: '个人中心--->我的评论',
+      component: resolve => {
+        require(['src/page/user/myComment'], resolve)
+      }
+    },
+    {
       path: '/a',
       name: '测试',
       component: function (resolve) {

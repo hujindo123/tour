@@ -1,44 +1,102 @@
 <template>
-  <div class="commentComponents">
-    <div class="list vux-1px-t">
-      <div class="comment_list">
-        <div class="header_line">
-          <div class="header_img">
-            <img
-              src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1512116865699&di=da0eea64a26c83bf65a83d9d40409676&imgtype=0&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F0104cd5598bec26ac7253264c9598d.png"
-              alt="">
-          </div>
-          <div class="other_comment">
-            <div class="other_comment_top">
-              <div class="comment_name">精卫填的海 <span>LV7</span></div>
-              <div class="comment_answer">回复</div>
-            </div>
-            <div class="comment_time">1小时前</div>
-          </div>
-        </div>
-        <div class="txt">总是有雨啊，感觉下雨哪都不想去总是有雨啊，感觉下雨哪都不想去总是有雨啊，感觉下雨哪都不想去总是有雨啊，感觉下雨哪都不想去</div>
-        <div class="comment_12">评论了你的活动 : 总是有雨啊，感不想去总是有雨啊</div>
-      </div>
+  <div class="comment">
+    <x-header :left-options="{backText: ''}" title="评论列表"></x-header>
+    <div class="answer_txt">
+      <input class="answer_txt_input" placeholder="评论" ref="chatpannel"/>
+      <x-button mini type="primary" class="answer_txt_button">发布</x-button>
     </div>
-
+    <scroller lock-x height="-94px">
+      <div>
+        <div  v-for="item in 10">
+          <comment></comment>
+        </div>
+      </div>
+    </scroller>
   </div>
 
 </template>
 
 <script>
-
+  import {Badge, XHeader, Scroller, Popover, ViewBox, Group, CellBox, Cell, XButton, Divider} from 'vux';
+  import comment from 'src/components/action/comment';
   export default {
-    components: {},
-    data () {
-      return {}
+    components: {
+      Scroller,
+      Badge,
+      Group,
+      CellBox,
+      Popover,
+      ViewBox,
+      XHeader,
+      Cell,
+      XButton, Divider, comment
+
     },
-    methods: {}
+    data () {
+      return {
+        label: ['自驾', '大明湖', '情侣'],
+        messagesShow: false
+      }
+    },
+    methods: {
+      showAnswer(){
+        this.$emit('showAnswer',
+          {
+            id: 123,
+            txt: 1234
+          })
+      }
+    }
   }
 </script>
 <style lang="scss">
   @import "../../style/mixin";
 
-  .commentComponents {
+  .comment {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 3000;
+    background: #fff;
+    flex-flow: column;
+    .vux-header {
+      h1 {
+        font-size: 14px;
+      }
+    }
+    .answer_txt {
+      padding: 10px;
+      display: flex;
+      line-height: 34px;
+      flex-flow: row;
+      background: rgba(246, 246, 246, 1);
+      .answer_txt_input {
+        height: 34px;
+        padding-left: 10px;
+        box-sizing: border-box;
+        outline: none;
+        flex: 1;
+        -webkit-appearance: none;
+        border: 1px solid #d4d4d4;
+        @include borderRadius(6px);
+        font-size: 14px;
+        background: #fff;
+
+      }
+      .answer_txt_button {
+        text-align: center;
+        background: $fc;
+        outline: none;
+        border: 0;
+        margin-left: 8px;
+        @include borderRadius(4px);
+        @include sc(14px, rgba(237, 237, 237, 1));
+        flex: 0 0 65px;
+        width: 65px;
+      }
+    }
     .list {
       position: relative;
       padding: 15px 10px;
@@ -109,7 +167,6 @@
         }
       }
       .comment_list {
-        width: 100%;
         display: flex;
         flex-flow: column;
         .header_line {
@@ -166,15 +223,6 @@
           margin-top: 3px;
           padding-left: 40px;
           @include sc(14px, rgba(77, 77, 77, 1))
-        }
-        .comment_12 {
-          position: relative;
-          @include ess(1);
-          margin-left: 40px;
-          margin-top: 10px;
-          @include sc(14px, rgba(126, 126, 126, 1));
-          background: rgba(246, 246, 246, 1);
-
         }
       }
     }
