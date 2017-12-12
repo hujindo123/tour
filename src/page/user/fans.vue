@@ -7,9 +7,11 @@
           <div class="comment_list">
             <div class="header_line">
               <div class="header_img">
+                <router-link to="/friend">
                 <img
                   src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1512116865699&di=da0eea64a26c83bf65a83d9d40409676&imgtype=0&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F0104cd5598bec26ac7253264c9598d.png"
                   alt="">
+                </router-link>
               </div>
               <div class="other_comment">
                 <div class="other_comment_top_follow">

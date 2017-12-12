@@ -2,7 +2,7 @@
   <div class="details">
     <view-box :body-padding-top="'44px'">
       <div slot="header" class="details_top">
-      <span class="iconfont icon-shezhi">
+      <span class="iconfont icon-fanhui" @click="$router.go(-1)">
       </span>
         <div class="share">
           <span class="iconfont icon-share"></span>

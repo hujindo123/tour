@@ -1,18 +1,18 @@
 <template>
   <div class="myaction">
     <x-header :left-options="{backText: ''}" title="我的活动"></x-header>
+    <sticky :offset="46">
+      <tab :line-width="1" class="tab_message" v-model="index">
+        <tab-item selected @on-item-click="tab">发起</tab-item>
+        <tab-item @on-item-click="tab">
+          参与
+        </tab-item>
+        <tab-item @on-item-click="tab">回顾</tab-item>
+        <tab-item @on-item-click="tab">收藏</tab-item>
+      </tab>
+    </sticky>
     <scroller lock-x height="-46px">
       <div>
-        <sticky :offset="44">
-          <tab :line-width="1" class="tab_message" v-model="index">
-            <tab-item selected @on-item-click="tab">发起</tab-item>
-            <tab-item @on-item-click="tab">
-              参与
-            </tab-item>
-            <tab-item @on-item-click="tab">回顾</tab-item>
-            <tab-item @on-item-click="tab">收藏</tab-item>
-          </tab>
-        </sticky>
         <div class="main_list">
           <!--最新活动-->
           <list :list="test.list" v-if="index===0"></list>
