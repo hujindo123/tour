@@ -1,28 +1,48 @@
 <template>
-  <div class="footer">
-    <tabbar class="vux-center">
-      <tabbar-item selected link="/main">
-        <span slot="icon" class="iconfont icon-shouye"></span>
-        <span slot="label">首页</span>
-      </tabbar-item>
-      <tabbar-item link="/action">
-        <span slot="icon" class="iconfont icon-reqiqiu"></span>
-        <span slot="label">活动</span>
-      </tabbar-item>
-      <tabbar-item @on-item-click="show=true">
-        <span slot="icon" class="iconfont  icon-jiahao"></span>
-        <span slot="label">发起</span>
-      </tabbar-item>
+  <div class="footer vux-1px-t">
+    <router-link to="/main">
+      <i class="iconfont icon-shouye"></i>
+      <span>首页</span>
+    </router-link>
+    <router-link to="/action/0">
+      <i class="iconfont  icon-reqiqiu"></i>
+      <span>活动</span>
+    </router-link>
+    <div class="a_r" @click="show=true">
+      <i class="iconfont icon-jiahao"></i>
+      <span>发起</span>
+    </div>
+    <router-link to="/place">
+      <i class="iconfont  icon-mudedi"></i>
+      <span>目的地</span>
+    </router-link>
+    <router-link to="/user">
+      <i class="iconfont icon-wode"></i>
+      <span>我的</span>
+    </router-link>
+    <!-- <tabbar class="vux-center">
+       <tabbar-item selected :link="{path: '/main', replace: true}">
+         <span slot="icon" class="iconfont icon-shouye"></span>
+         <span slot="label">首页</span>
+       </tabbar-item>
+       <tabbar-item :link="{path: '/action/0n', replace: true}">
+         <span slot="icon" class="iconfont icon-reqiqiu"></span>
+         <span slot="label">活动</span>
+       </tabbar-item>
+       <tabbar-item @on-item-click="show=true">
+         <span slot="icon" class="iconfont  icon-jiahao"></span>
+         <span slot="label">发起</span>
+       </tabbar-item>
 
-      <tabbar-item link="/place">
-        <span slot="icon" class="iconfont icon-mudedi"></span>
-        <span slot="label">目的地</span>
-      </tabbar-item>
-      <tabbar-item link="/user">
-        <span slot="icon" class="iconfont icon-wode"></span>
-        <span slot="label">我的</span>
-      </tabbar-item>
-    </tabbar>
+       <tabbar-item link="/place">
+         <span slot="icon" class="iconfont icon-mudedi"></span>
+         <span slot="label">目的地</span>
+       </tabbar-item>
+       <tabbar-item link="/user">
+         <span slot="icon" class="iconfont icon-wode"></span>
+         <span slot="label">我的</span>
+       </tabbar-item>
+     </tabbar>-->
     <actionsheet v-model="show" :menus="menus" @on-click-menu="click"></actionsheet>
   </div>
 </template>
@@ -43,8 +63,8 @@
     },
     methods: {
       click (key, item) {
-        if(key === 0){
-            this.$router.push('/setAction');
+        if (key === 0) {
+          this.$router.push('/setAction');
         }
       }
     }
@@ -55,35 +75,34 @@
 
   .footer {
     @include wh(100%, 50px);
-    background: #fff;
+    padding: 5px 0;
+    background: #f8fafc;
     box-sizing: border-box;
-    .vux-center {
-      color: red;
-    }
-    .weui-tabbar {
-      position: fixed;
-      .weui-tabbar__item {
-        text-decoration: none;
-        .iconfont {
-          font-size: 18px;
-        }
-        .weui-tabbar__icon {
-          height: auto;
-        }
-        .icon-jiahao {
+    display: flex;
+    flex-flow: row;
+    a, .a_r {
+      flex: 1;
+      @include sc(15px, rgba(77, 77, 77, 1));
+      text-decoration: none;
+      text-align: center;
+      @include fj(center);
+      display: flex;
+      flex-flow: column;
+      i {
+        @include sc(18px, #999999);
+        &.icon-jiahao{
           color: $fc;
         }
-        .weui-tabbar__label {
-          font-size: 12px;
-          line-height: 0;
-        }
       }
-
+      span {
+        @include sc(12px, #999999);
+      }
     }
-    .weui-actionsheet__cell{
-      @include sc(15px, rgba(77,77,77,1))
+    .weui-actionsheet__cell {
+      @include sc(15px, rgba(77, 77, 77, 1));
       padding: 15px 0;
     }
+
   }
 
 

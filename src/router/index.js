@@ -31,7 +31,7 @@ export default new Router({
           },
         },
         {
-          path: '/action',
+          path: '/action/:id',
           name: '活动',
           component: resolve => {
             require(['src/page/index/action'], resolve)
@@ -103,7 +103,7 @@ export default new Router({
       }
     },
     {
-      path: '/details',
+      path: '/details/:id',
       name: '活动详情',
       component: resolve => {
         require(['src/page/action/details'], resolve)

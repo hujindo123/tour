@@ -1,5 +1,5 @@
 <template>
-  <div class="details">
+  <div class="details" v-if="details">
     <view-box :body-padding-top="'44px'">
       <div slot="header" class="details_top">
       <span class="iconfont icon-fanhui" @click="$router.go(-1)">
@@ -23,21 +23,21 @@
           <div class="txt">10 天 13 小时 27 分钟 36 秒 后报名结束</div>
         </div>
         <div class="main">
-          <div class="title">春游，踏青，赏花-带家人去透透气，品尝正统地道的客家美食~</div>
+          <div class="title">{{details.title}}</div>
           <div class="main_wrapper">
             <div class="top">
               <div class="header">
                 <img src="http://pic.58pic.com/58pic/16/73/00/25x58PICySY_1024.jpg"/>
-                <i class="iconfont" :class="{'icon-ttpodicon': true, 'icon-nv':  false}"></i>
+                <i class="iconfont" :class="{'icon-ttpodicon': !details.user.sex, 'icon-nv': details.user.sex}"></i>
               </div>
               <div class="msg">
                 <div>
-                  <span class="name">Catherine1226 <span class="lv">LV1</span></span>
+                  <span class="name">Catherine1226 <span class="lv">LV{{details.user.level}}</span></span>
                 </div>
                 <div class="line">
-                  <span>17-9-20</span>
-                  <span><i class="iconfont icon-liulan"></i>5673</span>
-                  <span><i class="iconfont icon-pinglun"></i>76</span>
+                  <span>{{details.user.birthday}}</span>
+                  <span><i class="iconfont icon-liulan"></i> {{details.user.see}}</span>
+                  <span><i class="iconfont icon-pinglun"></i> {{details.user.msg}}</span>
                 </div>
               </div>
               <div class="button">
@@ -46,23 +46,24 @@
             </div>
             <div class="label">
               <i class="iconfont icon-biaoqian1"></i>
-              <span v-for="item in label">{{item}}</span>
+              <span v-for="item in details.user.label">{{item}}</span>
             </div>
             <divider class="divider">出行信息</divider>
             <ul class="ul">
-              <li><i class="iconfont icon-chufadi"></i><span>出发地</span><span class="txt">广州</span></li>
-              <li><i class="iconfont icon-mudedi"></i><span>目的地</span><span class="txt">新丰</span></li>
-              <li><i class="iconfont icon-riqi"></i><span>往返时间</span><span class="txt">2天</span></li>
-              <li><i class="iconfont icon-weibiaoti102"></i><span>约团人数</span><span class="txt">5-10人</span></li>
-              <li><i class="iconfont icon-qian"></i><span>费用分摊</span><span class="txt">AA制</span></li>
-              <li><i class="iconfont icon-che"></i><span>有无车</span><span class="txt">有车无空位</span></li>
+              <li><i class="iconfont icon-chufadi"></i><span>出发地</span><span
+                class="txt">{{details.message.start}}</span></li>
+              <li><i class="iconfont icon-mudedi"></i><span>目的地</span><span class="txt">{{details.message.end}}</span>
+              </li>
+              <li><i class="iconfont icon-riqi"></i><span>往返时间</span><span class="txt">{{details.message.day}}</span>
+              </li>
+              <li><i class="iconfont icon-weibiaoti102"></i><span>约团人数</span><span
+                class="txt">{{details.message.num}}</span></li>
+              <li><i class="iconfont icon-qian"></i><span>费用分摊</span><span class="txt">{{details.message.money}}</span>
+              </li>
+              <li><i class="iconfont icon-che"></i><span>有无车</span><span class="txt">{{details.message.bus}}</span></li>
             </ul>
             <div class="content">
-              广州出发需要组队的请于5.6日早上9点到黄埔大道的跑马场汇合后9:20分准时发车.行车里程约160公里.在城北方位的车友,建议自行前往,
-              请设置导航"新丰 丰衣足食"这个"五星级农庄"进行午餐,午饭时间12:30分准时开始,早到的吹水交流,迟到的请自行安排用餐.行车,路线不特定,届时根据实时路况多走高速.本次活动费用
-              全程AA,提倡低碳出行(拼车并A路途中的油费和路桥费用),同时征集活动赞助商.组队的车友敬请自备手台,频率为438.450
-              参与活动的所有车友在抵达新丰后,由资深地陪--咱
-              们的黄版做领队并安排一系列活动,包括晚餐和住宿.先谢谢咱们这头"老黄牛"其他事宜需要补充的会及时更新,敬请关注论坛.
+              {{details.context}}
             </div>
           </div>
         </div>
@@ -94,7 +95,7 @@
       <div class="love_say">
         <i class="iconfont icon-aixin"></i>
         <i class="iconfont icon-xiaoxi" @click="goPath('/comment')">
-          <badge text="222" class="badge"></badge>
+          <badge :text="details.comment.num" class="badge"></badge>
         </i>
       </div>
     </view-box>
@@ -104,7 +105,7 @@
 <script>
 
   import {Badge, Tab, TabItem, Scroller, Popover, ViewBox, Group, CellBox, Cell, XButton, Divider} from 'vux';
-
+  import {details} from 'src/service/getDate'
   export default {
     components: {
       Badge,
@@ -120,14 +121,18 @@
     data () {
       return {
         index: 0,
-        label: ['自驾', '大明湖', '情侣'],
+        details: '',
         messagesShow: false,
       }
     },
-    mounted(){
+ /*   mounted(){
       this.$refs.divs.style.width = (52 + 4) * this.$refs.divs.children.length > window.innerWidth ? (52 + 4) * this.$refs.divs.children.length + 'px' : '100%';
       this.$refs.div.style.width = (52 + 4) * this.$refs.div.children.length > window.innerWidth ? (52 + 4) * this.$refs.div.children.length + 'px' : '100%';
-
+    },*/
+    async created(){
+      await details().then(data => {
+        this.details = data[0];
+      })
     },
     methods: {
       tab(index){

@@ -4,9 +4,7 @@
 import fetch from "../config/fetch";
 
 /**
- * 用户中心
+ * banner
  */
-export const getUserMessage = () => fetch('/login', {
-  account: 'hujindong',
-  password: '123456'
-}, 'POST');
+export const banner = () => fetch('/banner');
+export const details =() =>fetch('/details');

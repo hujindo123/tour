@@ -22,6 +22,11 @@
 <style lang="less">
   @import '~vux/src/styles/1px.less';
 </style>
-<style scoped lang="scss">
-  @import "./style/reset.scss";
+<style lang="scss">
+  //@import "./style/reset.scss";
+  .router-link-exact-active {
+    i,span{
+      color: #159C5E!important;
+    }
+  }
 </style>

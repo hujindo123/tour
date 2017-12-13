@@ -1,35 +1,22 @@
 <template>
   <div class="box_view">
     <scrollTop v-on:scrollTop="top"></scrollTop>
-    <scroller lock-x :scrollbar-y=false :bounce=false @on-scroll-bottom="onScrollBottom"
-              ref="scrollerBottom"
-              :scroll-bottom-offst="100" :height="'-50px'">
+    <scroller lock-x :scrollbar-y=false :bounce=false @on-scroll-bottom="onScrollBottom" ref="scrollerBottom" :scroll-bottom-offst="100" :height="'-50px'">
       <div>
-        <swiper ref="swiper" :aspect-ratio="400/750" @on-get-height="showList">
-          <swiper-item class="swiper-demo-img" v-for="(item, index) in test.guanggao" :key="index">
-            <img :src="item" style="width: 100%">
+        <swiper ref="swiper" :loop="true" :aspect-ratio="400/750" @on-get-height="showList">
+          <swiper-item class="swiper-demo-img" v-for="(item, index) in banner" :key="index">
+            <router-link :to="{path: '/details/'+item.id}">
+              <img :src="item.img" style="width: 100%">
+            </router-link>
           </swiper-item>
         </swiper>
         <div v-show="mainShow">
-          <scroller lock-y :scrollbar-x=false :bounce=false>
+          <scroller lock-y :scrollbar-x=true :bounce=false>
             <div class="box" ref="div">
-              <div class="box-item">
-                <div class="tab"><i class="iconfont icon-mingpianxuanzhong06"></i>热度</div>
-              </div>
-              <div class="box-item">
-                <div class="tab"><i class="iconfont icon-qinzi"></i>亲子</div>
-              </div>
-              <div class="box-item">
-                <div class="tab"><i class="iconfont icon-friend"></i>爱心</div>
-              </div>
-              <div class="box-item">
-                <div class="tab"><i class="iconfont icon-mingpianxuanzhong06"></i>热度</div>
-              </div>
-              <div class="box-item">
-                <div class="tab"><i class="iconfont icon-qinzi"></i>亲子</div>
-              </div>
-              <div class="box-item">
-                <div class="tab"><i class="iconfont icon-friend"></i>爱心</div>
+              <div class="box-item" v-for="(item, index) in label">
+                <router-link :to="{path: '/action/'+index}">
+                  <div class="tab"><i class="iconfont" :class="item.icon"></i>{{item.name}}</div>
+                </router-link>
               </div>
             </div>
           </scroller>
@@ -73,7 +60,7 @@
   import List from 'src/components/list/list';
   import List2 from 'src/components/list/list2'
   import {Swiper, SwiperItem, Sticky, Scroller, Tab, TabItem, LoadMore} from 'vux';
-
+  import {banner} from 'src/service/getDate'
   export default {
     components: {
       Sticky,
@@ -89,7 +76,32 @@
     },
     data () {
       return {
-        index: 0,
+        banner: '',
+        index: 0, // 选项卡
+        label: [ // 标签
+          {
+            icon: 'icon-mingpianxuanzhong06',
+            name: '热度'
+          }, {
+            icon: 'icon-qinzi',
+            name: '亲子'
+          }, {
+            icon: 'icon-friend',
+            name: '交友'
+          }, {
+            icon: 'icon-jiaoyou',
+            name: '近郊'
+          }, {
+            icon: 'icon-changtuqiche',
+            name: '长途'
+          }, {
+            icon: 'icon-minzugongyi',
+            name: '民俗'
+          }, {
+            icon: 'icon-yule',
+            name: '娱乐'
+          }
+        ],
         mainShow: false,
         onFetching: false,
         bottomCount: 5,
@@ -162,9 +174,13 @@
     },
     mounted(){
     },
+    async created(){
+      await banner().then(data => {
+        this.banner = data;
+      })
+    },
     computed: {},
     methods: {
-
       top(){
         this.$refs.scrollerBottom._xscroll.scrollTop(0);
       },
@@ -199,6 +215,9 @@
   @import "../../style/mixin";
 
   .box_view {
+    @include wh(100%, 100%);
+    display: flex;
+    flex-flow: column;
     .banner {
       position: relative;
       .vux-slider > .vux-indicator > a > .vux-icon-dot, .vux-slider .vux-indicator-right > a > .vux-icon-dot {
@@ -220,10 +239,14 @@
       .box-item {
         @include borderRadius(20px);
         width: 98px;
-        @include sc(11px, rgba(77, 77, 77, 1));
         text-align: center;
-        padding: 8px 0;
         background: rgba(229, 229, 229, 1);
+        a {
+          display: inline-block;
+          padding: 8px 0;
+          text-decoration: none;
+          @include sc(11px, rgba(77, 77, 77, 1));
+        }
         .tab {
           letter-spacing: 6px;
           .iconfont {
