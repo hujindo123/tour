@@ -15,7 +15,7 @@
             <div class="tp_right">
               <div  class="picture"
                    :style="headerImage?'backgroundImage:url('+headerImage+')':'backgroundImage:url('+url+')'"></div>
-              <input type="file" id="change" name="file" accept="image/png,image/gif,image/jpeg" @change="change">
+              <input type="file" id="change" name="file"  capture="camera" accept="image/png,image/gif,image/jpeg" @change="change">
             <!--  <i class="iconfont icon-touxiang" ></i>-->
               <i class="iconfont icon-fanhui-copy"></i>
             </div>
@@ -99,13 +99,14 @@
     mounted () {
       //初始化这个裁剪框
       let image = document.getElementById('image');
+      var self = this;
       this.cropper = new Cropper(image, {
         aspectRatio: 1,
         viewMode: 1,
         background: false,
         zoomable: false,
         ready: function () {
-          this.croppable = true;
+          self.croppable = true;
         }
       });
     },
@@ -140,6 +141,7 @@
         var roundedCanvas;
 
         if (!this.croppable) {
+            debugger;
           return;
         }
         //Crop
@@ -248,10 +250,9 @@
         flex-flow: row;
         .tp_left {
           flex: 0 0 50px;
-          width: 50px;
-          height: 50px;
+          @include wh(50px,50px);
           line-height: 50px;
-          border-radius: 50%;
+          color: #394043;
           overflow: hidden;
           position: relative;
           text-align: left;
@@ -293,9 +294,9 @@
       }
       .bs_other {
         .weui-cell {
-          padding: 0 15px 0 25px;
+          padding-left: 25px!important;
           &.require {
-            padding: 0 15px 0 13px;
+            padding-left: 15px!important;
             label {
               &:before {
                 content: "*";

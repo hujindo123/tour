@@ -7,7 +7,7 @@
         <tab-item @on-item-click="tab">
           参与
         </tab-item>
-        <tab-item @on-item-click="tab">回顾</tab-item>
+      <!--  <tab-item @on-item-click="tab">回顾</tab-item>-->
         <tab-item @on-item-click="tab">收藏</tab-item>
       </tab>
     </sticky>

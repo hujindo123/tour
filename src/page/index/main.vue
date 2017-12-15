@@ -1,7 +1,8 @@
 <template>
   <div class="box_view">
     <scrollTop v-on:scrollTop="top"></scrollTop>
-    <scroller lock-x :scrollbar-y=false :bounce=false @on-scroll-bottom="onScrollBottom" ref="scrollerBottom" :scroll-bottom-offst="100" :height="'-50px'">
+    <scroller lock-x :scrollbar-y=false :bounce=false @on-scroll-bottom="onScrollBottom" ref="scrollerBottom"
+              :scroll-bottom-offst="100" :height="'-50px'">
       <div>
         <swiper ref="swiper" :loop="true" :aspect-ratio="400/750" @on-get-height="showList">
           <swiper-item class="swiper-demo-img" v-for="(item, index) in banner" :key="index">
@@ -23,16 +24,18 @@
           <scroller lock-y :scrollbar-x=false :bounce=false>
             <div class="Img_banner" ref="divs">
               <div class="box-img" v-for="x in test.guanggao">
-                <img :src=x alt="">
+                <router-link to="/details/15">
+                  <img :src=x alt="">
+                </router-link>
               </div>
             </div>
           </scroller>
           <sticky :offset="44">
             <tab :line-width="1" class="tab_message" v-model="index">
               <tab-item selected @on-item-click="tab">最新活动</tab-item>
-              <tab-item @on-item-click="tab">
+            <!--  <tab-item @on-item-click="tab">
                 回顾活动
-              </tab-item>
+              </tab-item>-->
               <tab-item @on-item-click="tab">目的地</tab-item>
               <tab-item @on-item-click="tab">图片新闻</tab-item>
             </tab>
@@ -41,11 +44,11 @@
             <!--最新活动-->
             <list :list="test.list" v-if="index===0"></list>
             <!--回顾活动-->
-            <list :list="test.list" v-if="index===1" :notButton="true"></list>
+            <!--  <list :list="test.list" v-if="index===1" :notButton="true"></list>-->
             <!--目的地-->
-            <list :list="test.list" v-if="index===2" :notButton="true"></list>
+            <list :list="test.list" v-if="index===1" :notButton="true"></list>
             <!--图片新闻-->
-            <list2 v-if="index===3"></list2>
+            <list2 v-if="index===2"></list2>
           </div>
           <load-more tip="loading"></load-more>
         </div>

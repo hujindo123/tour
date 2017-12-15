@@ -9,9 +9,9 @@
            {{name[0]}}
            <i class="iconfont icon-gengduo" id="a"></i></label>
       </span>
-      <span class="iconfont icon-sousuo">
-        <i @click="searchShow =true"></i>
-      </span>
+      <!-- <span class="iconfont icon-sousuo">
+         <i @click="searchShow =true"></i>
+       </span>-->
     </div>
     <div class="choicePlace">
       <span class="city">
@@ -22,29 +22,35 @@
           <x-address style="display:none;" :hide-district=true :title="title" @on-shadow-change="onShadowChange"
                      :list="addressData"
                      :show.sync="showAddress"></x-address>
-        <label for="b">标签 <i class="iconfont icon-gengduo" id="b"></i></label>
+        <label for="b" @click="showLabel">标签 <i class="iconfont icon-gengduo" :class="{'rotate':Label}"
+                                                id="b"></i></label>
+              <div class="checker_popup" v-if="Label">
+                <checker
+                  v-model="popup.data"
+                  type="checkbox"
+                  default-item-class="item"
+                  selected-item-class="item-selected">
+                <checker-item v-for="(item, index) in popup.label" :value="item" :key="index"
+                              @on-item-click.native="onItemClick"> {{item}}
+                </checker-item>
+              </checker>
+            </div>
       </span>
     </div>
-    <div class="hot_search">
-     <span>九寨沟</span>
-     <span>九寨沟</span>
-     <span>上古古镇</span>
-     <span>九寨沟</span>
-   </div>
+    <!--  <div class="hot_search">
+       <span>九寨沟</span>
+       <span>九寨沟</span>
+       <span>上古古镇</span>
+       <span>九寨沟</span>
+     </div>-->
     <scroller lock-x :scrollbar-y=false :bounce=false @on-scroll-bottom="onScrollBottom"
               ref="scrollerBottom"
-              :scroll-bottom-offst="100" :height="'-94px'">
+              :scroll-bottom-offst="100" :height="'-137px'">
       <div>
 
         <div class="main_list">
           <!--最新活动-->
           <list :list="test.list" v-if="index===0"></list>
-          <!--回顾活动-->
-          <list :list="test.list" v-if="index===1" :notButton="true"></list>
-          <!--目的地-->
-          <list :list="test.list" v-if="index===2" :notButton="true"></list>
-          <!--图片新闻-->
-          <list2 v-if="index===3"></list2>
         </div>
         <load-more tip="loading"></load-more>
       </div>
@@ -78,6 +84,8 @@
     TransferDom,
     Popup,
     XAddress,
+    Checker,
+    CheckerItem,
     ChinaAddressV4Data,
     Value2nameFilter as value2name
   } from 'vux';
@@ -98,6 +106,8 @@
       List2,
       city,
       search,
+      Checker,
+      CheckerItem,
       scrollTop,
     },
     data () {
@@ -168,6 +178,12 @@
 
           ]
         },
+        popup: {
+          label: ['交友', '亲子游', '近郊', '长途', '民俗', '娱乐'],
+          showPopup: false,
+          data: ''
+        },
+        Label: false
       }
     },
     methods: {
@@ -178,6 +194,12 @@
       onShadowChange (ids, names) {
         //console.log(ids, names)
         this.name = names || ['成都'];
+      },
+      showLabel(){
+        this.Label = !this.Label;
+      },
+      onItemClick (value, disabled) {
+        this.showPopup = false
       },
       onScrollBottom () {
         if (this.onFetching) {
@@ -215,25 +237,36 @@
       @include fj();
       padding: 0 12px;
       line-height: 44px;
-      overflow: hidden;
       @include fj();
+      position: relative;
       span {
         flex: 1;
         text-align: center;
         &.city {
           text-align: left;
           vertical-align: middle;
+          display: flex;
+          flex-flow: row;
           label {
-            display: inline-block;
             height: 44px;
+            display: flex;
+            flex-flow: row;
+            @include fj();
             .iconfont {
+              transition: all 0.5s;
               font-size: 12px;
               line-height: 38px;
-              margin-left: 5px;
               vertical-align: middle;
               height: 44px;
-              padding-right: 20px;
+              width: 40px;
               display: inline-block;
+              text-align: center;
+            }
+            .rotate {
+              transition: all 0.5s;
+              line-height: 44px;
+              transform-origin: center;
+              transform: rotate(180deg);
             }
           }
 
@@ -248,13 +281,33 @@
           }
         }
       }
+      .checker_popup {
+        position: absolute;
+        z-index: 200;
+        left: 0;
+        background: #fff;
+        padding: 0 10px;
+        top: 44px;
+        .item {
+          @include sc(13px, rgba(76, 76, 76, 1));
+          padding: 2px 15px;
+          line-height: 1.3;
+          border-radius: 3px;
+          border: 1px solid #b1b1b1;
+          margin-top: 10px;
+          display: inline-block;
+          margin-right: 13px;
+        }
+        .item-selected {
+          background: rgba(204, 245, 226, 1);
+          color: $fc;
+          border: 1px solid $fc;
+        }
+      }
     }
     .choicePlace {
       background: #fff;
       @include sc(13px, rgba(77, 77, 77, 1));
-      .icon-gengduo {
-        padding-right: 10px;
-      }
       i {
         font-style: normal;
       }

@@ -20,13 +20,13 @@
                       v-model="team.Num"></popup-picker>
       </group>
       <group>
-        <popup-picker popup-title="费用分摊方式" title="费用分摊方式" :data="methods.List" v-model="methods.data"></popup-picker>
+        <popup-picker popup-title="费用分摊方式" title="费用分摊方式"   :data="methods.List" v-model="methods.data"></popup-picker>
       </group>
       <group>
-        <x-address popup-title="有无车" title="有无车" :list="Car.List"></x-address>
+        <x-address  popup-title="有无车" title="有无车" :list="Car.List"></x-address>
       </group>
       <group>
-        <cell title="标签" :value="popup.data" is-link @click.native="popup.showPopup=true"></cell>
+        <cell title="标签" :value="popup.data" class="label" is-link @click.native="popup.showPopup=true"></cell>
       </group>
       <div v-transfer-dom>
         <popup v-model="popup.showPopup" class="checker_popup">
@@ -35,7 +35,8 @@
             type="checkbox"
             default-item-class="item"
             selected-item-class="item-selected">
-            <checker-item v-for="(item, index) in popup.label" :value="item" :key="index" @on-item-click="onItemClick"> {{item}}
+            <checker-item v-for="(item, index) in popup.label" :value="item" :key="index" @on-item-click="onItemClick">
+              {{item}}
             </checker-item>
           </checker>
         </popup>
@@ -279,10 +280,16 @@
       .weui-cell_access .weui-cell__ft:after {
         border-width: 1px 1px 0 0
       }
+      .label {
+        .vux-cell-bd > p > .vux-label {
+          min-width: 35px;
+        }
+      }
     }
   }
-  .checker_popup{
-    padding:10px 10px 40px 10px;
+
+  .checker_popup {
+    padding: 10px 10px 40px 10px;
     .item {
       @include sc(13px, rgba(76, 76, 76, 1));
       padding: 2px 15px;
@@ -293,7 +300,7 @@
       margin-right: 13px;
     }
     .item-selected {
-      background:rgba(204,245,226,1);
+      background: rgba(204, 245, 226, 1);
       color: $fc;
       border: 1px solid $fc;
     }

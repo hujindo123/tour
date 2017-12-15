@@ -1,107 +1,71 @@
 <template>
-  <div id="app">
-
-
-    <scroller style="top: 44px"
-              :on-refresh="refresh"
-              :on-infinite="infinite">
-      <h1>1</h1>
-      <h2>2</h2>
-      <h3>3</h3>
-      <h4>5</h4>
-      <sticky :offset="100">
-        <div class="stickyed">sticky</div>
-      </sticky>
-      <div v-for="(item, index) in items" class="row" :class="{'grey-bg': index % 2 == 0}">
-        {{ item }}
-      </div>
-    </scroller>
-  </div>
+    <span :endTime="endTime" :callback="callback" :endText="endText">
+        <slot>
+            {{content}}
+        </slot>
+    </span>
 </template>
-<style>
-  html, body {
-    margin: 0;
-  }
-
-  * {
-    box-sizing: border-box;
-  }
-
-  .row {
-    width: 100%;
-    height: 50px;
-    padding: 10px 0;
-    font-size: 16px;
-    line-height: 30px;
-    text-align: center;
-    color: #444;
-    background-color: #fff;
-  }
-
-  .grey-bg {
-    background-color: #eee;
-  }
-
-  .header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 44px;
-    width: 100%;
-    box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.1);
-    background-color: #fff;
-    z-index: 1000;
-    color: #666;
-  }
-
-  .header > .title {
-    font-size: 16px;
-    line-height: 44px;
-    text-align: center;
-    margin: 0 auto;
-  }
-</style>
 <script>
-  import Vue from 'vue'
-  import VueScroller from 'vue-scroller'
-  import {Sticky} from 'vux';
-  Vue.use(VueScroller)
   export default {
-    data() {
+    data(){
       return {
-        items: []
+        content: '',
       }
     },
-    components: {
-      Sticky
-    },
-    mounted() {
-      for (var i = 1; i <= 20; i++) {
-        this.items.push(i + ' - keep walking, be 2 with you.')
+    props:{
+      endTime:{
+        type: String,
+        default :''
+      },
+      endText:{
+        type : String,
+        default:'已结束'
+      },
+      callback : {
+        type : Function,
+        default :''
       }
-      this.top = 1
-      this.bottom = 20
+    },
+    mounted () {
+      this.countdowm(this.endTime)
     },
     methods: {
-      refresh (done) {
-        setTimeout(() => {
-          var start = this.top - 1
-          for (var i = start; i > start - 10; i--) {
-            this.items.splice(0, 0, i + ' - keep walking, be 2 with you.')
+      countdowm(timestamp){
+        let self = this;
+        let timer = setInterval(function(){
+          let nowTime = new Date();
+          let endTime = new Date(timestamp * 1000);
+          let t = endTime.getTime() - nowTime.getTime();
+          if(t>0){
+            let day = Math.floor(t/86400000);
+            let hour=Math.floor((t/3600000)%24);
+            let min=Math.floor((t/60000)%60);
+            let sec=Math.floor((t/1000)%60);
+            hour = hour < 10 ? "0" + hour : hour;
+            min = min < 10 ? "0" + min : min;
+            sec = sec < 10 ? "0" + sec : sec;
+            let format = '';
+            if(day > 0){
+              format =  `${day}天${hour}小时${min}分${sec}秒`;
+            }
+            if(day <= 0 && hour > 0 ){
+              format = `${hour}小时${min}分${sec}秒`;
+            }
+            if(day <= 0 && hour <= 0){
+              format =`${min}分${sec}秒`;
+            }
+            self.content = format;
+          }else{
+            clearInterval(timer);
+            self.content = self.endText;
+            self._callback();
           }
-          this.top = this.top - 10
-          done()
-        }, 1500)
+        },1000);
       },
-      infinite (done) {
-        setTimeout(() => {
-          var start = this.bottom + 1
-          for (var i = start; i < start + 10; i++) {
-            this.items.push(i + ' - keep walking, be 2 with you.')
-          }
-          this.bottom = this.bottom + 10
-          done()
-        }, 1500)
+      _callback(){
+        if(this.callback && this.callback instanceof Function){
+          this.callback(...this);
+        }
       }
     }
   }

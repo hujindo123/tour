@@ -9,7 +9,7 @@
            <i class="iconfont icon-gengduo"></i></label>
       </span>
       <span></span>
-      <router-link to="/search" class="iconfont icon-sousuo"></router-link>
+     <!-- <router-link to="/search" class="iconfont icon-sousuo"></router-link>-->
     </div>
     <sticky :check-sticky-support="false" :offset="0">
       <tab :line-width="1" class="tab_message" v-model="index">
@@ -38,7 +38,7 @@
           <!--最新活动-->
           <list :list="test.list" v-if="index===0"></list>
           <!--回顾活动-->
-          <list :list="test.list" v-if="index===1" :notButton="true"></list>
+         <!-- <list :list="test.list" v-if="index===1" :notButton="true"></list>-->
         </div>
         <load-more tip="loading"></load-more>
       </div>

@@ -18,9 +18,9 @@
         <div class="tp_right">
           <span class="name">鲁迅居然姓周</span>
           <span class="level">L V 1</span>
-          <div class="num">
+        <!--  <div class="num">
             <span @click.stop="goPath('/follow')">关注 21</span> 丨 <span @click.stop="goPath('/fans')">粉丝 16</span>
-          </div>
+          </div>-->
         </div>
         <i class="iconfont icon-fanhui-copy"></i>
       </div>
@@ -28,7 +28,7 @@
         <group>
           <cell :title="'我的活动'" is-link :link="{path:'/myAction'}"></cell>
         </group>
-        <group>
+       <!-- <group>
           <cell :title="'我的评论'" is-link :link="{path:'/myComment'}"></cell>
         </group>
         <group>
@@ -36,7 +36,7 @@
         </group>
         <group>
           <cell :title="'会员福利'" is-link :link="{path:'/demo'}"></cell>
-        </group>
+        </group>-->
       </div>
 
     </div>
@@ -157,9 +157,6 @@
 
       }
       .bs_other {
-        .weui-cell {
-          padding: 0 15px 0 25px;
-        }
         .weui-cells {
           margin-top: 0;
           @include sc(15px, rgba(57, 64, 67, 1));

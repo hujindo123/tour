@@ -1,35 +1,37 @@
 <template>
   <div>
     <div class="list_tab" v-if="list" v-for="x in list">
-      <div class="title">{{x.title}}</div>
-      <div class="tab_center">
-        <div class="tab_center_left">
-          <img :src=x.img alt="">
+      <router-link to="/details/15">
+        <div class="title">{{x.title}}</div>
+        <div class="tab_center">
+          <div class="tab_center_left">
+            <img :src=x.img alt="">
+          </div>
+          <div class="tab_center_right">
+            <div class="label">
+              <i class="iconfont icon-biaoqian1"></i>
+              <span v-for="item in x.label">{{item}}</span>
+            </div>
+            <div class="desc" :class="{nobuttton:notButton}">
+              {{x.intru}}
+            </div>
+            <div class="singup" :class="{isHide:notButton}">
+              <div class="time">报名截止：{{x.singup}}</div>
+              <div class="btn" >我要报名</div>
+            </div>
+          </div>
         </div>
-        <div class="tab_center_right">
-          <div class="label">
-            <i class="iconfont icon-biaoqian1"></i>
-            <span v-for="item in x.label">{{item}}</span>
-          </div>
-          <div class="desc" :class="{nobuttton:notButton}">
-            {{x.intru}}
-          </div>
-          <div class="singup" :class="{isHide:notButton}">
-            <div class="time">报名截止：{{x.singup}}</div>
-            <router-link to="/details" class="btn" >我要报名</router-link>
-          </div>
-        </div>
-      </div>
-      <div class="tab_bottom">
+        <div class="tab_bottom">
       <span>
        <img :src=x.url alt="">
       </span>
-        <span class="name">{{x.name}}</span>
-        <span class="userid">{{x.id}}</span>
-        <span class="time">{{x.time}}</span>
-        <span><i class="iconfont icon-liulan"></i>{{x.see}}</span>
-        <span><i class="iconfont icon-pinglun"></i>{{x.say}}</span>
-      </div>
+          <span class="name">{{x.name}}</span>
+          <span class="userid">{{x.id}}</span>
+          <span class="time">{{x.time}}</span>
+      <!--    <span><i class="iconfont icon-liulan"></i>{{x.see}}</span>
+          <span><i class="iconfont icon-pinglun"></i>{{x.say}}</span>-->
+        </div>
+      </router-link>
     </div>
   </div>
 </template>

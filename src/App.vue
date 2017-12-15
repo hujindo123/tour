@@ -23,7 +23,7 @@
   @import '~vux/src/styles/1px.less';
 </style>
 <style lang="scss">
-  //@import "./style/reset.scss";
+  @import "./style/reset.scss";
   .router-link-exact-active {
     i,span{
       color: #159C5E!important;

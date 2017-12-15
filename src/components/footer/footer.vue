@@ -20,29 +20,6 @@
       <i class="iconfont icon-wode"></i>
       <span>我的</span>
     </router-link>
-    <!-- <tabbar class="vux-center">
-       <tabbar-item selected :link="{path: '/main', replace: true}">
-         <span slot="icon" class="iconfont icon-shouye"></span>
-         <span slot="label">首页</span>
-       </tabbar-item>
-       <tabbar-item :link="{path: '/action/0n', replace: true}">
-         <span slot="icon" class="iconfont icon-reqiqiu"></span>
-         <span slot="label">活动</span>
-       </tabbar-item>
-       <tabbar-item @on-item-click="show=true">
-         <span slot="icon" class="iconfont  icon-jiahao"></span>
-         <span slot="label">发起</span>
-       </tabbar-item>
-
-       <tabbar-item link="/place">
-         <span slot="icon" class="iconfont icon-mudedi"></span>
-         <span slot="label">目的地</span>
-       </tabbar-item>
-       <tabbar-item link="/user">
-         <span slot="icon" class="iconfont icon-wode"></span>
-         <span slot="label">我的</span>
-       </tabbar-item>
-     </tabbar>-->
     <actionsheet v-model="show" :menus="menus" @on-click-menu="click"></actionsheet>
   </div>
 </template>
@@ -53,7 +30,7 @@
     data () {
       return {
         show: false,
-        menus: ['发起活动', '发起回顾', '取消']
+        menus: ['发起活动',  '取消']
       }
     },
     components: {

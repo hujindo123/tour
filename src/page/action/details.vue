@@ -4,32 +4,40 @@
       <div slot="header" class="details_top">
       <span class="iconfont icon-fanhui" @click="$router.go(-1)">
       </span>
-        <div class="share">
-          <span class="iconfont icon-share"></span>
-          <span class="iconfont icon-tubiaozhizuomoban" @click="messagesShow=true"></span>
-          <div v-if="messagesShow" class="message">
-            <div class="arrow"></div>
-            <div class="content">
-              <router-link to="/message" class="tab vux-1px-b"><i class="iconfont icon-xiaoxi1"></i>消息</router-link>
-              <router-link to="/message" class="tab vux-1px-b"><i class="iconfont icon-feiji"></i>私信TA</router-link>
-              <router-link to="/message" class="tab vux-1px-b"><i class="iconfont icon-shouye"></i>首页</router-link>
-            </div>
-          </div>
-        </div>
+        <!--   <div class="share">
+             <span class="iconfont icon-share"></span>
+             <span class="iconfont icon-tubiaozhizuomoban" @click="messagesShow=true"></span>
+             <div v-if="messagesShow" class="message">
+               <div class="arrow"></div>
+               <div class="content">
+                 <router-link to="/message" class="tab vux-1px-b"><i class="iconfont icon-xiaoxi1"></i>消息</router-link>
+                 <router-link to="/message" class="tab vux-1px-b"><i class="iconfont icon-feiji"></i>私信TA</router-link>
+                 <router-link to="/message" class="tab vux-1px-b"><i class="iconfont icon-shouye"></i>首页</router-link>
+               </div>
+             </div>
+           </div>-->
       </div>
       <div>
         <div class="banner">
           <img src="http://pic.58pic.com/58pic/16/73/00/25x58PICySY_1024.jpg" alt="">
-          <div class="txt">10 天 13 小时 27 分钟 36 秒 后报名结束</div>
+          <div class="txt">
+            <!--    <Countdown endTime="1513353600" :callback="callback" endText="已经结束了"></Countdown>-->
+            <!--10 天 13 小时 27 分钟 36 秒 后报名结束-->
+            <span v-if="timeShow"><clocker :time="time1" slots="123" @on-finish="finish"></clocker> 后报名结束</span> <span v-if="!timeShow">已经结束</span>
+          </div>
+
+
         </div>
         <div class="main">
           <div class="title">{{details.title}}</div>
           <div class="main_wrapper">
             <div class="top">
-              <div class="header">
-                <img src="http://pic.58pic.com/58pic/16/73/00/25x58PICySY_1024.jpg"/>
-                <i class="iconfont" :class="{'icon-ttpodicon': !details.user.sex, 'icon-nv': details.user.sex}"></i>
-              </div>
+              <router-link to="/friend">
+                <div class="header">
+                  <img src="http://pic.58pic.com/58pic/16/73/00/25x58PICySY_1024.jpg"/>
+                  <i class="iconfont" :class="{'icon-ttpodicon': !details.user.sex, 'icon-nv': details.user.sex}"></i>
+                </div>
+              </router-link>
               <div class="msg">
                 <div>
                   <span class="name">Catherine1226 <span class="lv">LV{{details.user.level}}</span></span>
@@ -39,9 +47,21 @@
                   <span><i class="iconfont icon-liulan"></i> {{details.user.see}}</span>
                   <span><i class="iconfont icon-pinglun"></i> {{details.user.msg}}</span>
                 </div>
-              </div>
-              <div class="button">
-                <x-button text="修改报名" class="txt" type="primary"></x-button>
+                <div class="button">
+                  <x-button text="修改报名" class="txt" type="primary"></x-button>
+                  <div style="margin-top: 1px">
+                    <x-button text="取消报名" class="txt" type="primary"></x-button>
+                  </div>
+                </div>
+                <!--
+                 <div class="button">
+                  <x-button text="编辑活动" class="txt" type="primary"></x-button>
+                  <div style="margin-top: 1px">
+                    <x-button text="取消报名" class="txt" type="primary"></x-button>
+                    <x-button text="截止报名" class="txt update" type="primary"></x-button>
+                  </div>
+                </div>
+                -->
               </div>
             </div>
             <div class="label">
@@ -92,19 +112,21 @@
           </scroller>
         </div>
       </div>
-      <div class="love_say">
+      <!-- 评论 -->
+      <!--<div class="love_say">
         <i class="iconfont icon-aixin"></i>
         <i class="iconfont icon-xiaoxi" @click="goPath('/comment')">
           <badge :text="details.comment.num" class="badge"></badge>
         </i>
-      </div>
+      </div>-->
     </view-box>
   </div>
 </template>
 
 <script>
 
-  import {Badge, Tab, TabItem, Scroller, Popover, ViewBox, Group, CellBox, Cell, XButton, Divider} from 'vux';
+  import {Badge, Tab, TabItem, Scroller, Popover, Clocker, ViewBox, Group, CellBox, Cell, XButton, Divider} from 'vux';
+  import Countdown from 'src/components/HelloFromVux';
   import {details} from 'src/service/getDate'
   export default {
     components: {
@@ -115,7 +137,8 @@
       ViewBox,
       Cell,
       XButton, Divider,
-      Tab, TabItem, Scroller
+      Clocker,
+      Tab, TabItem, Scroller, Countdown
 
     },
     data () {
@@ -123,12 +146,14 @@
         index: 0,
         details: '',
         messagesShow: false,
+        time1: '2018-07-13 21:54',
+        timeShow: true,
       }
     },
- /*   mounted(){
-      this.$refs.divs.style.width = (52 + 4) * this.$refs.divs.children.length > window.innerWidth ? (52 + 4) * this.$refs.divs.children.length + 'px' : '100%';
-      this.$refs.div.style.width = (52 + 4) * this.$refs.div.children.length > window.innerWidth ? (52 + 4) * this.$refs.div.children.length + 'px' : '100%';
-    },*/
+    /*   mounted(){
+     this.$refs.divs.style.width = (52 + 4) * this.$refs.divs.children.length > window.innerWidth ? (52 + 4) * this.$refs.divs.children.length + 'px' : '100%';
+     this.$refs.div.style.width = (52 + 4) * this.$refs.div.children.length > window.innerWidth ? (52 + 4) * this.$refs.div.children.length + 'px' : '100%';
+     },*/
     async created(){
       await details().then(data => {
         this.details = data[0];
@@ -140,6 +165,12 @@
       },
       goPath(url){
         this.$router.push(url)
+      },
+      callback(v){
+        console.log(v);
+      },
+      finish(){
+        this.timeShow = false
       }
     }
   }
@@ -251,6 +282,7 @@
           width: 100%;
           display: flex;
           flex-flow: row;
+          position: relative;
           .header {
             position: relative;
             flex: 0 0 60px;
@@ -309,18 +341,21 @@
                 vertical-align: middle;
               }
             }
-
-          }
-          .button {
-            flex: 0 0 72px;
-            @include fj();
-            justify-content: flex-end;
-            .txt {
-              line-height: 1;
-              @include borderRadius(0);
-              padding: 8px 12px;
-              text-align: center;
-              @include sc(12px, #fff);
+            .button {
+              position: absolute;
+              width: 72px;
+              right: 5px;
+              top: 10px;
+              .txt {
+                line-height: 1;
+                @include borderRadius(0);
+                padding: 8px;
+                text-align: center;
+                @include sc(12px, #fff);
+                &.update {
+                  margin-top: 1px;
+                }
+              }
             }
           }
         }

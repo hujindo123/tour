@@ -6,22 +6,22 @@
       <div class="zhut">
         <p class="center"><img :src="URL"><i class="iconfont icon-ttpodicon"></i></p>
         <div class="comment_name"><label>精卫填的海</label> <span>LV7</span></div>
-        <div class="comment_time">关注 21丨 粉丝 16</div>
+      <!--  <div class="comment_time">关注 21丨 粉丝 16</div>-->
         <div class="intr">个人简介为某人的简要介绍。个人简介可以是表格 的形式，也可以是其他形式。一般用于初次见面时 个人介绍中或者个人履历表中等。</div>
-        <div class="btn_21">
+        <!--<div class="btn_21">
           <button class="btn1">联系TA</button>
           <button class="btn2">关 注</button>
-        </div>
+        </div>-->
       </div>
     </div>
     <div class="friends_wrapper">
       <sticky :offset="44">
         <tab :line-width="1" class="tab_message" v-model="index">
           <tab-item selected @on-item-click="tab">活动</tab-item>
-          <tab-item @on-item-click="tab">
+   <!--       <tab-item @on-item-click="tab">
             评论
           </tab-item>
-          <tab-item @on-item-click="tab">个人相册</tab-item>
+          <tab-item @on-item-click="tab">个人相册</tab-item>-->
           <tab-item @on-item-click="tab">基本信息</tab-item>
         </tab>
         <checker v-if="index == 0" v-model="checkNum" default-item-class="list_item"
@@ -32,9 +32,9 @@
           <checker-item :value="2">
             参与
           </checker-item>
-          <checker-item :value="3">
+        <!--  <checker-item :value="3">
             回顾
-          </checker-item>
+          </checker-item>-->
           <checker-item :value="4">
             收藏
           </checker-item>
@@ -57,8 +57,8 @@
           </div>
         </div>
       </div>
-      <div v-if="index == 2"></div>
-      <div v-if="index == 3" class="bs_other">
+     <!-- <div v-if="index == 2"></div>-->
+      <div v-if="index == 1" class="bs_other">
         <group>
           <cell title="昵称" :value="'鲁迅居然姓周'">
             <i slot="icon" width="20" class="iconfont icon-touxiang-copy"></i>
@@ -212,11 +212,11 @@
         @include wh(100%, 100%);
         z-index: 100;
         background: rgba(0, 0, 0, 0.3);
+        padding-top: 16px;
         position: relative;
         .center {
           @include wh(50px, 50px);
           text-align: center;
-          padding-top: 16px;
           color: #fff;
           font-size: 18px;
           position: relative;
@@ -229,13 +229,13 @@
           .iconfont {
             @include wh(14px, 14px);
             position: absolute;
-            right: -10px;
+            right: -4px;
             bottom: 3px;
             text-align: center;
             line-height: 14px;
             padding: 2px;
             color: #fff;
-            font-size: 11px;
+            font-size: 10px;
             @include borderRadius(50%);
             &.icon-ttpodicon {
               background: #63ACF4;
@@ -247,7 +247,7 @@
         }
         .comment_name {
           text-align: center;
-          margin-top: 7px;
+          margin-top: 10px;
           @include sc(18px, rgb(255, 255, 255));
           label {
             margin-left: 28px;
@@ -279,7 +279,7 @@
           width: 100%;
           display: flex;
           flex-flow: row;
-          margin-top: 12px;
+          margin-top: 10px;
           @include fj(space-around);
           box-sizing: border-box;
           .btn1 {
@@ -335,8 +335,8 @@
         }
       }
       .bs_other {
+        color: rgba(77,77,77,1);
         .weui-cell {
-          padding: 0 10px;
           .weui-cell__ft{
             color: rgba(77,77,77,1);
           }
