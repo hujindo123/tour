@@ -152,7 +152,7 @@
       /* 设置scroll长度 设置每个初始长度为60px scroll长度= 初始长度* 子元素个数*长度*/
       this.$refs.div.style.width = 62 * this.$refs.div.children[0].children.length > window.innerWidth ? 62
         * this.$refs.div.children[0].children.length + 'px' : '100%';
-      this.label.value = this.label.item[this.$route.params.id];
+      this.label.value = this.$route.params.typeName;
     },
     methods: {
       /*切换导航*/

@@ -4,8 +4,8 @@
     <scroller lock-x :scrollbar-y=false :bounce=false @on-scroll-bottom="onScrollBottom" ref="scrollerBottom"
               :scroll-bottom-offst="100" :height="'-50px'">
       <div>
-        <swiper ref="swiper" :loop="true" :aspect-ratio="400/750" @on-get-height="showList">
-          <swiper-item class="swiper-demo-img" v-for="(item, index) in banner" :key="index">
+        <swiper ref="swiper" :loop="true" :auto="true" :aspect-ratio="400/750" @on-get-height="showList">
+          <swiper-item class="swiper-demo-img"  v-for="(item, index) in banner" :key="index">
             <router-link :to="{path: '/details/'+item.id}">
               <img :src="item.img" style="width: 100%">
             </router-link>
@@ -15,13 +15,13 @@
           <scroller lock-y :scrollbar-x=true :bounce=false>
             <div class="box" ref="div">
               <div class="box-item" v-for="(item, index) in label">
-                <router-link :to="{path: '/action/'+index}">
+                <router-link :to="{path: '/action/'+item.name}">
                   <div class="tab"><i class="iconfont" :class="item.icon"></i>{{item.name}}</div>
                 </router-link>
               </div>
             </div>
           </scroller>
-          <scroller lock-y :scrollbar-x=false :bounce=false>
+          <scroller lock-y :scrollbar-x=true :bounce=false>
             <div class="Img_banner" ref="divs">
               <div class="box-img" v-for="x in test.guanggao">
                 <router-link to="/details/15">
@@ -33,9 +33,9 @@
           <sticky :offset="44">
             <tab :line-width="1" class="tab_message" v-model="index">
               <tab-item selected @on-item-click="tab">最新活动</tab-item>
-            <!--  <tab-item @on-item-click="tab">
-                回顾活动
-              </tab-item>-->
+              <!--  <tab-item @on-item-click="tab">
+                  回顾活动
+                </tab-item>-->
               <tab-item @on-item-click="tab">目的地</tab-item>
               <tab-item @on-item-click="tab">图片新闻</tab-item>
             </tab>
@@ -121,7 +121,7 @@
             {
               title: "成都的“香格里拉”，周边三日游的绝佳去处到泸沽湖",
               img: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1512116865699&di=da0eea64a26c83bf65a83d9d40409676&imgtype=0&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F0104cd5598bec26ac7253264c9598d.png',
-              label: ['自驾', '大明湖', '情侣'],
+              label: ['交友', '长途', '娱乐'],
               intru: '成都的“香格里拉”，周边三日游的绝佳去处到泸沽湖,成都的“香格里拉”，周边三日游的绝佳去处到泸沽湖,成都的“香格里拉”，周边三日游的绝佳去处到泸沽湖,5月1日 从成都出发，到泸沽湖、香格里径西昌行程总计大概6天来回、要求带车性别不限人数4人，绝佳去处、美丽山河约一起准备出发吧。',
               singup: '14月28日',
               url: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1512116865914&di=dd4ecf4506ba07fb4f9cc7ed537dcce5&imgtype=0&src=http%3A%2F%2Fwww.qqzhuangban.com%2Fuploadfile%2F2014%2F07%2F1%2F20140731061147783.jpg',
@@ -129,12 +129,13 @@
               id: '11144',
               time: '04-18 11:02',
               see: 5673,
-              say: 5267
+              say: 5267,
+              status: 0
             },
             {
               title: "成都的“香格里拉”，周边三日游的绝佳去处到泸沽湖",
               img: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1512116865914&di=dd4ecf4506ba07fb4f9cc7ed537dcce5&imgtype=0&src=http%3A%2F%2Fwww.qqzhuangban.com%2Fuploadfile%2F2014%2F07%2F1%2F20140731061147783.jpg',
-              label: ['自驾', '大明湖', '情侣'],
+              label: ['交友', '长途', '娱乐'],
               intru: '5月1日 从成都出发，到泸沽湖、香格里径西昌行程总计大概6天来回、要求带车性别不限人数4人，绝佳去处、美丽山河约一起准备出发吧。',
               singup: '14月28日',
               url: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1512116865914&di=dd4ecf4506ba07fb4f9cc7ed537dcce5&imgtype=0&src=http%3A%2F%2Fwww.qqzhuangban.com%2Fuploadfile%2F2014%2F07%2F1%2F20140731061147783.jpg',
@@ -142,12 +143,13 @@
               id: '11144',
               time: '04-18 11:02',
               see: 5673,
-              say: 5267
+              say: 5267,
+              status: 1
             },
             {
               title: "成都的“香格里拉”，周边三日游的绝佳去处到泸沽湖",
               img: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1512116865901&di=a2fb4a7a620afb4bf36f088f6f94bd99&imgtype=0&src=http%3A%2F%2Fdl.bbs.9game.cn%2Fattachments%2Fforum%2F201603%2F16%2F231420io1ozrprnp6iik6r.jpg',
-              label: ['自驾', '大明湖', '情侣'],
+              label: ['交友', '长途', '娱乐'],
               intru: '5月1日 从成都出发，到泸沽湖、香格里径西昌行程总计大概6天来回、要求带车性别不限人数4人，绝佳去处、美丽山河约一起准备出发吧。',
               singup: '14月28日',
               url: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1512116865901&di=a2fb4a7a620afb4bf36f088f6f94bd99&imgtype=0&src=http%3A%2F%2Fdl.bbs.9game.cn%2Fattachments%2Fforum%2F201603%2F16%2F231420io1ozrprnp6iik6r.jpg',
@@ -155,12 +157,13 @@
               id: '11144',
               time: '04-18 11:02',
               see: 5673,
-              say: 5267
+              say: 5267,
+              status: 1
             },
             {
               title: "成都的“香格里拉”，周边三日游的绝佳去处到泸沽湖",
               img: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1512116865895&di=1aeccc96546e81af4420278f460b7ace&imgtype=0&src=http%3A%2F%2Fwww.qqzhuangban.com%2Fuploadfile%2F2014%2F07%2F1%2F20140726053359626.jpg',
-              label: ['自驾', '大明湖', '情侣'],
+              label: ['交友', '长途', '娱乐'],
               intru: '5月1日 从成都出发，到泸沽湖、香格里径西昌行程总计大概6天来回、要求带车性别不限人数4人，绝佳去处、美丽山河约一起准备出发吧。',
               singup: '14月28日',
               url: 'https://static.vux.li/demo/1.jpg',
@@ -168,7 +171,8 @@
               id: '11144',
               time: '04-18 11:02',
               see: 5673,
-              say: 5267
+              say: 5267,
+              status: 0
             }
 
           ]

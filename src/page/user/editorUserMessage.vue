@@ -35,7 +35,9 @@
               <datetime
                 v-model="birthday"
                 :title="'生日'"
-                @on-cancel="log('cancel')"
+                @on-change="log"
+                :start-date="startDate"
+                :end-date="endDate"
                 class="require"></datetime>
               <!--
                           <cell :title="'生日'" is-link :link="{path:'/demo'}" :value="'1995-12-26'" class="require"></cell>
@@ -55,13 +57,13 @@
               <cell :title="'驾驶证'" is-link :link="{path:'/demo'}" :value="'上传'"></cell>
             </group>
             <group>
-              <cell :title="'个人简介'" is-link :link="{path:'/introduce'}" :value="'设置'" class="require"></cell>
+              <cell :title="'个人简介'" value-align="right" is-link :link="{path:'/introduce'}" :value="'设置'" class="jj require"></cell>
             </group>
           </div>
         </div>
       </scroller>
       <update v-if="inputShow" :keys="keys" :value="value" v-on:hide="hide"></update>
-      <vRadio v-if="radioShow" :keys="keys" :value="value" :link="link" v-on:hide="hide"></vRadio>
+      <vRadio v-if="radioShow" :keys="keys" :value="value"  v-on:hide="hide"></vRadio>
     </div>
   </div>
 </template>
@@ -88,6 +90,8 @@
       return {
         panel: false,
         birthday: '2015-11-12',
+        startDate: '2015-11-11',
+        endDate: '2017-10-11',
         url: '../../static/img/tx.png',
         headerImage: '',
         inputShow: false,
@@ -202,9 +206,9 @@
         this.radioShow = false;
         this.inputShow = false;
       },
-     /* change (val, label) {
-        console.log('change', val, label)
-      }*/
+      log (val) {
+        console.log('plugin confirm', val)
+      },
     }
   }
 </script>
@@ -308,6 +312,12 @@
               }
             }
           }
+          &.jj{
+            label {
+              width: 100px;
+            }
+          }
+
           &.vux-datetime {
             div p {
               @include sc(15px, rgba(57, 64, 67, 1));

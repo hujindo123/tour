@@ -16,7 +16,7 @@ router.afterEach(function (to) {
   store.commit('updateLoadingStatus', {isLoading: false})
 });
 
-FastClick.attach(document.body)
+/*FastClick.attach(document.body)*/
 
 Vue.config.productionTip = false
 

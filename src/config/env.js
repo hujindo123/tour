@@ -2,7 +2,7 @@
  * Created by Administrator on 2017/11/21.
  */
 let mode = 'history';// 模式
-let baseUrl = 'http://172.16.0.61:3000'; //接口地址
+let baseUrl = 'http://172.16.0.71:3000'; //接口地址
 if (process.env.NODE_ENV == 'development') {
 
 }else if(process.env.NODE_ENV == 'production'){

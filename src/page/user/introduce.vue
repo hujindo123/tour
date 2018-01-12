@@ -3,11 +3,11 @@
     <div class="user_top">
       <span class="iconfont icon-fanhui" @click="$router.go(-1)"></span>
       <span class="register_singin">修改电话</span>
-      <span class="iconfont icon-wechaticon27"></span>
+      <span class="iconfont icon-wechaticon27" :class="{'right': right}"></span>
     </div>
     <div class="editor_phone">
       <group class="txt">
-        <x-textarea :max="300" autosize :placeholder="'自我介绍下吧'"></x-textarea>
+        <x-textarea :max="300" v-model="value" @on-change="change" autosize :placeholder="'自我介绍下吧'"></x-textarea>
       </group>
     </div>
   </div>
@@ -17,15 +17,21 @@
   import {Group, XTextarea} from 'vux';
   export default {
     data () {
-      return {}
+      return {
+        value: '',
+        right: 0
+      }
     },
     components: {
       Group,
       XTextarea
     },
     methods: {
-      change (value, label) {
-        console.log('change:', value, label)
+      change () {
+        if (this.value.length > 10) {
+          console.log(1);
+          this.right = true;
+        }
       }
     }
   }
@@ -47,7 +53,7 @@
       @include wh(100%, 44px);
       box-sizing: border-box;
       flex-flow: row;
-      @include sc(14px, #fff);
+      @include sc(14px, rgba(255, 255, 255, 1));
       @include fj();
       line-height: 44px;
       overflow: hidden;
@@ -58,7 +64,10 @@
         @include sc(22px, #fff);
       }
       .icon-wechaticon27 {
-        font-size: 24px;
+        @include sc(24px, rgba(255, 255, 255, 0.5));
+      }
+      .right {
+        @include sc(22px, rgba(255, 255, 255, 1));
       }
       .register_singin {
         flex: 1;
@@ -74,7 +83,7 @@
       .txt {
         .weui-cells {
           margin-top: 0;
-          @include sc(14px, rgba(76,76,76,1))
+          @include sc(14px, rgba(76, 76, 76, 1))
         }
       }
 

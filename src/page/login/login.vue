@@ -1,13 +1,13 @@
 <template>
   <div class="login">
-    <vHeader :type="true"></vHeader>
+    <vHeader :type="true" :title="'登录'"></vHeader>
     <tab :line-width="1" :custom-bar-width="getBarWidth" v-model="index">
       <tab-item selected @on-item-click="accountShow">账号登录</tab-item>
       <tab-item @on-item-click="accountShow">手机验证码登录</tab-item>
     </tab>
     <div class="account_div">
-      <swiper v-model="index" height="100px" :show-dots="false">
-        <swiper-item >
+      <swiper v-model="index" height="120px" :show-dots="false">
+        <swiper-item>
           <div class="account_m">
             <group class="account input">
               <x-input placeholder="请输入手机号码" v-model="login.phone"></x-input>
@@ -17,26 +17,27 @@
             </group>
           </div>
         </swiper-item>
-        <swiper-item >
+        <swiper-item>
           <div class="phone_m">
             <group class="account input">
               <x-input placeholder="请输入手机号码" v-model="login.phone"></x-input>
             </group>
             <group class="account input">
               <x-input placeholder="请输入验证码" v-model="login.code">
-                <span slot="right" class="time" :class="{'hasSend': hasSend}">{{login.desc}}</span>
+                <span slot="right" class="time" @click="send" :class="{'hasSend': hasSend}">{{login.desc}}</span>
               </x-input>
             </group>
           </div>
         </swiper-item>
       </swiper>
       <x-button type="primary" class="login_btn">登录</x-button>
-      <divider>第三方账号登录</divider>
+      <router-link to="/register" class="tba_ss">注册</router-link>
+     <!-- <divider>第三方账号登录</divider>
       <div class="third">
         <i class="iconfont icon-weixin"></i>
         <i class="iconfont icon-tengxun"></i>
         <i class="iconfont icon-iconfonticonfontweibo"></i>
-      </div>
+      </div>-->
     </div>
   </div>
 </template>
@@ -69,11 +70,29 @@
           phone: '',
           password: '',
           code: '',
+          time: 60,
           desc: '发送验证码'
         }
       }
     },
     methods: {
+      send(){
+        if (this.hasSend) {
+          return
+        } else {
+          this.login.desc = `(${this.login.time})秒后重新发送`;
+          setInterval(() => {
+            this.login.time--;
+            this.login.desc = `(${this.login.time})秒后重新发送`;
+            if (this.login.time <= 0) {
+              this.login.desc = '发送验证码';
+              this.hasSend = false;
+              clearInterval();
+            }
+          }, 1000)
+        }
+        this.hasSend = true;
+      },
       accountShow(i){
         this.index = i;
       }
@@ -86,6 +105,8 @@
   .login {
     display: flex;
     flex-flow: column;
+    background: #fff;
+    @include wh(100%, 100%);
     .vux-tab .vux-tab-item {
       background: transparent;
     }
@@ -115,8 +136,16 @@
 
         }
       }
+      .tba_ss{
+        width: 30px;
+        margin: 0 auto;
+        font-size: 14px;
+        color: #cdcfd1;
+        padding: 16px 15px;
+        display: block;
+        text-align: center;
+      }
       .login_btn {
-        margin-top: 30px;
         line-height: 2.65;
       }
       .vux-divider {

@@ -1,9 +1,9 @@
 <template>
   <div class="login_top">
-    <span class="iconfont icon-icon08"></span>
+    <span class="iconfont icon-icon08" @click="back"></span>
     <span class="register_title" v-show="title">{{title}}</span>
     <span class="iconfont login_singin" v-show="type">
-        <router-link to="/register">注册</router-link>
+       <!-- <router-link to="/register">注册</router-link>-->
       </span>
   </div>
 </template>
@@ -18,6 +18,11 @@
       title: {
         type: String,
         default: ''
+      }
+    },
+    methods: {
+      back(){
+        this.$router.go(-1);
       }
     }
   }
@@ -45,7 +50,8 @@
     .register_title {
       flex: 1;
       text-align: center;
-      @include sc(14px, rgba(76, 76, 76, 1))
+      font-weight: 700;
+      @include sc(15px, rgba(76, 76, 76, 1))
     }
     .login_singin {
       @include wh(52px, 48px);

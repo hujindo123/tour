@@ -1,9 +1,13 @@
 <template>
   <div>
     <div class="upload_user">
-      <vTitle :name="'修改' +keys" v-on:hide="back"></vTitle>
+      <div class="user_top">
+        <span class="iconfont icon-fanhui" @click="back"></span>
+        <span class="register_singin">修改{{keys}}</span>
+        <span class="iconfont"></span>
+      </div>
       <group class="radio_ed">
-        <radio :options="sex" @on-change="change" v-if="!link"></radio>
+        <radio :options="sex" :value="sex[0]" @on-change="change" v-if="!link"></radio>
         <span v-if="link">
             <radio :options="phone" @on-change="change"></radio>
             <cell :title="'修改'" is-link  link="/updatePhone"></cell>
@@ -72,10 +76,39 @@
     position: absolute;
     left: 0;
     top: 0;
+    .user_top {
+      display: flex;
+      background: $fc;
+      @include wh(100%, 44px);
+      box-sizing: border-box;
+      flex-flow: row;
+      @include sc(14px, #fff);
+      @include fj();
+      line-height: 44px;
+      overflow: hidden;
+      .iconfont {
+        @include wh(46px, 44px);
+        flex: 0 0 46px;
+        text-align: center;
+        @include sc(22px, #fff);
+      }
+      .icon-wechaticon27 {
+        font-size: 24px;
+        @include sc(22px, rgba(255, 255, 255, 0.5));
+      }
+      .right {
+        @include sc(22px, rgba(255, 255, 255, 1));
+      }
+      .register_singin {
+        flex: 1;
+        text-align: center;
+        @include sc(15px, #fff)
+      }
+    }
     .radio_ed {
       .weui-cells {
         margin-top: 0;
-        @include sc(15px, rgba(57, 64, 67, 1))
+        @include sc(15px, rgba(57, 64, 67, 1));
         .weui-cell {
           padding: 0 15px;
         }

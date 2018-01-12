@@ -31,7 +31,7 @@ export default new Router({
           },
         },
         {
-          path: '/action/:id',
+          path: '/action/:typeName',
           name: '活动',
           component: resolve => {
             require(['src/page/index/action'], resolve)
@@ -62,6 +62,20 @@ export default new Router({
       path: '/register',
       name: '注册',
       component: register
+    },
+    {
+      path: '/joinAction',
+      name: '报名',
+      component: function (resolve) {
+        require(['src/page/joinAction/join'], resolve)
+      }
+    },
+    {
+      path: '/joinSucess',
+      name: '报名成功',
+      component: function (resolve) {
+        require(['src/page/joinSucess/joinSucess'], resolve)
+      }
     },
     {
       path: '/third',

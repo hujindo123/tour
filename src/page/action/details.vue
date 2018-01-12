@@ -23,7 +23,8 @@
           <div class="txt">
             <!--    <Countdown endTime="1513353600" :callback="callback" endText="已经结束了"></Countdown>-->
             <!--10 天 13 小时 27 分钟 36 秒 后报名结束-->
-            <span v-if="timeShow"><clocker :time="time1" slots="123" @on-finish="finish"></clocker> 后报名结束</span> <span v-if="!timeShow">已经结束</span>
+            <span v-if="timeShow"><clocker :time="time1" slots="123" @on-finish="finish"></clocker> 后报名结束</span> <span
+            v-if="!timeShow">已经结束</span>
           </div>
 
 
@@ -66,7 +67,9 @@
             </div>
             <div class="label">
               <i class="iconfont icon-biaoqian1"></i>
-              <span v-for="item in details.user.label">{{item}}</span>
+              <span v-for="item in details.user.label">
+                <router-link :to="{path: '/action/'+item.name}">{{item}} </router-link>
+              </span>
             </div>
             <divider class="divider">出行信息</divider>
             <ul class="ul">
@@ -94,31 +97,55 @@
               未审核
             </tab-item>
           </tab>
-          <scroller lock-y :scrollbar-x=false :bounce=false>
-            <div class="Img_banner" v-show="index ==0" ref="divs">
-              <div class="box-img" v-for="x in 12">
-                <img
-                  src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1512116865699&di=da0eea64a26c83bf65a83d9d40409676&imgtype=0&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F0104cd5598bec26ac7253264c9598d.png"
-                  alt="">
-              </div>
+          <div class="Img_banner" :style="{paddingLeft: paddingLeft }" v-show="index ==0">
+            <div class="box-img" v-for="x in num">
+              <img
+                src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1512116865699&di=da0eea64a26c83bf65a83d9d40409676&imgtype=0&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F0104cd5598bec26ac7253264c9598d.png"
+                alt="">
             </div>
-            <div class="Img_banner" v-show="index ==1" ref="div">
-              <div class="box-img" v-for="x in 2">
-                <img
-                  src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1512116865699&di=da0eea64a26c83bf65a83d9d40409676&imgtype=0&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F0104cd5598bec26ac7253264c9598d.png"
-                  alt="">
-              </div>
+            <!--<div class="box-img" v-for="x in 12">
+              <img
+                src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1512116865699&di=da0eea64a26c83bf65a83d9d40409676&imgtype=0&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F0104cd5598bec26ac7253264c9598d.png"
+                alt="">
+            </div>-->
+            <div class="box-img" v-show="isShow && index == 0 " v-for="x in 3">
+              <img
+                src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1512116865699&di=da0eea64a26c83bf65a83d9d40409676&imgtype=0&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F0104cd5598bec26ac7253264c9598d.png"
+                alt="">
             </div>
-          </scroller>
+            <div class="icon_more" v-show="false " :class="{rotate: isShow && index == 0}">
+              <i class="iconfont icon-gengduo" @click="iconMore"></i>
+            </div>
+          </div>
+          <div class="Img_banner" :style="{paddingLeft: paddingLeft }" v-show="index ==1">
+            <div class="box-img" v-for="x in num">
+              <img
+                src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1512116865699&di=da0eea64a26c83bf65a83d9d40409676&imgtype=0&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F0104cd5598bec26ac7253264c9598d.png"
+                alt="">
+            </div>
+            <!--<div class="box-img" v-for="x in 12">
+              <img
+                src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1512116865699&di=da0eea64a26c83bf65a83d9d40409676&imgtype=0&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F0104cd5598bec26ac7253264c9598d.png"
+                alt="">
+            </div>-->
+            <div class="box-img" v-show="isShow && index == 1 " v-for="x in 13">
+              <img
+                src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1512116865699&di=da0eea64a26c83bf65a83d9d40409676&imgtype=0&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F0104cd5598bec26ac7253264c9598d.png"
+                alt="">
+            </div>
+            <div class="icon_more" v-show="true" :class="{rotate: isShow && index == 1}">
+              <i class="iconfont icon-gengduo" @click="iconMore"></i>
+            </div>
+          </div>
         </div>
       </div>
       <!-- 评论 -->
-      <!--<div class="love_say">
+      <div class="love_say">
         <i class="iconfont icon-aixin"></i>
         <i class="iconfont icon-xiaoxi" @click="goPath('/comment')">
           <badge :text="details.comment.num" class="badge"></badge>
         </i>
-      </div>-->
+      </div>
     </view-box>
   </div>
 </template>
@@ -139,7 +166,6 @@
       XButton, Divider,
       Clocker,
       Tab, TabItem, Scroller, Countdown
-
     },
     data () {
       return {
@@ -148,12 +174,14 @@
         messagesShow: false,
         time1: '2018-07-13 21:54',
         timeShow: true,
+        num: 0,
+        isShow: false
       }
     },
-    /*   mounted(){
-     this.$refs.divs.style.width = (52 + 4) * this.$refs.divs.children.length > window.innerWidth ? (52 + 4) * this.$refs.divs.children.length + 'px' : '100%';
-     this.$refs.div.style.width = (52 + 4) * this.$refs.div.children.length > window.innerWidth ? (52 + 4) * this.$refs.div.children.length + 'px' : '100%';
-     },*/
+    mounted(){
+      this.num = parseInt(window.innerWidth / 48);
+      this.paddingLeft = (window.innerWidth - this.num * 48) / 2 + 'px';
+    },
     async created(){
       await details().then(data => {
         this.details = data[0];
@@ -162,6 +190,14 @@
     methods: {
       tab(index){
         this.index = index;
+        this.isShow = false;
+      },
+      iconMore(){
+        if (this.isShow) {
+          this.isShow = !this.isShow;
+        } else {
+          this.isShow = true;
+        }
       },
       goPath(url){
         this.$router.push(url)
@@ -414,8 +450,9 @@
       }
     }
     .comment_pople {
-      padding: 0 12px 12px;
+      /* padding: 0 12px 12px;*/
       .tab_message {
+        margin-left: 12px;
         @include wh(160px, 40px);
         .vux-tab-item {
           background: transparent;
@@ -440,16 +477,40 @@
         border-bottom: 2px solid rgba(77, 77, 77, 1);
       }
       .Img_banner {
-        display: flex;
-        flex-flow: row;
-        padding-top: 15px;
+        width: 100%;
+        text-align: left;
+        font-size: 0;
         .box-img {
-          margin-right: 18px;
+          @include wh(40px, 40px);
+          display: inline-block;
+          margin: 15px 4px 0 4px;
+          transition: all 5s;
+          /* margin-left: 8px;*/
           img {
             box-sizing: border-box;
             padding: 0 1px;
             @include wh(40px, 40px);
             @include borderRadius(50%);
+          }
+        }
+        .icon_more {
+          text-align: center;
+          &.rotate {
+            transform: rotate(180deg);
+          }
+          .icon-gengduo {
+            padding: 5px;
+            font-size: 20px;
+            color: #999;
+            animation: an 2.5s ease-in-out infinite alternate;
+          }
+          @keyframes an {
+            from {
+              opacity: 0.5;
+            }
+            to {
+              opacity: 1;
+            }
           }
         }
       }

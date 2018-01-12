@@ -1,67 +1,38 @@
 <template>
-  <div class="myaction">
-    <x-header :left-options="{backText: ''}" title="我的活动"></x-header>
-    <sticky :offset="46">
-      <tab :line-width="1" class="tab_message" v-model="index">
-        <tab-item selected @on-item-click="tab">发起</tab-item>
-        <tab-item @on-item-click="tab">
-          参与
-        </tab-item>
-      <!--  <tab-item @on-item-click="tab">回顾</tab-item>-->
-        <tab-item @on-item-click="tab">收藏</tab-item>
-      </tab>
-    </sticky>
-    <scroller lock-x height="-86px">
+  <div>
+    <vTitle name="提交成功"></vTitle>
+    <Scroller lock-x :scrollbar-y=false :bounce=false @on-scroll-bottom="onScrollBottom" ref="scrollerBottom"
+              :scroll-bottom-offst="100" :height="'-44px'">
       <div>
-        <div class="main_list">
-          <!--最新活动-->
-          <list :list="test.list" v-if="index===0"></list>
-          <!--回顾活动-->
-          <list :list="test.list" v-if="index===1" :notButton="true"></list>
-          <!--目的地-->
-          <list :list="test.list" v-if="index===2" :notButton="true"></list>
-          <!--图片新闻-->
-          <list :list="test.list" v-if="index===3" :notButton="true"></list>
+        <div class="join_desc">
+          <span class="iconfont icon-wechaticon27"></span><span>提交报名信息成功</span>
         </div>
-        <load-more tip="loading"></load-more>
+        <div class="join_s vux-1px">
+          <div>昵称： 123</div>
+          <div>报名活动：</div>
+          <div>报名人数：</div>
+          <div>车辆信息：</div>
+          <div>联系电话：</div>
+        </div>
+        <list :list="test.list" v-if="index===0"></list>
       </div>
 
-    </scroller>
-  </div>
+    </Scroller>
 
+  </div>
 </template>
 
 <script>
-  import {Badge, XHeader, Scroller, Tab, LoadMore,TabItem, Popover, ViewBox, Group, CellBox, Cell, XButton, Divider, Sticky} from 'vux';
   import List from 'src/components/list/list';
+  import vTitle from 'src/components/user/header';
+  import {Scroller, LoadMore} from 'vux';
   export default {
-    components: {
-      Scroller,
-      Sticky,
-      Badge,
-      Group,
-      CellBox,
-      Popover,
-      ViewBox,
-      XHeader,
-      Cell,
-      Tab,
-      TabItem,
-      XButton, Divider,LoadMore,List
-
-    },
     data () {
       return {
         index: 0,
+        onFetching: false,
+        bottomCount: 10,
         test: {
-          guanggao: [
-            'https://static.vux.li/demo/1.jpg',
-            'https://static.vux.li/demo/1.jpg',
-            'https://static.vux.li/demo/1.jpg',
-            'https://static.vux.li/demo/1.jpg',
-            'https://static.vux.li/demo/1.jpg',
-            'https://static.vux.li/demo/1.jpg'
-          ],
           list: [
             {
               title: "成都的“香格里拉”，周边三日游的绝佳去处到泸沽湖",
@@ -120,9 +91,60 @@
         }
       }
     },
+    components: {
+      Scroller,
+      List,
+      LoadMore,
+      vTitle
+
+    },
+    props: {},
+    mounted(){
+    },
     methods: {
       tab(index){
         this.index = index;
+      },
+      onScrollBottom () {
+        console.log(1);
+        console.log(this.onFetching);
+        if (this.onFetching) {
+          // do nothing
+        } else {
+          this.onFetching = true;
+          setTimeout(() => {
+            this.bottomCount += 1;
+            this.$nextTick(() => {
+              this.$refs.scrollerBottom.reset();
+              //this.$refs.swiper.xheight = this.basicHeight * this.bottomCount + 'px';
+            })
+            this.onFetching = false
+          }, 2000)
+        }
+      },
+      setFocus () {
+        this.$refs.search.setFocus()
+      },
+      resultClick (item) {
+        window.alert('you click the result item: ' + JSON.stringify(item))
+      },
+      getResult (val) {
+        console.log('on-change', val)
+        this.results = val ? getResult(this.value) : []
+      },
+      onSubmit () {
+        this.$refs.search.setBlur()
+        this.$vux.toast.show({
+          type: 'text',
+          position: 'top',
+          text: 'on submit'
+        })
+      },
+      onFocus () {
+        console.log('on focus')
+      },
+      onCancel () {
+        console.log('on cancel')
       }
     }
   }
@@ -130,20 +152,90 @@
 <style lang="scss">
   @import "../../style/mixin";
 
-  .myaction {
-    width: 100%;
-    height: 100%;
+  .join_desc{
+    text-align: center;
+    font-size: 0;
+    padding: 10px 0;
     background: #fff;
+    .icon-wechaticon27{
+      padding: 0 5px;
+      font-size: 35px;
+      font-weight: 600;
+      color: #159C5E;
+    }
+    span{
+      font-size: 15px;
+      height: 38px;
+      line-height: 38px;
+      vertical-align: middle;
+      display: inline-block;
+    }
+  }
+  .join_s{
+    @include wh(260px,auto);
+    margin: 0 auto;
+  }
+
+  .list_search {
+    @include wh(100%, 100%);
+    z-index: 3000;
+    box-sizing: border-box;
+    display: flex;
     flex-flow: column;
-    .vux-header {
-      h1 {
-        font-size: 15px;
+    background: #fff;
+    .top_search {
+      @include wh(100%, 44px);
+      padding: 9px 12px;
+      flex: 0 0 44px;
+      box-sizing: border-box;
+      position: relative;
+      display: flex;
+      flex-flow: row;
+      .search_input {
+        background: rgba(236, 236, 236, 1);
+        border-radius: 4px;
+        padding: 5px 2px 5px 5px;
+        font-size: 13px;
+        flex: 1;
+        i {
+          vertical-align: middle;
+          &.weui-icon-search {
+            font-size: 15px;
+            padding-right: 2px;
+          }
+        }
+      }
+      span {
+        flex: 0 0 45px;
+        line-height: 30px;
+        text-align: right;
+        @include sc(15px, rgba(76, 76, 76, 1))
       }
     }
-    .tab_message {
-      .vux-tab-item {
-        @include sc(15px, rgba(77, 77, 77, 1));
+    .hot_search {
+      box-sizing: border-box;
+      padding: 9px 12px 0 12px;
+      .weui-cells__title {
+        padding-left: 0;
+        margin-top: 25px;
+      }
+      span {
+        @include sc(13px, rgba(76, 76, 76, 1));
+        padding: 2px 15px;
+        border-radius: 3px;
+        border: 1px solid #b1b1b1;
+        margin-top: 10px;
+        display: inline-block;
+        margin-right: 13px;
+      }
+    }
+    .search_tab {
+      flex: 0 0 44px;
+      .vux-tab .vux-tab-item {
+        line-height: 50px;
       }
     }
   }
+
+
 </style>

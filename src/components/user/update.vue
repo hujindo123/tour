@@ -4,11 +4,11 @@
       <div class="user_top">
         <span class="iconfont icon-fanhui" @click="back"></span>
         <span class="register_singin">修改{{keys}}</span>
-        <span class="iconfont icon-wechaticon27"></span>
+        <span class="iconfont icon-wechaticon27" :class="{'right': right}"></span>
       </div>
       <div class="input_rs">
         <group label-width="84%" label-margin-right="4%">
-          <x-input :value="value"></x-input>
+          <x-input v-model="values" placeholder="" @on-change="change"></x-input>
         </group>
       </div>
     </div>
@@ -20,12 +20,8 @@
   export default {
     data () {
       return {
-        update: {
-          phone: '',
-          code: '',
-          hasSend: false,
-          desc: '发送验证码',
-        }
+        values: '',
+        right: 0,
       }
     },
     components: {
@@ -42,13 +38,39 @@
         default: ''
       }
     },
+    created(){
+      console.log(this.keys);
+    },
     methods: {
       back(){
         this.$emit('hide');
       },
-      change (value, label) {
-        console.log('change:', value, label)
-      }
+      change(){
+        let pattern, message;
+        try {
+          if (this.keys === '昵称') {
+            pattern = new RegExp(/^[\u4E00-\u9FFF,0-9,a-z,A-Z]{3,10}$/);
+            message = '您的昵称必须由3至10位字母、汉字或数字组成';
+          }else if(this.keys === '真实姓名'){
+            pattern = new RegExp(/^[\u4E00-\u9FFF,0-9,a-z,A-Z ]{2,20}$/);
+            message = '您的真实姓名必须由2至20位字母或汉字组成';
+          } else if(this.keys === 'QQ'){
+            pattern = new RegExp(/^[1-9][0-9]{4,12}$/);
+            message = '请输入正确的QQ号码';
+          }
+          else if(this.keys === '微信'){
+            pattern = new RegExp(/^[0-9,a-z,A-Z ]{2,20}$/);
+            message = '请输入正确的微信号码';
+          }
+          this.right = pattern.test(this.values) ? 1 : 0;
+          if (!this.right) {
+            throw new Error(message)
+          }
+        } catch (err) {
+          //alert(err.message);
+        }
+
+      },
     }
   }
 </script>
@@ -80,7 +102,10 @@
         @include sc(22px, #fff);
       }
       .icon-wechaticon27 {
-        font-size: 24px;
+        @include sc(24px, rgba(255, 255, 255, 0.5));
+      }
+      .right {
+        @include sc(22px, rgba(255, 255, 255, 1));
       }
       .register_singin {
         flex: 1;

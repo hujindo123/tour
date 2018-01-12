@@ -17,31 +17,42 @@
             </div>
             <div class="singup" :class="{isHide:notButton}">
               <div class="time">报名截止：{{x.singup}}</div>
-              <div class="btn" >我要报名</div>
+              <router-link  class="btn"   v-if="x.status == 0" to="/joinAction">我要报名</router-link>
+              <router-link  class="btn"   v-if="x.status == 1" to="/joinAction">取消报名</router-link>
+            <!--  <div class="btn" v-if="x.status == 0" @click.prevent="goRegister(x.status)">我要报名</div>
+              <div class="btn" v-if="x.status == 1" @click.prevent="goRegister(x.status)">取消报名</div>-->
             </div>
           </div>
         </div>
         <div class="tab_bottom">
       <span>
        <img :src=x.url alt="">
+        {{x.name}}
       </span>
-          <span class="name">{{x.name}}</span>
-          <span class="userid">{{x.id}}</span>
+          <!--<span class="name"></span>-->
+          <!--<span class="userid">{{x.id}}</span>-->
           <span class="time">{{x.time}}</span>
-      <!--    <span><i class="iconfont icon-liulan"></i>{{x.see}}</span>
-          <span><i class="iconfont icon-pinglun"></i>{{x.say}}</span>-->
+          <!--     <span><i class="iconfont icon-liulan"></i>{{x.see}}</span>
+               <span><i class="iconfont icon-pinglun"></i>{{x.say}}</span>-->
         </div>
       </router-link>
     </div>
+    <loading :show="show1" :text="text1"></loading>
   </div>
 </template>
 
 <script>
+  import {Loading} from 'vux';
   export default {
     data () {
-      return {}
+      return {
+        show1: false,
+        text1: ''
+      }
     },
-    components: {},
+    components: {
+      Loading
+    },
     props: {
       list: {
         type: Array,
@@ -52,7 +63,14 @@
         default: false
       }
     },
-    methods: {}
+    methods: {
+      goRegister(v){
+        let self = this;
+        setTimeout(() => {
+          self.$router.push('/details/15')
+        }, 1000)
+      }
+    }
   }
 </script>
 <style lang="scss">

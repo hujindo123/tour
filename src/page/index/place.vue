@@ -1,40 +1,23 @@
 <template>
   <div class="place_components">
     <div class="action_top">
-      <span class="city">
-            <x-address style="display:none;" :hide-district=true :title="title" @on-shadow-change="onShadowChange"
-                       :list="addressData"
-                       :show.sync="showAddress"></x-address>
-         <label for="a" @click="showAddress = true">
-           {{name[0]}}
-           <i class="iconfont icon-gengduo" id="a"></i></label>
-      </span>
-      <!-- <span class="iconfont icon-sousuo">
-         <i @click="searchShow =true"></i>
-       </span>-->
+      目的地
     </div>
-    <div class="choicePlace">
+    <div class="choicePlace vux-1px-b">
       <span class="city">
          <x-address style="display:none;" :hide-district=true :title="title" @on-shadow-change="onShadowChange"
                     :list="addressData"
                     :show.sync="showAddress"></x-address>
-         <label @click="showAddress = true">目的地<i class="iconfont icon-gengduo"></i></label>
+         <label @click="showAddress = true"> {{name[0]}}<i class="iconfont icon-gengduo"></i></label>
           <x-address style="display:none;" :hide-district=true :title="title" @on-shadow-change="onShadowChange"
-                     :list="addressData"
-                     :show.sync="showAddress"></x-address>
-        <label for="b" @click="showLabel">标签 <i class="iconfont icon-gengduo" :class="{'rotate':Label}"
-                                                id="b"></i></label>
-              <div class="checker_popup" v-if="Label">
-                <checker
-                  v-model="popup.data"
-                  type="checkbox"
-                  default-item-class="item"
-                  selected-item-class="item-selected">
-                <checker-item v-for="(item, index) in popup.label" :value="item" :key="index"
-                              @on-item-click.native="onItemClick"> {{item}}
-                </checker-item>
-              </checker>
-            </div>
+                     :list="addressData" :show.sync="showAddress"></x-address>
+          <label for="b" @click="openLabel">标签
+            <em v-for="x in LabelData" v-if="x">{{x}}</em>
+            <i class="iconfont icon-gengduo" :class="{'rotate':Label}" id="b"></i>
+          </label>
+          <div class="place_component_label">
+              <vlable v-show="Label" v-on:getTab="Showlabel"></vlable>
+          </div>
       </span>
     </div>
     <!--  <div class="hot_search">
@@ -70,6 +53,7 @@
 <script>
   import vTitle from 'src/components/user/header';
   import scrollTop from 'src/components/little/scrollTop';
+  import Vlable from 'src/components/label/label.vue'
   import List from 'src/components/list/list';
   import List2 from 'src/components/list/list2'
   import city from 'src/components/city/city';
@@ -109,6 +93,7 @@
       Checker,
       CheckerItem,
       scrollTop,
+      Vlable
     },
     data () {
       return {
@@ -178,11 +163,7 @@
 
           ]
         },
-        popup: {
-          label: ['交友', '亲子游', '近郊', '长途', '民俗', '娱乐'],
-          showPopup: false,
-          data: ''
-        },
+        LabelData: [],
         Label: false
       }
     },
@@ -195,11 +176,13 @@
         //console.log(ids, names)
         this.name = names || ['成都'];
       },
-      showLabel(){
+      openLabel(){
         this.Label = !this.Label;
       },
-      onItemClick (value, disabled) {
-        this.showPopup = false
+      Showlabel(v){
+        this.LabelData = [];
+        this.LabelData = v;
+        console.log(this.LabelData);
       },
       onScrollBottom () {
         if (this.onFetching) {
@@ -233,11 +216,11 @@
       @include wh(100%, 44px);
       box-sizing: border-box;
       flex-flow: row;
-      @include sc(14px, #fff);
-      @include fj();
+      @include sc(15px, #fff);
+      @include fj(center);
       padding: 0 12px;
       line-height: 44px;
-      @include fj();
+      text-align: center;
       position: relative;
       span {
         flex: 1;
@@ -251,6 +234,11 @@
             height: 44px;
             display: flex;
             flex-flow: row;
+            em {
+              font-style: normal;
+              margin-left: 5px;
+              color: #159C5E;
+            }
             @include fj();
             .iconfont {
               transition: all 0.5s;
@@ -269,7 +257,13 @@
               transform: rotate(180deg);
             }
           }
-
+          .place_component_label {
+            position: absolute;
+            z-index: 200;
+            left: 0;
+            background: #fff;
+            top: 44px;
+          }
         }
         &.icon-sousuo {
           text-align: right;
@@ -279,29 +273,6 @@
             display: inline-block;
             @include wh(60px, 44px);
           }
-        }
-      }
-      .checker_popup {
-        position: absolute;
-        z-index: 200;
-        left: 0;
-        background: #fff;
-        padding: 0 10px;
-        top: 44px;
-        .item {
-          @include sc(13px, rgba(76, 76, 76, 1));
-          padding: 2px 15px;
-          line-height: 1.3;
-          border-radius: 3px;
-          border: 1px solid #b1b1b1;
-          margin-top: 10px;
-          display: inline-block;
-          margin-right: 13px;
-        }
-        .item-selected {
-          background: rgba(204, 245, 226, 1);
-          color: $fc;
-          border: 1px solid $fc;
         }
       }
     }
