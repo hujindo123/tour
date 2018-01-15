@@ -4,7 +4,7 @@
     <scroller lock-x :scrollbar-y=false :bounce=false @on-scroll-bottom="onScrollBottom" ref="scrollerBottom"
               :scroll-bottom-offst="100" :height="'-50px'">
       <div>
-        <swiper ref="swiper" :loop="true" :auto="true" :aspect-ratio="400/750" @on-get-height="showList">
+        <swiper ref="swiper" :loop="true" :auto="true" :aspect-ratio="400/750">
           <swiper-item class="swiper-demo-img"  v-for="(item, index) in banner" :key="index">
             <router-link :to="{path: '/details/'+item.id}">
               <img :src="item.img" style="width: 100%">
@@ -23,7 +23,7 @@
           </scroller>
           <scroller lock-y :scrollbar-x=true :bounce=false>
             <div class="Img_banner" ref="divs">
-              <div class="box-img" v-for="x in test.guanggao">
+              <div class="box-img" v-for="x in guanggao">
                 <router-link to="/details/15">
                   <img :src=x alt="">
                 </router-link>
@@ -40,13 +40,13 @@
               <tab-item @on-item-click="tab">图片新闻</tab-item>
             </tab>
           </sticky>
-          <div class="main_list">
+          <div class="main_list" v-if="list">
             <!--最新活动-->
-            <list :list="test.list" v-if="index===0"></list>
+            <list :list="list" v-if="index===0"></list>
             <!--回顾活动-->
             <!--  <list :list="test.list" v-if="index===1" :notButton="true"></list>-->
             <!--目的地-->
-            <list :list="test.list" v-if="index===1" :notButton="true"></list>
+            <list :list="list" v-if="index===1" :notButton="true"></list>
             <!--图片新闻-->
             <list2 v-if="index===2"></list2>
           </div>
@@ -63,7 +63,7 @@
   import List from 'src/components/list/list';
   import List2 from 'src/components/list/list2'
   import {Swiper, SwiperItem, Sticky, Scroller, Tab, TabItem, LoadMore} from 'vux';
-  import {banner} from 'src/service/getDate'
+  import {banner,guanggao,list} from 'src/service/getDate'
   export default {
     components: {
       Sticky,
@@ -80,6 +80,8 @@
     data () {
       return {
         banner: '',
+        list: [],
+        guanggao: '',
         index: 0, // 选项卡
         label: [ // 标签
           {
@@ -108,75 +110,6 @@
         mainShow: false,
         onFetching: false,
         bottomCount: 5,
-        test: {
-          guanggao: [
-            'https://static.vux.li/demo/1.jpg',
-            'https://static.vux.li/demo/1.jpg',
-            'https://static.vux.li/demo/1.jpg',
-            'https://static.vux.li/demo/1.jpg',
-            'https://static.vux.li/demo/1.jpg',
-            'https://static.vux.li/demo/1.jpg'
-          ],
-          list: [
-            {
-              title: "成都的“香格里拉”，周边三日游的绝佳去处到泸沽湖",
-              img: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1512116865699&di=da0eea64a26c83bf65a83d9d40409676&imgtype=0&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F0104cd5598bec26ac7253264c9598d.png',
-              label: ['交友', '长途', '娱乐'],
-              intru: '成都的“香格里拉”，周边三日游的绝佳去处到泸沽湖,成都的“香格里拉”，周边三日游的绝佳去处到泸沽湖,成都的“香格里拉”，周边三日游的绝佳去处到泸沽湖,5月1日 从成都出发，到泸沽湖、香格里径西昌行程总计大概6天来回、要求带车性别不限人数4人，绝佳去处、美丽山河约一起准备出发吧。',
-              singup: '14月28日',
-              url: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1512116865914&di=dd4ecf4506ba07fb4f9cc7ed537dcce5&imgtype=0&src=http%3A%2F%2Fwww.qqzhuangban.com%2Fuploadfile%2F2014%2F07%2F1%2F20140731061147783.jpg',
-              name: 'FGRLSxlkd',
-              id: '11144',
-              time: '04-18 11:02',
-              see: 5673,
-              say: 5267,
-              status: 0
-            },
-            {
-              title: "成都的“香格里拉”，周边三日游的绝佳去处到泸沽湖",
-              img: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1512116865914&di=dd4ecf4506ba07fb4f9cc7ed537dcce5&imgtype=0&src=http%3A%2F%2Fwww.qqzhuangban.com%2Fuploadfile%2F2014%2F07%2F1%2F20140731061147783.jpg',
-              label: ['交友', '长途', '娱乐'],
-              intru: '5月1日 从成都出发，到泸沽湖、香格里径西昌行程总计大概6天来回、要求带车性别不限人数4人，绝佳去处、美丽山河约一起准备出发吧。',
-              singup: '14月28日',
-              url: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1512116865914&di=dd4ecf4506ba07fb4f9cc7ed537dcce5&imgtype=0&src=http%3A%2F%2Fwww.qqzhuangban.com%2Fuploadfile%2F2014%2F07%2F1%2F20140731061147783.jpg',
-              name: 'FGRLSxlkd',
-              id: '11144',
-              time: '04-18 11:02',
-              see: 5673,
-              say: 5267,
-              status: 1
-            },
-            {
-              title: "成都的“香格里拉”，周边三日游的绝佳去处到泸沽湖",
-              img: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1512116865901&di=a2fb4a7a620afb4bf36f088f6f94bd99&imgtype=0&src=http%3A%2F%2Fdl.bbs.9game.cn%2Fattachments%2Fforum%2F201603%2F16%2F231420io1ozrprnp6iik6r.jpg',
-              label: ['交友', '长途', '娱乐'],
-              intru: '5月1日 从成都出发，到泸沽湖、香格里径西昌行程总计大概6天来回、要求带车性别不限人数4人，绝佳去处、美丽山河约一起准备出发吧。',
-              singup: '14月28日',
-              url: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1512116865901&di=a2fb4a7a620afb4bf36f088f6f94bd99&imgtype=0&src=http%3A%2F%2Fdl.bbs.9game.cn%2Fattachments%2Fforum%2F201603%2F16%2F231420io1ozrprnp6iik6r.jpg',
-              name: 'FGRLSxlkd',
-              id: '11144',
-              time: '04-18 11:02',
-              see: 5673,
-              say: 5267,
-              status: 1
-            },
-            {
-              title: "成都的“香格里拉”，周边三日游的绝佳去处到泸沽湖",
-              img: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1512116865895&di=1aeccc96546e81af4420278f460b7ace&imgtype=0&src=http%3A%2F%2Fwww.qqzhuangban.com%2Fuploadfile%2F2014%2F07%2F1%2F20140726053359626.jpg',
-              label: ['交友', '长途', '娱乐'],
-              intru: '5月1日 从成都出发，到泸沽湖、香格里径西昌行程总计大概6天来回、要求带车性别不限人数4人，绝佳去处、美丽山河约一起准备出发吧。',
-              singup: '14月28日',
-              url: 'https://static.vux.li/demo/1.jpg',
-              name: 'FGRLSxlkd',
-              id: '11144',
-              time: '04-18 11:02',
-              see: 5673,
-              say: 5267,
-              status: 0
-            }
-
-          ]
-        }
       }
     },
     mounted(){
@@ -184,6 +117,14 @@
     async created(){
       await banner().then(data => {
         this.banner = data;
+      });
+      await guanggao().then(data => {
+        this.guanggao = data;
+        this.$refs.divs.style.width = (160 + 4) * this.guanggao.length > window.innerWidth ? (160 + 4) * this.guanggao.length + 'px' : '100%';
+        this.showList();
+      });
+      await list().then(data => {
+        this.list = data;
       })
     },
     computed: {},
@@ -194,7 +135,6 @@
       showList(){
         this.mainShow = true;
         this.$refs.div.style.width = (98 + 15) * this.$refs.div.children.length > window.innerWidth ? (98 + 15) * this.$refs.div.children.length + 'px' : '100%';
-        this.$refs.divs.style.width = (160 + 4) * this.$refs.divs.children.length > window.innerWidth ? (160 + 4) * this.$refs.divs.children.length + 'px' : '100%';
       },
       tab(index){
         this.index = index;
@@ -208,7 +148,7 @@
           setTimeout(() => {
             this.bottomCount += 1;
             this.$nextTick(() => {
-              this.$refs.scrollerBottom.reset();
+//              /this.$refs.scrollerBottom.reset();
               //this.$refs.swiper.xheight = this.basicHeight * this.bottomCount + 'px';
             })
             this.onFetching = false

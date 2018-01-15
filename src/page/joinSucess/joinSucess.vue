@@ -7,25 +7,31 @@
         <div class="join_desc">
           <span class="iconfont icon-wechaticon27"></span><span>提交报名信息成功</span>
         </div>
-        <div class="join_s vux-1px">
-          <div>昵称： 123</div>
-          <div>报名活动：</div>
-          <div>报名人数：</div>
-          <div>车辆信息：</div>
-          <div>联系电话：</div>
+        <div class="join_sm">
+          <ul class="join_s">
+            <li><span class="key">昵称： </span>鲁迅居然姓周</li>
+            <li><span class="key">报名活动：</span>青海到环球5日游青海到环球5日游</li>
+            <li><span class="key">报名人数：</span>2人</li>
+            <li><span class="key">车辆信息：</span>无车 需要两个座位</li>
+            <li><span class="key">联系电话：</span>18227648954</li>
+          </ul>
+          <div class="labe">
+            <router-link to="">返回活动</router-link>
+            <router-link to="">返回首页</router-link>
+          </div>
+          <divider>推荐活动</divider>
         </div>
         <list :list="test.list" v-if="index===0"></list>
       </div>
 
     </Scroller>
-
   </div>
 </template>
 
 <script>
   import List from 'src/components/list/list';
   import vTitle from 'src/components/user/header';
-  import {Scroller, LoadMore} from 'vux';
+  import {Scroller, LoadMore,Divider} from 'vux';
   export default {
     data () {
       return {
@@ -95,6 +101,7 @@
       Scroller,
       List,
       LoadMore,
+      Divider,
       vTitle
 
     },
@@ -152,28 +159,57 @@
 <style lang="scss">
   @import "../../style/mixin";
 
-  .join_desc{
+  .join_desc {
     text-align: center;
     font-size: 0;
     padding: 10px 0;
     background: #fff;
-    .icon-wechaticon27{
+    .icon-wechaticon27 {
       padding: 0 5px;
-      font-size: 35px;
+      font-size: 38px;
       font-weight: 600;
       color: #159C5E;
     }
-    span{
-      font-size: 15px;
+    span {
+      font-size: 18px;
       height: 38px;
       line-height: 38px;
       vertical-align: middle;
       display: inline-block;
     }
   }
-  .join_s{
-    @include wh(260px,auto);
-    margin: 0 auto;
+
+  .join_sm {
+    @include wh(100%, auto);
+    background: #fff;
+    box-sizing: border-box;
+    padding: 0 12px;
+    .join_s {
+
+      width: 85%;
+      margin: 0 auto;
+      border: 1px solid #ccc;
+      overflow: hidden;
+      li {
+        @include es();
+      }
+      .key {
+        width: 90px;
+        display: inline-block;
+        padding: 8px;
+      }
+
+    }
+    .labe {
+      margin: 0 auto;
+      @include wh(85%, auto);
+      display: flex;
+      @include fj(space-around);
+      a {
+        padding: 15px 0;
+        color: $fc;
+      }
+    }
   }
 
   .list_search {

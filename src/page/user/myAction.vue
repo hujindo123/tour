@@ -15,13 +15,13 @@
       <div>
         <div class="main_list">
           <!--最新活动-->
-          <list :list="test.list" v-if="index===0"></list>
+          <list :list="list" v-if="index===0"></list><!--test.list-->
           <!--回顾活动-->
-          <list :list="test.list" v-if="index===1" :notButton="true"></list>
+          <list :list="list" v-if="index===1" :notButton="true"></list>
           <!--目的地-->
-          <list :list="test.list" v-if="index===2" :notButton="true"></list>
+          <list :list="list" v-if="index===2" :notButton="true"></list>
           <!--图片新闻-->
-          <list :list="test.list" v-if="index===3" :notButton="true"></list>
+          <list :list="list" v-if="index===3" :notButton="true"></list>
         </div>
         <load-more tip="loading"></load-more>
       </div>
@@ -34,6 +34,8 @@
 <script>
   import {Badge, XHeader, Scroller, Tab, LoadMore,TabItem, Popover, ViewBox, Group, CellBox, Cell, XButton, Divider, Sticky} from 'vux';
   import List from 'src/components/list/list';
+  import {list} from 'src/service/getDate'
+
   export default {
     components: {
       Scroller,
@@ -50,9 +52,11 @@
       XButton, Divider,LoadMore,List
 
     },
+
     data () {
       return {
         index: 0,
+        list: [],
         test: {
           guanggao: [
             'https://static.vux.li/demo/1.jpg',
@@ -119,6 +123,11 @@
           ]
         }
       }
+    },
+    async created(){
+      await list().then(data => {
+        this.list = data;
+      })
     },
     methods: {
       tab(index){

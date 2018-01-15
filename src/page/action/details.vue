@@ -2,8 +2,8 @@
   <div class="details" v-if="details">
     <view-box :body-padding-top="'44px'">
       <div slot="header" class="details_top">
-      <span class="iconfont icon-fanhui" @click="$router.go(-1)">
-      </span>
+        <span class="iconfont icon-fanhui" @click="$router.go(-1)"></span>
+        <div class="title">{{details.title}}</div>
         <!--   <div class="share">
              <span class="iconfont icon-share"></span>
              <span class="iconfont icon-tubiaozhizuomoban" @click="messagesShow=true"></span>
@@ -49,9 +49,11 @@
                   <span><i class="iconfont icon-pinglun"></i> {{details.user.msg}}</span>
                 </div>
                 <div class="button">
-                  <x-button text="修改报名" class="txt" type="primary"></x-button>
+                  <x-button text="修改报名" class="txt" type="primary" @click.native="show=!show"></x-button>
+                  <!-- link='/joinAction'-->
                   <div style="margin-top: 1px">
-                    <x-button text="取消报名" class="txt" type="primary"></x-button>
+                    <x-button text="取消报名" class="txt" type="primary" v-show="show"
+                              @click.native="show1 = true"></x-button>
                   </div>
                 </div>
                 <!--
@@ -141,10 +143,17 @@
       </div>
       <!-- 评论 -->
       <div class="love_say">
-        <i class="iconfont icon-aixin"></i>
+        <i class="iconfont" @click="like=!like" :class="like?'icon-yixihuan':'icon-weixihuan'"></i>
         <i class="iconfont icon-xiaoxi" @click="goPath('/comment')">
           <badge :text="details.comment.num" class="badge"></badge>
         </i>
+      </div>
+      <div v-transfer-dom>
+        <confirm v-model="show1"
+                 :close-on-confirm="false"
+                 @on-confirm="onConfirm4">
+          <p style="text-align:center;">确定取消报名吗?</p>
+        </confirm>
       </div>
     </view-box>
   </div>
@@ -152,7 +161,22 @@
 
 <script>
 
-  import {Badge, Tab, TabItem, Scroller, Popover, Clocker, ViewBox, Group, CellBox, Cell, XButton, Divider} from 'vux';
+  import {
+    Badge,
+    Tab,
+    TabItem,
+    Scroller,
+    Popover,
+    Clocker,
+    ViewBox,
+    Group,
+    CellBox,
+    Cell,
+    XButton,
+    Divider,
+    TransferDomDirective as TransferDom,
+    Confirm
+  } from 'vux';
   import Countdown from 'src/components/HelloFromVux';
   import {details} from 'src/service/getDate'
   export default {
@@ -163,14 +187,22 @@
       Popover,
       ViewBox,
       Cell,
-      XButton, Divider,
+      XButton,
+      Divider,
+      Confirm,
       Clocker,
       Tab, TabItem, Scroller, Countdown
+    },
+    directives: {
+      TransferDom
     },
     data () {
       return {
         index: 0,
         details: '',
+        show: false,
+        show1: false,
+        like: false,
         messagesShow: false,
         time1: '2018-07-13 21:54',
         timeShow: true,
@@ -207,6 +239,16 @@
       },
       finish(){
         this.timeShow = false
+      },
+      onConfirm4(){
+        this.$vux.loading.show({
+          transition: '',
+          text: 'processing'
+        });
+        setTimeout(() => {
+          this.$vux.loading.hide();
+          this.show1 = false;
+        }, 1000)
       }
     }
   }
@@ -236,9 +278,20 @@
       .iconfont {
         padding: 2px 12px 0 10px;
         @include sc(22px, #fff);
+        z-index: 100;
       }
       .icon-tubiaozhizuomoban {
         padding-right: 7px;
+      }
+      .title {
+        @include es();
+        width: 100%;
+        position: absolute;
+        left: 0;
+        z-index: 0;
+        text-align: center;
+        padding: 0 44px;
+        font-size: 15px;
       }
       .share {
         flex: 1;

@@ -7,4 +7,6 @@ import fetch from "../config/fetch";
  * banner
  */
 export const banner = () => fetch('/banner');
+export const guanggao = () => fetch('/guanggao');
+export const list = () => fetch('/list');
 export const details =() =>fetch('/details');

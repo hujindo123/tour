@@ -20,7 +20,7 @@
                      placeholder-align="right"></x-input>
           </group>
           <group>
-            <cell :title="'车辆信息'" :value="'选择有无车辆'" placeholder="选择有无车辆" @click.native="show=true" is-link
+            <cell :title="'车辆信息'" :value="value" placeholder="选择有无车辆" @click.native="show=true" is-link
                   class="require"></cell>
           </group>
           <div v-transfer-dom>
@@ -45,7 +45,7 @@
         </div>
       </div>
     </scroller>
-    <x-button type="default" class="add_submit">提交报名</x-button>
+    <x-button type="default" class="add_submit" @click.native="submit">提交报名</x-button>
   </div>
 </template>
 
@@ -75,7 +75,7 @@
       return {
         show: false,
         options: ['无车', '有车'],
-        value: ''
+        value: '选择有无车辆'
       }
     },
     mounted () {
@@ -86,6 +86,9 @@
         this.radioShow = false;
         this.inputShow = false;
       },
+      submit(){
+        this.$router.push('/joinSucess');
+      }
     }
   }
 </script>
@@ -162,7 +165,7 @@
       font-size: 15px;
       border-radius: 0;
       background: #dfdfdf;
-      &:after{
+      &:after {
         border: 0;
         border-radius: 0;
       }

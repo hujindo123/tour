@@ -18,7 +18,7 @@
             <div class="singup" :class="{isHide:notButton}">
               <div class="time">报名截止：{{x.singup}}</div>
               <router-link  class="btn"   v-if="x.status == 0" to="/joinAction">我要报名</router-link>
-              <router-link  class="btn"   v-if="x.status == 1" to="/joinAction">取消报名</router-link>
+              <div  class="btn"   v-if="x.status == 1" @click.prevent="show= true">取消报名</div>
             <!--  <div class="btn" v-if="x.status == 0" @click.prevent="goRegister(x.status)">我要报名</div>
               <div class="btn" v-if="x.status == 1" @click.prevent="goRegister(x.status)">取消报名</div>-->
             </div>
@@ -37,21 +37,33 @@
         </div>
       </router-link>
     </div>
+    <div v-transfer-dom>
+      <confirm v-model="show"
+               :close-on-confirm="false"
+               @on-confirm="onConfirm4">
+        <p style="text-align:center;">确定取消报名吗?</p>
+      </confirm>
+    </div>
     <loading :show="show1" :text="text1"></loading>
   </div>
 </template>
 
 <script>
-  import {Loading} from 'vux';
+  import {Loading,TransferDomDirective as TransferDom,Confirm} from 'vux';
   export default {
     data () {
       return {
+        show:false,
         show1: false,
         text1: ''
       }
     },
+    directives: {
+      TransferDom
+    },
     components: {
-      Loading
+      Loading,
+      Confirm
     },
     props: {
       list: {
@@ -68,6 +80,16 @@
         let self = this;
         setTimeout(() => {
           self.$router.push('/details/15')
+        }, 1000)
+      },
+      onConfirm4(){
+        this.$vux.loading.show({
+          transition: '',
+          text: 'processing'
+        });
+        setTimeout(() => {
+          this.$vux.loading.hide();
+          this.show = false;
         }, 1000)
       }
     }
