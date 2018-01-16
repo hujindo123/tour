@@ -3,7 +3,7 @@
     <div class="user_top">
       <span class="iconfont icon-fanhui" @click="$router.go(-1)"></span>
       <span class="register_singin">发起活动</span>
-      <span class="iconfont icon-wechaticon27"></span>
+      <span class="iconfont icon-wechaticon27" @click="submit" :style="{opacity: save ? 1:0.5}"></span>
     </div>
     <div class="editor_phone needsclick">
       <group class="wear_e">
@@ -62,6 +62,12 @@
       editor() {
         return this.$refs.myTextEditor.quill
       },
+      save(){
+        if (this.isChoice && this.s.length>0 && this.content.length>0) {
+          return true
+        }
+        return false
+      }
     },
     mounted() {
       console.log('this is my editor', this.editor)
@@ -100,6 +106,11 @@
         console.log(this.label);
         this.isChoice = true;
         this.isShow = !this.isShow
+      },
+      submit(){
+        if(this.save){
+          this.$router.push('/joinSucess/0');
+        }
       },
       update (e) {   //上传照片
         var self = this;
@@ -196,7 +207,7 @@
       }
       .icon-wechaticon27 {
         font-size: 24px;
-        color: rgba(255, 255, 255, 0.5);
+        color: rgba(255, 255, 255, 1);
       }
       .register_singin {
         flex: 1;

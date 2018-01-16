@@ -71,7 +71,7 @@ export default new Router({
       }
     },
     {
-      path: '/joinSucess',
+      path: '/joinSucess/:type', //0为发起 1为参加
       name: '报名成功',
       component: function (resolve) {
         require(['src/page/joinSucess/joinSucess'], resolve)
@@ -117,7 +117,7 @@ export default new Router({
       }
     },
     {
-      path: '/details/:id',
+      path: '/details',
       name: '活动详情',
       component: resolve => {
         require(['src/page/action/details'], resolve)

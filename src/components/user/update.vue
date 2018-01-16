@@ -4,32 +4,48 @@
       <div class="user_top">
         <span class="iconfont icon-fanhui" @click="back"></span>
         <span class="register_singin">修改{{keys}}</span>
-        <span class="iconfont icon-wechaticon27" :class="{'right': right}"></span>
+        <span class="iconfont icon-wechaticon27" @click="save" :class="{'right': right}"></span>
       </div>
       <div class="input_rs">
         <group label-width="84%" label-margin-right="4%">
-          <x-input v-model="values" placeholder="" @on-change="change"></x-input>
+          <x-input v-model="values" :placeholder="value" @on-change="change"></x-input>
         </group>
       </div>
+    </div>
+    <div v-transfer-dom>
+      <confirm v-model="show"
+               :close-on-confirm="false"
+               @on-confirm="onConfirm4">
+        <p style="text-align:center;">信息尚未保存，确定返回吗?</p>
+      </confirm>
     </div>
   </div>
 </template>
 
 <script>
-  import {Group, XInput} from 'vux';
+  import {Group, XInput, TransferDomDirective as TransferDom, Confirm,} from 'vux';
   export default {
+    directives: {
+      TransferDom
+    },
     data () {
       return {
+        show: false,
         values: '',
         right: 0,
       }
     },
     components: {
       Group,
-      XInput
+      XInput,
+      Confirm
     },
     props: {
       keys: {
+        Object: String,
+        default: ''
+      },
+      name: { //字段名
         Object: String,
         default: ''
       },
@@ -38,12 +54,27 @@
         default: ''
       }
     },
-    created(){
-      console.log(this.keys);
+    mounted(){
+      this.values = this.value;
     },
     methods: {
       back(){
+        if (this.values !== this.value) {
+          this.show = true;
+        } else {
+          this.onConfirm4();
+        }
+      },
+      onConfirm4(){
         this.$emit('hide');
+      },
+      save(){
+        // axios this.name this.values
+         let self = this;
+        setTimeout(() => {
+          self.$emit('hide');
+        },1000)
+
       },
       change(){
         let pattern, message;
@@ -51,14 +82,14 @@
           if (this.keys === '昵称') {
             pattern = new RegExp(/^[\u4E00-\u9FFF,0-9,a-z,A-Z]{3,10}$/);
             message = '您的昵称必须由3至10位字母、汉字或数字组成';
-          }else if(this.keys === '真实姓名'){
+          } else if (this.keys === '真实姓名') {
             pattern = new RegExp(/^[\u4E00-\u9FFF,0-9,a-z,A-Z ]{2,20}$/);
             message = '您的真实姓名必须由2至20位字母或汉字组成';
-          } else if(this.keys === 'QQ'){
+          } else if (this.keys === 'QQ') {
             pattern = new RegExp(/^[1-9][0-9]{4,12}$/);
             message = '请输入正确的QQ号码';
           }
-          else if(this.keys === '微信'){
+          else if (this.keys === '微信') {
             pattern = new RegExp(/^[0-9,a-z,A-Z ]{2,20}$/);
             message = '请输入正确的微信号码';
           }

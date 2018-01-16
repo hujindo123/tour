@@ -1,7 +1,7 @@
 <template>
   <div class="editor_user">
     <div class="container" v-show="panel">
-      <img id="image" :src="url" alt="Picture">
+      <img id="image" :src="message.url" alt="Picture">
       <button type="button" id="button" @click="crop">确定</button>
     </div>
     <div v-show="!panel">
@@ -13,57 +13,58 @@
               头像
             </div>
             <div class="tp_right">
-              <div  class="picture"
-                   :style="headerImage?'backgroundImage:url('+headerImage+')':'backgroundImage:url('+url+')'"></div>
-              <input type="file" id="change" name="file"  capture="camera" accept="image/png,image/gif,image/jpeg" @change="change">
-            <!--  <i class="iconfont icon-touxiang" ></i>-->
+              <div class="picture"
+                   :style="message.headerImage?'backgroundImage:url('+message.headerImage+')':'backgroundImage:url('+message.url+')'"></div>
+              <input type="file" id="change" name="file" accept="image/png,image/gif,image/jpeg" @change="change">
+              <!--
+                            <input type="file" id="change" name="file"  capture="camera" accept="image/png,image/gif,image/jpeg" @change="change">
+              -->
+              <!--  <i class="iconfont icon-touxiang" ></i>-->
               <i class="iconfont icon-fanhui-copy"></i>
             </div>
           </div>
           <div class="bs_other">
             <group>
-              <cell :title="'昵称'" is-link @click.native="showComponents('昵称', '鲁迅居然姓周')" :value="'鲁迅居然姓周'"
+              <cell :title="'昵称'" is-link @click.native="showComponents('昵称', 'nickname', message.nickname)"
+                    :value="message.nickname"
                     class="require"></cell>
             </group>
             <group>
-              <cell :title="'真实姓名'" @click.native="showComponents('真实姓名', '设置')" is-link :value="'设置'"></cell>
+              <cell :title="'真实姓名'" @click.native="showComponents('真实姓名', 'name', message.name)" is-link
+                    :value="message.name"></cell>
             </group>
             <group>
-              <cell :title="'性别'" is-link @click.native="showComponents1('性别', '女')" :value="'女'" class="require"></cell>
+              <cell :title="'性别'" is-link @click.native="showComponents1('性别', 'sex', message.sex)" :value="message.sex"
+                    class="require"></cell>
             </group>
             <group>
               <datetime
-                v-model="birthday"
+                v-model="message.birthday"
                 :title="'生日'"
-                @on-change="log"
-                :start-date="startDate"
-                :end-date="endDate"
+                @on-confirm="updateBirthday(message.birthday)"
                 class="require"></datetime>
-              <!--
-                          <cell :title="'生日'" is-link :link="{path:'/demo'}" :value="'1995-12-26'" class="require"></cell>
-              -->
             </group>
             <group>
-              <cell :title="'电话'" is-link @click.native="showComponents1('电话', '135***2666', 'phone')"
+              <cell :title="'电话'" is-link @click.native="showComponents1('电话', 'phone', message.phone)"
                     :value="'135***2666'"></cell>
             </group>
             <group>
-              <cell :title="'QQ'" @click.native="showComponents('QQ','设置' ,1)" is-link :value="'设置'"></cell>
+              <cell :title="'QQ'" @click.native="showComponents('QQ','qq' ,message.qq)" is-link :value="message.qq"></cell>
             </group>
             <group>
-              <cell :title="'微信'" @click.native="showComponents('微信','设置' ,1)" is-link :value="'设置'"></cell>
+              <cell :title="'微信'" @click.native="showComponents('微信','wx' ,message.wx)" is-link :value="message.wx"></cell>
             </group>
             <group>
               <cell :title="'驾驶证'" is-link :link="{path:'/demo'}" :value="'上传'"></cell>
             </group>
             <group>
-              <cell :title="'个人简介'" value-align="right" is-link :link="{path:'/introduce'}" :value="'设置'" class="jj require"></cell>
+              <cell :title="'个人简介'" is-link :link="{path:'/introduce'}" :value="'设置'" class="require"></cell>
             </group>
           </div>
         </div>
       </scroller>
-      <update v-if="inputShow" :keys="keys" :value="value" v-on:hide="hide"></update>
-      <vRadio v-if="radioShow" :keys="keys" :value="value"  v-on:hide="hide"></vRadio>
+      <update v-if="inputShow" :keys="keys" :name="name" :value="value" v-on:hide="hide"></update>
+      <vRadio v-if="radioShow" :keys="keys" :name="name" :value="value" v-on:hide="hide"></vRadio>
     </div>
   </div>
 </template>
@@ -89,14 +90,21 @@
     data () {
       return {
         panel: false,
-        birthday: '2015-11-12',
-        startDate: '2015-11-11',
-        endDate: '2017-10-11',
-        url: '../../static/img/tx.png',
-        headerImage: '',
+        message: {
+          url: '../../static/img/tx.png',
+          headerImage: '',
+          nickname: '鲁迅居然姓周', //设置
+          name: '周树人', //设置
+          birthday: '2015-11-12',
+          qq: '123456',
+          wx: '4sdw541154',
+          sex: '男', //['保密', '男', '女']
+          phone: '135***2666'
+        },
         inputShow: false,
         radioShow: false,
         keys: '',
+        name: '',
         value: ''
       }
     },
@@ -110,6 +118,7 @@
         background: false,
         zoomable: false,
         ready: function () {
+          this.croppable = true;
           self.croppable = true;
         }
       });
@@ -132,10 +141,10 @@
         if (!files.length) return;
         this.panel = true;
         this.picValue = files[0];
-        this.url = this.getObjectURL(this.picValue);
+        this.message.url = this.getObjectURL(this.picValue);
         //每次替换图片要重新得到新的url
         if (this.cropper) {
-          this.cropper.replace(this.url);
+          this.cropper.replace(this.message.url);
         }
         this.panel = true;
       },
@@ -145,7 +154,7 @@
         var roundedCanvas;
 
         if (!this.croppable) {
-            debugger;
+          debugger;
           return;
         }
         //Crop
@@ -153,8 +162,8 @@
         //Round
         roundedCanvas = this.getRoundedCanvas(croppedCanvas);
 
-        this.headerImage = roundedCanvas.toDataURL();
-        this.postImg(this.headerImage);
+        this.message.headerImage = roundedCanvas.toDataURL();
+        this.postImg(this.message.headerImage);
       },
       getRoundedCanvas (sourceCanvas) {
         var canvas = document.createElement('canvas');
@@ -189,26 +198,32 @@
           sessionStorage.setItem('header', data.data.header);
         });
       },
-
-
-      showComponents(key, value){
+      showComponents(key, name, value){
         this.keys = key;
+        this.name = name;
         this.value = value;
         this.inputShow = true;
       },
-      showComponents1(key, value, link){
+      updateBirthday(v){
+        if (v !== this.message.birthday) {
+          //axios data.message.birthday
+          debugger;
+        }
+      },
+      showComponents1(key, name, value){
         this.keys = key;
         this.value = value;
-        this.link = link;
+        this.name = name;
         this.radioShow = true;
       },
       hide(){
+        /* 重新拉接口*/
         this.radioShow = false;
         this.inputShow = false;
       },
-      log (val) {
-        console.log('plugin confirm', val)
-      },
+      /* change (val, label) {
+       console.log('change', val, label)
+       }*/
     }
   }
 </script>
@@ -254,8 +269,11 @@
         flex-flow: row;
         .tp_left {
           flex: 0 0 50px;
-          @include wh(50px,50px);
+          width: 50px;
+          height: 50px;
+          @include wh(50px, 50px);
           line-height: 50px;
+          border-radius: 50%;
           color: #394043;
           overflow: hidden;
           position: relative;
@@ -298,9 +316,11 @@
       }
       .bs_other {
         .weui-cell {
-          padding-left: 25px!important;
+          padding: 0 15px 0 25px;
+          padding-left: 25px !important;
           &.require {
-            padding-left: 15px!important;
+            padding: 0 15px 0 13px;
+            padding-left: 15px !important;
             label {
               &:before {
                 content: "*";
@@ -312,12 +332,6 @@
               }
             }
           }
-          &.jj{
-            label {
-              width: 100px;
-            }
-          }
-
           &.vux-datetime {
             div p {
               @include sc(15px, rgba(57, 64, 67, 1));
@@ -354,3 +368,4 @@
     }
   }
 </style>
+

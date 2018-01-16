@@ -20,7 +20,7 @@
       </tab>
       <scroller lock-y :scrollbar-x=false :bounce="false">
         <div class="box vux-1px-b" ref="div">
-          <checker default-item-class="demo1-item" v-model="label.value" selected-item-class="demo1-item-selected">
+          <checker default-item-class="demo1-item" v-model="label.item[$route.params.typeName]" selected-item-class="demo1-item-selected">
             <checker-item @on-item-click="onItemClick"
                           v-for="(item, index) in label.item" :key="index" :value="item">
               <div class="box-item">
@@ -38,7 +38,7 @@
           <!--最新活动-->
           <list :list="list" v-if="index===0"></list>
           <!--回顾活动-->
-          <!-- <list :list="test.list" v-if="index===1" :notButton="true"></list>-->
+           <list :list="list" v-if="index===1" :place="true"></list>
         </div>
         <load-more tip="loading"></load-more>
       </div>

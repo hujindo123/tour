@@ -48,9 +48,12 @@
                   <span><i class="iconfont icon-liulan"></i> {{details.user.see}}</span>
                   <span><i class="iconfont icon-pinglun"></i> {{details.user.msg}}</span>
                 </div>
-                <div class="button">
-                  <x-button text="修改报名" class="txt" type="primary" @click.native="show=!show"></x-button>
-                  <!-- link='/joinAction'-->
+                <div class="button" v-if="!$route.query.type"> <!-- 如果是目的地或者回顾 没有按钮-->
+                  <x-button text="编辑活动" class="txt" type="primary" @click.native="show=!show"></x-button>
+                  <!-- '-->
+                  <div style="margin-top: 1px">
+                    <x-button text="修改报名" class="txt" type="primary" link='/joinAction'  v-show="show"></x-button>
+                  </div>
                   <div style="margin-top: 1px">
                     <x-button text="取消报名" class="txt" type="primary" v-show="show"
                               @click.native="show1 = true"></x-button>
@@ -92,7 +95,7 @@
             </div>
           </div>
         </div>
-        <div class="comment_pople">
+        <div class="comment_pople" v-show="!$route.query.type"> <!-- 如果是目的地或者回顾 没有按钮-->
           <tab :line-width="2" custom-bar-width="40px" class="tab_message" v-model="index">
             <tab-item selected @on-item-click="tab">已审核</tab-item>
             <tab-item @on-item-click="tab">
@@ -572,7 +575,7 @@
     .love_say {
       @include wh(160px, 48px);
       position: fixed;
-      bottom: 165px;
+      bottom: 45px;
       left: 0;
       background: rgba(255, 255, 255, 0.5);
       border-radius: 0 40px 40px 0;

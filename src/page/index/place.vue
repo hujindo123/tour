@@ -11,8 +11,6 @@
                     :show.sync="showAddress"></x-address>
          <label @click="showAddress = true"> {{name[0]}}<i class="iconfont icon-gengduo"></i></label>
         <!-- 标签-->
-          <x-address style="display:none;" :hide-district=true :title="title" @on-shadow-change="onShadowChange"
-                     :list="addressData" :show.sync="showAddress"></x-address>
           <label for="b" @click="openLabel">标签
             <em v-for="x in LabelData" v-if="x">{{x}}</em>
             <i class="iconfont icon-gengduo" :class="{'rotate':Label}" id="b"></i>
@@ -35,7 +33,7 @@
 
         <div class="main_list">
           <!--最新活动-->
-          <list :list="list" v-if="index===0"></list>
+          <list :list="list" :place="true"></list>
         </div>
         <load-more tip="loading"></load-more>
       </div>
@@ -122,9 +120,6 @@
     },
     methods: {
       /*切换导航*/
-      tab(index){
-        this.index = index;
-      },
       onShadowChange (ids, names) {
         //console.log(ids, names)
         this.name = names || ['成都'];

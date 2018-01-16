@@ -5,8 +5,8 @@
               :scroll-bottom-offst="100" :height="'-50px'">
       <div>
         <swiper ref="swiper" :loop="true" :auto="true" :aspect-ratio="400/750">
-          <swiper-item class="swiper-demo-img"  v-for="(item, index) in banner" :key="index">
-            <router-link :to="{path: '/details/'+item.id}">
+          <swiper-item class="swiper-demo-img" v-for="(item, index) in banner" :key="index">
+            <router-link :to="{path:'/details',query: {id: item.id,type: false}}">
               <img :src="item.img" style="width: 100%">
             </router-link>
           </swiper-item>
@@ -15,7 +15,7 @@
           <scroller lock-y :scrollbar-x=true :bounce=false>
             <div class="box" ref="div">
               <div class="box-item" v-for="(item, index) in label">
-                <router-link :to="{path: '/action/'+item.name}">
+                <router-link :to="{path: '/action/'+index}">
                   <div class="tab"><i class="iconfont" :class="item.icon"></i>{{item.name}}</div>
                 </router-link>
               </div>
@@ -24,7 +24,7 @@
           <scroller lock-y :scrollbar-x=true :bounce=false>
             <div class="Img_banner" ref="divs">
               <div class="box-img" v-for="x in guanggao">
-                <router-link to="/details/15">
+                <router-link :to="{path:'/details',query: {id: 15,type: false}}">
                   <img :src=x alt="">
                 </router-link>
               </div>
@@ -33,9 +33,9 @@
           <sticky :offset="44">
             <tab :line-width="1" class="tab_message" v-model="index">
               <tab-item selected @on-item-click="tab">最新活动</tab-item>
-              <!--  <tab-item @on-item-click="tab">
+                <tab-item @on-item-click="tab">
                   回顾活动
-                </tab-item>-->
+                </tab-item>
               <tab-item @on-item-click="tab">目的地</tab-item>
               <tab-item @on-item-click="tab">图片新闻</tab-item>
             </tab>
@@ -44,11 +44,11 @@
             <!--最新活动-->
             <list :list="list" v-if="index===0"></list>
             <!--回顾活动-->
-            <!--  <list :list="test.list" v-if="index===1" :notButton="true"></list>-->
+            <list :list="list" v-if="index===1" :place="true"></list>
             <!--目的地-->
-            <list :list="list" v-if="index===1" :notButton="true"></list>
+            <list :list="list" v-if="index===2" :place="true"></list>
             <!--图片新闻-->
-            <list2 v-if="index===2"></list2>
+            <list2 v-if="index===3"></list2>
           </div>
           <load-more tip="loading"></load-more>
         </div>
@@ -63,7 +63,7 @@
   import List from 'src/components/list/list';
   import List2 from 'src/components/list/list2'
   import {Swiper, SwiperItem, Sticky, Scroller, Tab, TabItem, LoadMore} from 'vux';
-  import {banner,guanggao,list} from 'src/service/getDate'
+  import {banner, guanggao, list} from 'src/service/getDate'
   export default {
     components: {
       Sticky,
@@ -91,7 +91,7 @@
             icon: 'icon-qinzi',
             name: '亲子'
           }, {
-            icon: 'icon-friend',
+            icon: 'icon-yixihuan',
             name: '交友'
           }, {
             icon: 'icon-jiaoyou',

@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div class="list_tab" v-if="list" v-for="x in list">
-      <router-link to="/details/15">
+    <div class="list_tab" v-if="list" v-for="(x, i) in list">
+      <router-link  :to="{path:'/details',query: {id: 15,type: place}}" >
         <div class="title">{{x.title}}</div>
         <div class="tab_center">
           <div class="tab_center_left">
@@ -12,15 +12,21 @@
               <i class="iconfont icon-biaoqian1"></i>
               <span v-for="item in x.label">{{item}}</span>
             </div>
-            <div class="desc" :class="{nobuttton:notButton}">
+            <div class="desc" :class="{nobuttton:place}">
               {{x.intru}}
             </div>
-            <div class="singup" :class="{isHide:notButton}">
+            <div class="singup" :class="{isHide:place}">
               <div class="time">报名截止：{{x.singup}}</div>
-              <router-link  class="btn"   v-if="x.status == 0" to="/joinAction">我要报名</router-link>
-              <div  class="btn"   v-if="x.status == 1" @click.prevent="show= true">取消报名</div>
-            <!--  <div class="btn" v-if="x.status == 0" @click.prevent="goRegister(x.status)">我要报名</div>
-              <div class="btn" v-if="x.status == 1" @click.prevent="goRegister(x.status)">取消报名</div>-->
+              <router-link class="btn" v-if="x.status == 0" to="/joinAction">我要报名</router-link>
+              <div class="btn" v-if="x.status == 1" @click.prevent="showBtn(i)">编辑活动</div>
+              <div style="position: absolute;right: 0; top:24px; z-index: 500" @click.prevent="showBtn(i)" v-if="btnShow && indexs === i">
+                <div style="margin-top: 1px">
+                  <x-button text="修改报名" class="txt" type="primary" link='/joinAction'></x-button>
+                </div>
+                <div style="margin-top: 1px">
+                  <x-button text="取消报名" class="txt" type="primary" @click.native="show = true"></x-button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -32,8 +38,8 @@
           <!--<span class="name"></span>-->
           <!--<span class="userid">{{x.id}}</span>-->
           <span class="time">{{x.time}}</span>
-          <!--     <span><i class="iconfont icon-liulan"></i>{{x.see}}</span>
-               <span><i class="iconfont icon-pinglun"></i>{{x.say}}</span>-->
+               <span><i class="iconfont icon-liulan"></i>{{x.see}}</span>
+               <span><i class="iconfont icon-pinglun"></i>{{x.say}}</span>
         </div>
       </router-link>
     </div>
@@ -49,12 +55,14 @@
 </template>
 
 <script>
-  import {Loading,TransferDomDirective as TransferDom,Confirm} from 'vux';
+  import {Loading, TransferDomDirective as TransferDom, Confirm, XButton} from 'vux';
   export default {
     data () {
       return {
-        show:false,
-        show1: false,
+        show: false, //confirm
+        show1: false, //loading
+        indexs: -1, //点击的列表中的某个
+        btnShow: false, //按钮展示
         text1: ''
       }
     },
@@ -63,25 +71,20 @@
     },
     components: {
       Loading,
-      Confirm
+      Confirm,
+      XButton
     },
     props: {
       list: {
         type: Array,
         default: null
       },
-      notButton: {
+      place: {
         type: Boolean,
-        default: false
+        default: false //是否是目的之 目的地没有按钮
       }
     },
     methods: {
-      goRegister(v){
-        let self = this;
-        setTimeout(() => {
-          self.$router.push('/details/15')
-        }, 1000)
-      },
       onConfirm4(){
         this.$vux.loading.show({
           transition: '',
@@ -91,7 +94,15 @@
           this.$vux.loading.hide();
           this.show = false;
         }, 1000)
-      }
+      },
+      showBtn(i){
+        this.btnShow = !this.btnShow;
+        if (i !== this.indexs) {
+          this.btnShow = true
+        }
+        this.indexs = i;
+
+      },
     }
   }
 </script>
@@ -100,7 +111,7 @@
 
   .list_tab {
     position: relative;
-    overflow: hidden;
+    /*overflow: hidden;*/
     padding: 12px 12px 5px 12px;
     background: #fff;
     box-sizing: border-box;
@@ -116,13 +127,13 @@
       margin-top: 5px;
       @include wh(100%, 117px);
       position: relative;
-      overflow: hidden;
+      /* overflow: hidden;*/
       display: flex;
       flex-flow: row;
       .tab_center_left {
         @include wh(117px, 117px);
         flex: 0 0 117px;
-        overflow: hidden;
+        /*overflow: hidden;*/
         img {
           @include wh(117px, 117px);
         }
@@ -187,6 +198,14 @@
             text-decoration: none;
             background: $fc;
             @include sc(12px, rgba(255, 255, 255, 1))
+          }
+          .txt {
+            line-height: 24px;
+            @include borderRadius(0);
+            padding: 0;
+            text-align: center;
+            width: 60px;
+            @include sc(12px, #fff);
           }
         }
         .isHide {

@@ -5,10 +5,16 @@
               :scroll-bottom-offst="100" :height="'-44px'">
       <div>
         <div class="join_desc">
-          <span class="iconfont icon-wechaticon27"></span><span>提交报名信息成功</span>
+          <span class="iconfont icon-wechaticon27"></span>
+          <span v-show="$route.params.type ==0">发起活动信息成功</span>
+          <span v-show="this.$route.params.type ==1">提交报名信息成功</span>
         </div>
         <div class="join_sm">
-          <ul class="join_s">
+          <ul class="join_s" v-if="this.$route.params.type ==0">
+            <li><span class="key">发起人： </span>鲁迅居然姓周</li>
+            <li><span class="key">报名名称：</span>青海到环球5日游青海到环球5日游</li>
+          </ul>
+          <ul class="join_s" v-if="this.$route.params.type ==1">
             <li><span class="key">昵称： </span>鲁迅居然姓周</li>
             <li><span class="key">报名活动：</span>青海到环球5日游青海到环球5日游</li>
             <li><span class="key">报名人数：</span>2人</li>
@@ -16,8 +22,8 @@
             <li><span class="key">联系电话：</span>18227648954</li>
           </ul>
           <div class="labe">
-            <router-link to="">返回活动</router-link>
-            <router-link to="">返回首页</router-link>
+            <router-link to="/details/15">返回活动</router-link>
+            <router-link to="/">返回首页</router-link>
           </div>
           <divider>推荐活动</divider>
         </div>

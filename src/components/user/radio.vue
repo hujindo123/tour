@@ -5,32 +5,47 @@
         <span class="iconfont icon-fanhui" @click="back"></span>
         <span class="register_singin">修改{{keys}}</span>
         <span class="iconfont"></span>
+        <span class="iconfont icon-wechaticon27" :style="{opacity: (onRight || keys=='性别') ? 1 : 0.5}"
+              @click="save"></span>
       </div>
       <group class="radio_ed">
-        <radio :options="sex" :value="sex[0]" @on-change="change" v-if="!link"></radio>
-        <span v-if="link">
-            <radio :options="phone" @on-change="change"></radio>
-            <cell :title="'修改'" is-link  link="/updatePhone"></cell>
-        </span>
+        <radio :options="sexOptions" :value="sexOptions[sexIndex]" @on-change="change" v-show="keys=='性别'"></radio>
+         <span  v-show="keys!='性别'">
+             <radio :options="phone" @on-change="change"></radio>
+             <cell :title="'修改'" is-link link="/updatePhone"></cell>
+         </span>
       </group>
+    </div>
+    <div v-transfer-dom>
+      <confirm v-model="show"
+               :close-on-confirm="false"
+               @on-confirm="onConfirm4">
+        <p style="text-align:center;">信息尚未保存，确定返回吗?</p>
+      </confirm>
     </div>
   </div>
 </template>
 
 <script>
   import vTitle from 'src/components/user/header';
-  import {Group, XInput, Radio, Cell} from 'vux';
+  import {Group, XInput, Radio, Cell, TransferDomDirective as TransferDom, Confirm,} from 'vux';
   export default {
+    directives: {
+      TransferDom
+    },
     data () {
       return {
         editorPhone: false,
+        show:false,
         update: {
           phone: '',
           code: '',
           hasSend: false,
           desc: '发送验证码',
         },
-        sex: ['保密', '男', '女'],
+        sexOptions: ['保密', '男', '女'],
+        sexIndex: 0,
+        values: '',
         phone: ['保密', '公开']
       }
     },
@@ -39,28 +54,59 @@
       Group,
       XInput,
       Radio,
+      Confirm,
       Cell
+    },
+    mounted(){
+      for (let i in this.sexOptions) {
+        if (this.sexOptions[i] === this.value) {
+          this.sexIndex = i;
+        }
+      }
     },
     props: {
       keys: {
         Object: String,
         default: ''
       },
-      value: {
+      name: {
         Object: String,
         default: ''
       },
-      link: {
+      value: {
         Object: String,
         default: ''
       }
     },
     methods: {
       back(){
+        if (this.values !== this.value) {
+          this.show = true;
+        } else {
+          this.onConfirm4();
+        }
+      },
+      onConfirm4(){
         this.$emit('hide');
       },
+      save(){
+        // axios this.name this.values
+        let self = this;
+        setTimeout(() => {
+          self.$emit('hide');
+        },1000)
+
+      },
       change (value, label) {
-        console.log('change:', value, label)
+        this.values = value; //改变的值
+        console.log(this.value, value);
+      }
+    },
+    computed: {
+      onRight(){
+        if(this.values){
+            return true
+        }
       }
     }
   }
@@ -94,7 +140,7 @@
       }
       .icon-wechaticon27 {
         font-size: 24px;
-        @include sc(22px, rgba(255, 255, 255, 0.5));
+        @include sc(22px, rgba(255, 255, 255, 1));
       }
       .right {
         @include sc(22px, rgba(255, 255, 255, 1));

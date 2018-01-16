@@ -40,6 +40,7 @@
               </div>
               <div class="desc" :class="{'ess':childIndex==1}" v-if="childIndex!=1">
                 <ul class="join_s">
+                  <li><span class="key">审核状态： </span><span class="vl">未审核</span></li>
                   <li><span class="key">昵称： </span><span class="vl">鲁迅居然姓周</span></li>
                   <li><span class="key">报名活动：</span><span class="vl">青海到环球5日游青海到环球5日游青海到环球5日游青海到环球5日游</span></li>
                 </ul>
@@ -47,6 +48,7 @@
               </div>
               <div class="desc" :class="{'ess':childIndex==1}" v-if="childIndex==1">
                 <ul class="join_s">
+                  <li><span class="key">审核状态： </span><span class="vl">未审核</span></li>
                   <li><span class="key">昵称： </span>鲁迅居然姓周</li>
                   <li><span class="key">报名活动：</span>青海到环球5日游青海到环球5日游</li>
                   <li><span class="key">报名人数：</span>2人</li>

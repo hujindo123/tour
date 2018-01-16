@@ -79,7 +79,7 @@
         display: inline-block;
         .item {
           @include sc(13px, rgba(76, 76, 76, 1));
-          padding: 2px 15px;
+          padding: 5px 15px;
           line-height: 1.3;
           border-radius: 3px;
           border: 1px solid #b1b1b1;

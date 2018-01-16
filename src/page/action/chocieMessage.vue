@@ -7,28 +7,32 @@
     </div>
     <div class="editor_phone">
       <group>
-        <x-address v-model="address1" title="出发地" raw-value :list="addressData"></x-address>
+        <x-address v-model="address1" title="出发地" placeholder="选择出发地" raw-value :list="addressData"></x-address>
       </group>
       <group>
-        <x-address v-model="address2" title="目的地" raw-value :list="addressData"></x-address>
+        <x-address v-model="address2" title="目的地" placeholder="选择目的地" raw-value :list="addressData"></x-address>
       </group>
       <group>
-        <x-address title="往返时间" :list='time.dayList' v-model='time.day'></x-address>
+        <x-address title="往返时间" placeholder="选择往返时间" :list='time.dayList' v-model='time.day'></x-address>
       </group>
       <!-- <group>
          <popup-picker popup-title="请选择约团人数" title="组团人数" :data="team.basicList" v-model="team.Num"></popup-picker>
        </group>-->
       <group>
-        <x-address title="请选择约团人数" :list="team.basicList" v-model="team.Num"></x-address>
+        <x-address title="请选择约团人数" placeholder="选择约团人数" :list="team.basicList" v-model="team.Num"></x-address>
       </group>
       <group>
-        <popup-picker popup-title="费用分摊方式" title="费用分摊方式" :data="methods.List" v-model="methods.data"></popup-picker>
+        <popup-picker popup-title="费用分摊方式" title="费用分摊方式"  placeholder="填写费用分摊方式" :data="methods.List" v-model="methods.data"></popup-picker>
       </group>
       <group>
-        <x-address title="有无车" :list="Car.basicList" v-model="Car.data"></x-address>
+        <x-input title="费用预计" type="number" placeholder="填写费用预计"  text-align="right"
+                 placeholder-align="right"></x-input>
+      </group>
+      <group>
+        <x-address title="有无车"   placeholder="选择有无车" :list="Car.basicList" v-model="Car.data"></x-address>
       </group>
       <group class="sunxz">
-        <cell title="标签" :value="popup.data" class="label" is-link @click.native="popup.showPopup=true"></cell>
+        <cell title="标签" :value="popup.data"  class="label" is-link @click.native="popup.showPopup=true"></cell>
       </group>
       <div v-transfer-dom>
         <popup v-model="popup.showPopup" class="checker_popup">
@@ -90,7 +94,7 @@
           label: ['交友', '亲子游', '近郊', '长途', '民俗', '娱乐'],
           showPopup: false, //选项卡
           arrData: [], //初始值
-          data: '',
+          data: '请选择标签',
 
         },
       }
