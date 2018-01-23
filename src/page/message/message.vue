@@ -1,7 +1,7 @@
 <template>
   <div class="message_user">
     <vTitle name="消息"></vTitle>
-    <tab :line-width="1" :custom-bar-width="getBarWidth" class="tab_message" v-model="index">
+    <tab :line-width="1" class="tab_message" v-model="index">
       <tab-item :selected="index === 0" @on-item-click="tab">
         好友消息
       </tab-item>
@@ -15,104 +15,80 @@
       </tab-item>
       <tab-item :selected="index === 3" @on-item-click="tab">陌生消息</tab-item>
     </tab>
+    <!--好友消息-->
     <div v-if="index==0">
-      <div class="tab-swiper vux-center">
-
-      </div>
+      <divider>暂无信息</divider>
     </div>
+    <!-- 系统消息-->
     <div v-if="index==1">
-      <!-- 系统信息-->
-      <div class="item vux-1px-b">
-        <div class="fle_1" @click="showmore(0)"> <!-- 0 为 循环的index-->
-          <div class="header">
-            <span v-if="!active[0]"></span><!-- 0 为 循环的index-->
-          </div>
+      <div class="item vux-1px-b" v-for="(item, indexs) in data">
+        <div class="fle_1" @click="showmore(index, indexs)">
+          <div class="header"><span v-if="!active[1][indexs]"></span></div>
           <div class="right">
             <div class="top">
-              <div class="name">痴头呆脑</div>
-              <div class="time">09-09 09:25</div>
+              <div class="name">{{item.name}}</div>
+              <div class="time">{{item.time}}</div>
             </div>
-            <div class="desc" :class="{'ess':childIndex==0}">
-              <span ref="he">门户网的会员您已经您注册成为中国自驾游门户网的会员您已经您注册成为中国自驾游您注册成为中国自驾游</span>
+            <div class="desc" :class="{'ess': indexs == childIndex && index==1}">
+              <span>{{item.desc}}</span>
             </div>
           </div>
         </div>
       </div>
+      <divider>暂无信息</divider>
     </div>
+    <!--活动消息-->
     <div v-if="index==2">
-      <!-- 审核 -->
-      <div class="item vux-1px-b">
-        <div class="fle_1" @click="showmore(1)">
-          <div class="header"><span v-if="!active[1]"></span></div>
+      <div class="item vux-1px-b" v-for="(item, indexs) in data1">
+        <div class="fle_1" @click="showmore(index,indexs)">
+          <div class="header"><span v-if="!active[2][indexs]"></span></div>
           <div class="right">
             <div class="top">
-              <div class="name">痴头呆脑</div>
-              <div class="time">09-09 09:25</div>
+              <div class="name">{{item.nickname}}</div>
+              <div class="time">{{item.time}}</div>
             </div>
-            <div class="desc" v-if="childIndex!=1">
+            <!--摘要-->
+            <div class="desc" v-if="childIndex!=indexs">
               <ul class="join_s">
-                <li><span class="key">审核状态： </span><span class="vl">未审核</span></li>
-                <li><span class="key">昵称： </span><span class="vl">鲁迅居然姓周</span></li>
-                <li><span class="key">报名活动：</span><span class="vl">青海到环球5日游青海到环球5日游青海到环球5日游青海到环球5日游</span></li>
+                <li><span class="key">审核状态： </span>
+                  <!-- 0 未审核   1 审核不通过-->
+                  <span class="vl" v-if="item.status ==0">未审核</span>
+                  <span class="vl" v-if="item.status ==1">审核不通过</span>
+                </li>
+                <li><span class="key" v-show="item.status ===1">不通过原因：</span><span class="vl">{{item.upass}}</span></li>
+                <li><span class="key">昵称： </span><span class="vl">{{item.nickname}}</span></li>
+                <li><span class="key">报名活动：</span><span class="vl">{{item.action}}</span></li>
               </ul>
               <div class="iconfont icon-gengduo"></div>
             </div>
-            <div class="desc ess" v-if="childIndex==1">
+            <!--全文-->
+            <div class="desc ess" v-if="childIndex==indexs">
               <ul class="join_s">
-                <li><span class="key">审核状态： </span><span class="vl">未审核</span></li>
-                <li><span class="key">昵称： </span>鲁迅居然姓周</li>
-                <li><span class="key">报名活动：</span>青海到环球5日游青海到环球5日游</li>
-                <li><span class="key">报名人数：</span>2人</li>
-                <li><span class="key">车辆信息：</span>无车 需要两个座位</li>
-                <li><span class="key">联系电话：</span>18227648954</li>
+                <li><span class="key">审核状态： </span> <!-- 0 未审核   1 审核不通过-->
+                  <span class="vl" v-if="item.status ==0">未审核</span>
+                  <span class="vl" v-if="item.status ==1">审核不通过</span>
+                </li>
+                <li><span class="key" v-show="item.status ===1">不通过原因：</span><span class="vl">{{item.upass}}</span></li>
+                <li><span class="key">昵称： </span>{{item.nickname}}</li>
+                <li><span class="key">报名活动：</span>{{item.action}}</li>
+                <li><span class="key">报名人数：</span>{{item.actionNum}}人</li>
+                <li><span class="key">车辆信息：</span>{{item.car}}</li>
+                <li><span class="key">联系电话：</span>{{item.phone}}</li>
               </ul>
               <div class="iconfont icon-gengduo rotate"></div>
             </div>
           </div>
         </div>
-        <div class="btn" v-show="childIndex==1">
-          <div class="t t1" @click="">审核通过</div>
-          <div class="t t2 vux-1px-t" @click="unpass = true">审核不通过</div>
-        </div>
-      </div>
-      <!-- 审核不通过 -->
-      <div class="item vux-1px-b">
-        <div class="fle_1" @click="showmore(2)">
-          <div class="header">
-            <span v-if="!active[2]"></span>
-          </div>
-          <div class="right">
-            <div class="top">
-              <div class="name">痴头呆脑</div>
-              <div class="time">09-09 09:25</div>
-            </div>
-            <!-- 未展開時候-->
-            <div class="desc" v-if="childIndex!=2">
-              <ul class="join_s">
-                <li><span class="key">审核状态： </span><span class="vl">审核不通过</span></li>
-                <li><span class="key">不通过原因：</span><span
-                  class="vl">青海到环球5日游青海到环球5日游青海到环球5日游青海到环球5日游青海到环球5日游青海到环球5日游</span></li>
-              </ul>
-              <div class="iconfont icon-gengduo"></div>
-            </div>
-            <!--展開的時候-->
-            <div class="desc ess" v-if="childIndex==2">
-              <ul class="join_s">
-                <li><span class="key">审核状态： </span>审核不通过</li>
-                <li><span class="key">不通过原因：</span>青海到环球5日游青海到环球5日游青海到环球5日游青海到环球5日游青海到环球5日游青海到环球5日游</li>
-                <li><span class="key">昵称： </span>鲁迅居然姓周</li>
-                <li><span class="key">报名活动：</span>青海到环球5日游青海到环球5日游</li>
-                <li><span class="key">报名人数：</span>2人</li>
-                <li><span class="key">车辆信息：</span>无车 需要两个座位</li>
-                <li><span class="key">联系电话：</span>18227648954</li>
-              </ul>
-              <div class="iconfont icon-gengduo rotate"></div>
-            </div>
-          </div>
+        <div class="btn" v-show="childIndex==indexs && item.status == 0">
+          <div class="t t1" @click="pass(15)">审核通过</div>
+          <div class="t t2 vux-1px-t" @click="Upass(15)">审核不通过</div>
         </div>
       </div>
     </div>
-    <div v-if="index==3"></div>
+    <!--陌生消息-->
+    <div v-if="index==3">
+      <divider>暂无信息</divider>
+    </div>
     <div class="write_ms" v-show="unpass">
       <div class="user_top">
         <span class="iconfont icon-fanhui" @click="unpass=false"></span>
@@ -125,7 +101,7 @@
 </template>
 
 <script>
-  import {Scroller, Swiper, SwiperItem, Tab, TabItem, Badge, Panel, XTextarea} from 'vux';
+  import {Scroller, Swiper, SwiperItem, Tab, TabItem, Badge, Panel, XTextarea, Divider} from 'vux';
   import vTitle from 'src/components/user/header';
 
   export default {
@@ -137,20 +113,42 @@
       Tab,
       TabItem,
       Badge,
-      Panel,
+      Panel, Divider,
       vTitle,
 
     },
     data () {
       return {
-        index: 0,
-        childIndex: -1,
-        active: [],
+        index: 0, // tab 序列
+        childIndex: -1, //列表中的序列
+        active: [[], [], [], []], //4个二维数组 记录点击的
         unpass: false,
         reason: '',
-        getBarWidth: function () {
-          return 75 + 'px'
-        }
+        data: [
+          {name: '痴头呆脑', time: '09-09 09:25', desc: '门户网的会员您已经您注册成为中国自驾'},
+          {name: '痴头呆脑', time: '09-09 09:25', desc: '门户网的会员您已经您注册成为中国自驾游门户网的会员您已经您注册成为中国自驾游您注册成为中国自驾游'},
+        ],
+        data1: [
+          {
+            status: 0,
+            time: '09-09 09:25',
+            nickname: '鲁迅居然姓周',
+            action: '青海到环球5日游青海到环球5日游12345',
+            actionNum: '5',
+            car: '无车 需要两个座位',
+            phone: '18227648954'
+          },
+          {
+            status: 1,
+            time: '09-09 09:25',
+            upass: '已满已满已满已满已满已满已满已满已满已满已满已满已满已满已满已满已满已满已满已满已满已满已满已满',
+            nickname: '鲁迅居然姓周',
+            action: '青海到环球5日游青海到环球5日游已满已满已满已满已满已满已满已满已满已满已满已满已满已满已满已满已满已满',
+            actionNum: '5',
+            car: '无车 需要两个座位',
+            phone: '18227648954'
+          }
+        ]
       }
     },
     created(){
@@ -163,14 +161,24 @@
         this.index = index;
         this.childIndex = -1;
       },
-      showmore(index){
-        if (this.childIndex === index) {
+      showmore(P_index, C_indexs){ /*父级序列 子集序列*/
+        if (this.childIndex === C_indexs) {
           this.childIndex = -1;
           return
         }
-        this.active[index] = true;
-        this.childIndex = index;
-      }
+        this.active[P_index][C_indexs] = true;
+        this.childIndex = C_indexs;
+      },
+      pass(id){
+        /*v 评论id */
+        //axios
+        console.log(id);
+      },
+      Upass(id){
+        /*v 评论id */
+        //axios
+        this.unpass = true;
+      },
     }
   }
 </script>
@@ -238,6 +246,7 @@
             display: flex;
             flex: 1;
             flex-flow: row;
+            align-items: center;
             .name {
               padding: 3px 0;
               flex: 1;
@@ -248,21 +257,22 @@
               flex: 0 0 80px;
               @include sc(10px, rgba(124, 124, 124, 1));
             }
-
           }
           .desc {
-            @include ess(2);
             padding-right: 18px;
             position: relative;
+            @include ess(2);
             @include sc(13px, rgba(77, 77, 77, 1));
             .join_s {
+              display: flex;
+              flex-flow: column;
               li {
-                @include es();
                 display: flex;
                 flex-flow: row;
                 line-height: 1.4;
                 .key {
-                  flex: 0 0 70px;
+                  width: 80px;
+                  flex: 0 0 80px;
                 }
                 .vl {
                   flex: 1;
@@ -270,26 +280,17 @@
                   text-overflow: ellipsis;
                   white-space: nowrap;
                 }
+
               }
             }
             &.ess {
-              /*display: inline-block;*/
+              display: block;
               li {
                 overflow: auto;
                 text-overflow: initial;
                 white-space: normal;
               }
             }
-            /*   .labe {
-                 margin: 0 auto;
-                 @include wh(85%, auto);
-                 display: flex;
-                 @include fj(space-around);
-                 a {
-                   padding: 15px 0;
-                   color: $fc;
-                 }
-               }*/
             .icon-gengduo {
               position: absolute;
               right: 0;
@@ -357,6 +358,10 @@
           @include sc(15px, #fff)
         }
       }
+    }
+    .vux-divider {
+      padding: 15px;
+      font-size: 15px;
     }
 
   }
