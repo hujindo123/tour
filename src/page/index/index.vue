@@ -1,7 +1,7 @@
 <template>
   <div class="index">
     <keep-alive>
-      <router-view></router-view>
+      <router-view class="index"></router-view>
     </keep-alive>
     <vfooter></vfooter>
   </div>

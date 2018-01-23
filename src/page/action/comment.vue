@@ -18,7 +18,7 @@
 
 <script>
   import {Badge, XHeader, Scroller, Popover, ViewBox, Group, CellBox, Cell, XButton, Divider} from 'vux';
-  import comment from 'src/components/action/comment';
+  import comment from 'src/components/comment/comment';
   export default {
     components: {
       Scroller,

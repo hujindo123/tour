@@ -1,180 +1,160 @@
 <template>
   <div class="friends">
-    <x-header :left-options="{backText: ''}" title=""></x-header>
-    <div class="friends_main">
-      <div class="blur" :style="{backgroundImage: 'url('+URL+')'}"></div>
-      <div class="zhut">
-        <p class="center"><img :src="URL"><i class="iconfont icon-ttpodicon"></i></p>
-        <div class="comment_name"><label>精卫填的海</label> <span>LV7</span></div>
-      <!--  <div class="comment_time">关注 21丨 粉丝 16</div>-->
-        <div class="intr">个人简介为某人的简要介绍。个人简介可以是表格 的形式，也可以是其他形式。一般用于初次见面时 个人介绍中或者个人履历表中等。</div>
-        <!--<div class="btn_21">
-          <button class="btn1">联系TA</button>
-          <button class="btn2">关 注</button>
-        </div>-->
-      </div>
-    </div>
-    <div class="friends_wrapper">
-      <sticky :offset="44">
-        <tab :line-width="1" class="tab_message" v-model="index">
-          <tab-item selected @on-item-click="tab">活动</tab-item>
-   <!--       <tab-item @on-item-click="tab">
-            评论
-          </tab-item>
-          <tab-item @on-item-click="tab">个人相册</tab-item>-->
-          <tab-item @on-item-click="tab">基本信息</tab-item>
-        </tab>
-        <checker v-if="index == 0" v-model="checkNum" default-item-class="list_item"
-                 selected-item-class="list_item_selected">
-          <checker-item :value="1">
-            发起
-          </checker-item>
-          <checker-item :value="2">
-            参与
-          </checker-item>
-        <!--  <checker-item :value="3">
-            回顾
-          </checker-item>-->
-          <checker-item :value="4">
-            收藏
-          </checker-item>
-        </checker>
+    <vHeader :name="''"></vHeader>
+    <scrollTop v-on:scrollTop="top"></scrollTop>
+    <scroller lock-x :scrollbar-y=false :bounce=false @on-scroll-bottom="onScrollBottom" ref="scrollerBottom"
+              :scroll-bottom-offst="100"  :height="'-44px'">
+      <div>
+        <div class="friends_main">
+          <div class="blur" :style="{backgroundImage: 'url('+URL+')'}"></div>
+          <div class="zhut">
+            <p class="center"><img :src="URL"><i class="iconfont icon-ttpodicon"></i></p>
+            <div class="comment_name"><label>精卫填的海</label> <span>LV7</span></div>
+            <!--  <div class="comment_time">关注 21丨 粉丝 16</div>-->
+            <div class="intr">个人简介为某人的简要介绍。个人简介可以是表格 的形式，也可以是其他形式。一般用于初次见面时 个人介绍中或者个人履历表中等。</div>
+            <!--<div class="btn_21">
+              <button class="btn1">联系TA</button>
+              <button class="btn2">关 注</button>
+            </div>-->
+          </div>
+        </div>
+        <div class="friends_wrapper">
+          <sticky :offset="44">
+            <tab :line-width="1" class="tab_message" v-model="index">
+              <tab-item selected @on-item-click="tab">活动</tab-item>
+              <!--       <tab-item @on-item-click="tab">
+                       评论
+                     </tab-item>
+                     <tab-item @on-item-click="tab">个人相册</tab-item>-->
+              <tab-item @on-item-click="tab">基本信息</tab-item>
+            </tab>
+            <checker v-if="index == 0" v-model="checkNum" default-item-class="list_item"
+                     selected-item-class="list_item_selected">
+              <checker-item :value="0" @on-item-click="onItemClick(0)">
+                发起
+              </checker-item>
+              <checker-item :value="1" @on-item-click="onItemClick(1)">
+                参与
+              </checker-item>
+              <!--  <checker-item :value="3">
+                  回顾
+                </checker-item>-->
+              <checker-item :value="2" @on-item-click="onItemClick(2)">
+                收藏
+              </checker-item>
+            </checker>
 
-      </sticky>
-      <div v-if="index == 0">
-        <div class="content_f">
-          <div v-if="checkNum==1">
-            <list :list="test.list"></list>
+          </sticky>
+          <div v-if="index == 0">
+            <div class="content_f">
+              <!--发起活动 -->
+              <startList :list="list" v-if="checkNum===0"></startList>
+              <!--参与活动 -->
+              <joinList :list="list" v-if="checkNum===1"></joinList>
+              <!--收藏活动 -->
+              <collectionList :list="list" v-if="checkNum===2"></collectionList>
+            </div>
           </div>
-          <div v-if="checkNum==2">
-            <list :list="test.list"></list>
-          </div>
-          <div v-if="checkNum==3">
-            <list :list="test.list" :notButton="true"></list>
-          </div>
-          <div v-if="checkNum==4">
-            <list :list="test.list" :notButton="true"></list>
+          <!-- <div v-if="index == 2"></div>-->
+          <div v-if="index == 1" class="bs_other">
+            <group>
+              <cell title="昵称" :value="'鲁迅居然姓周'">
+                <i slot="icon" width="20" class="iconfont icon-touxiang-copy"></i>
+              </cell>
+            </group>
+            <group>
+              <cell title="ID" :value="'001226'">
+                <i slot="icon" width="20" class="iconfont icon-IDnumber"></i>
+              </cell>
+            </group>
+            <group>
+              <cell title="性别" :value="'女'">
+                <i slot="icon" width="20" class="iconfont icon-xingbie"></i>
+              </cell>
+            </group>
+            <group>
+              <cell title="年龄" :value="'22岁'">
+                <i slot="icon" width="20" class="iconfont icon-shengri"></i>
+              </cell>
+            </group>
           </div>
         </div>
       </div>
-     <!-- <div v-if="index == 2"></div>-->
-      <div v-if="index == 1" class="bs_other">
-        <group>
-          <cell title="昵称" :value="'鲁迅居然姓周'">
-            <i slot="icon" width="20" class="iconfont icon-touxiang-copy"></i>
-          </cell>
-        </group>
-        <group>
-          <cell title="ID" :value="'001226'">
-            <i slot="icon" width="20" class="iconfont icon-IDnumber"></i>
-          </cell>
-        </group>
-        <group>
-          <cell title="性别" :value="'女'">
-            <i slot="icon" width="20" class="iconfont icon-xingbie"></i>
-          </cell>
-        </group>
-        <group>
-          <cell title="年龄" :value="'22岁'">
-            <i slot="icon" width="20" class="iconfont icon-shengri"></i>
-          </cell>
-        </group>
-      </div>
-    </div>
+    </scroller>
   </div>
 </template>
 
 <script>
-  import {Blur, Group, CellBox, Cell, XHeader, Sticky, Tab, TabItem, Checker, CheckerItem} from 'vux';
-  import List from 'src/components/list/list';
-
+  import {Blur, Scroller, Group, CellBox, Cell, XHeader, Sticky, Tab, TabItem, Checker, CheckerItem} from 'vux';
+  import StartList from 'src/components/list/startList'; //发起的
+  import joinList from 'src/components/list/joinList'; //参与的
+  import collectionList from 'src/components/list/collectionList'; //参与的
+  import vHeader from '../../components/user/header';
+  import scrollTop from 'src/components/little/scrollTop';
+  import {list1, list2, list3} from 'src/service/getDate'
   export default {
     components: {
+      Scroller,
       Blur,
       Group,
       CellBox,
       Cell,
       XHeader,
-      Sticky, Tab, TabItem, Checker, CheckerItem, List
+      Sticky, Tab, TabItem, Checker, CheckerItem, StartList, joinList, collectionList, vHeader,scrollTop
     },
     data () {
       return {
         URL: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1512116865699&di=da0eea64a26c83bf65a83d9d40409676&imgtype=0&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F0104cd5598bec26ac7253264c9598d.png',
         index: 0,
-        checkNum: 1,
-        test: {
-          guanggao: [
-            'https://static.vux.li/demo/1.jpg',
-            'https://static.vux.li/demo/1.jpg',
-            'https://static.vux.li/demo/1.jpg',
-            'https://static.vux.li/demo/1.jpg',
-            'https://static.vux.li/demo/1.jpg',
-            'https://static.vux.li/demo/1.jpg'
-          ],
-          list: [
-            {
-              title: "成都的“香格里拉”，周边三日游的绝佳去处到泸沽湖",
-              img: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1512116865699&di=da0eea64a26c83bf65a83d9d40409676&imgtype=0&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F0104cd5598bec26ac7253264c9598d.png',
-              label: ['自驾', '大明湖', '情侣'],
-              intru: '成都的“香格里拉”，周边三日游的绝佳去处到泸沽湖,成都的“香格里拉”，周边三日游的绝佳去处到泸沽湖,成都的“香格里拉”，周边三日游的绝佳去处到泸沽湖,5月1日 从成都出发，到泸沽湖、香格里径西昌行程总计大概6天来回、要求带车性别不限人数4人，绝佳去处、美丽山河约一起准备出发吧。',
-              singup: '14月28日',
-              url: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1512116865914&di=dd4ecf4506ba07fb4f9cc7ed537dcce5&imgtype=0&src=http%3A%2F%2Fwww.qqzhuangban.com%2Fuploadfile%2F2014%2F07%2F1%2F20140731061147783.jpg',
-              name: 'FGRLSxlkd',
-              id: '11144',
-              time: '04-18 11:02',
-              see: 5673,
-              say: 5267
-            },
-            {
-              title: "成都的“香格里拉”，周边三日游的绝佳去处到泸沽湖",
-              img: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1512116865914&di=dd4ecf4506ba07fb4f9cc7ed537dcce5&imgtype=0&src=http%3A%2F%2Fwww.qqzhuangban.com%2Fuploadfile%2F2014%2F07%2F1%2F20140731061147783.jpg',
-              label: ['自驾', '大明湖', '情侣'],
-              intru: '5月1日 从成都出发，到泸沽湖、香格里径西昌行程总计大概6天来回、要求带车性别不限人数4人，绝佳去处、美丽山河约一起准备出发吧。',
-              singup: '14月28日',
-              url: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1512116865914&di=dd4ecf4506ba07fb4f9cc7ed537dcce5&imgtype=0&src=http%3A%2F%2Fwww.qqzhuangban.com%2Fuploadfile%2F2014%2F07%2F1%2F20140731061147783.jpg',
-              name: 'FGRLSxlkd',
-              id: '11144',
-              time: '04-18 11:02',
-              see: 5673,
-              say: 5267
-            },
-            {
-              title: "成都的“香格里拉”，周边三日游的绝佳去处到泸沽湖",
-              img: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1512116865901&di=a2fb4a7a620afb4bf36f088f6f94bd99&imgtype=0&src=http%3A%2F%2Fdl.bbs.9game.cn%2Fattachments%2Fforum%2F201603%2F16%2F231420io1ozrprnp6iik6r.jpg',
-              label: ['自驾', '大明湖', '情侣'],
-              intru: '5月1日 从成都出发，到泸沽湖、香格里径西昌行程总计大概6天来回、要求带车性别不限人数4人，绝佳去处、美丽山河约一起准备出发吧。',
-              singup: '14月28日',
-              url: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1512116865901&di=a2fb4a7a620afb4bf36f088f6f94bd99&imgtype=0&src=http%3A%2F%2Fdl.bbs.9game.cn%2Fattachments%2Fforum%2F201603%2F16%2F231420io1ozrprnp6iik6r.jpg',
-              name: 'FGRLSxlkd',
-              id: '11144',
-              time: '04-18 11:02',
-              see: 5673,
-              say: 5267
-            },
-            {
-              title: "成都的“香格里拉”，周边三日游的绝佳去处到泸沽湖",
-              img: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1512116865895&di=1aeccc96546e81af4420278f460b7ace&imgtype=0&src=http%3A%2F%2Fwww.qqzhuangban.com%2Fuploadfile%2F2014%2F07%2F1%2F20140726053359626.jpg',
-              label: ['自驾', '大明湖', '情侣'],
-              intru: '5月1日 从成都出发，到泸沽湖、香格里径西昌行程总计大概6天来回、要求带车性别不限人数4人，绝佳去处、美丽山河约一起准备出发吧。',
-              singup: '14月28日',
-              url: 'https://static.vux.li/demo/1.jpg',
-              name: 'FGRLSxlkd',
-              id: '11144',
-              time: '04-18 11:02',
-              see: 5673,
-              say: 5267
-            }
-
-          ]
-        }
+        checkNum: 0,
+        list: [],
+        onFetching: false,
+        bottomCount: 5,
       }
     },
+    created(){
+      this.onItemClick(0);
+    },
     methods: {
+      top(){
+        this.$refs.scrollerBottom._xscroll.scrollTop(0);
+      },
       goPath(url){
         this.$router.push(url);
       },
       tab(index){
         this.index = index;
+      },
+      async onItemClick(index){
+        if (index === 0) {
+          await list1().then(data => {
+            this.list = data;
+          })
+        } else if (index === 1) {
+          await list2().then(data => {
+            this.list = data;
+          })
+        } else if (index === 2) {
+          await list3().then(data => {
+            this.list = data;
+          })
+        }
+      },
+      onScrollBottom () {
+        if (this.onFetching) {
+          // do nothing
+        } else {
+          console.log(1);
+          this.onFetching = true;
+          setTimeout(() => {
+            this.bottomCount += 1;
+            this.$nextTick(() => {
+//              /this.$refs.scrollerBottom.reset();
+              //this.$refs.swiper.xheight = this.basicHeight * this.bottomCount + 'px';
+            })
+            this.onFetching = false
+          }, 2000)
+        }
       }
     }
   }
@@ -187,11 +167,6 @@
     height: 100%;
     display: flex;
     flex-flow: column;
-    .vux-header {
-      h1 {
-        font-size: 15px;
-      }
-    }
     .friends_main {
       @include wh(100%, 250px);
       flex: 0 0 250px;
@@ -335,15 +310,15 @@
         }
       }
       .bs_other {
-        color: rgba(77,77,77,1);
+        color: rgba(77, 77, 77, 1);
         .weui-cell {
-          .weui-cell__ft{
-            color: rgba(77,77,77,1);
+          .weui-cell__ft {
+            color: rgba(77, 77, 77, 1);
           }
-          .iconfont{
+          .iconfont {
             font-size: 18px;
             margin-right: 13px;
-            &.icon-IDnumber{
+            &.icon-IDnumber {
               margin-top: 3px;
               display: inline-block;
             }

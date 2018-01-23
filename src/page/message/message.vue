@@ -2,109 +2,117 @@
   <div class="message_user">
     <vTitle name="消息"></vTitle>
     <tab :line-width="1" :custom-bar-width="getBarWidth" class="tab_message" v-model="index">
-      <tab-item selected @on-item-click="tab">好友消息</tab-item>
-      <tab-item @on-item-click="tab">
+      <tab-item :selected="index === 0" @on-item-click="tab">
+        好友消息
+      </tab-item>
+      <tab-item :selected="index === 1" @on-item-click="tab">
         <badge text="" class="badge"></badge>
         系统消息
       </tab-item>
-      <tab-item @on-item-click="tab">陌生消息</tab-item>
+      <tab-item :selected="index === 2" @on-item-click="tab">
+        <badge text="" class="badge"></badge>
+        活动消息
+      </tab-item>
+      <tab-item :selected="index === 3" @on-item-click="tab">陌生消息</tab-item>
     </tab>
     <div v-if="index==0">
       <div class="tab-swiper vux-center">
-        <!-- 系统信息-->
-        <div class="item vux-1px-b">
-          <div class="fle_1">
-            <div class="header">
-              <span v-if="!active[0]"></span>
-            </div>
-            <div class="right">
-              <div class="top">
-                <div class="name">痴头呆脑</div>
-                <div class="time">09-09 09:25</div>
-              </div>
-              <div class="desc" :class="{'ess':childIndex==0}">
-                <span>门户网的会员您已经您注册成为中国自驾游门户网的会员您已经您注册成为中国自驾游</span>
-                <div class="iconfont icon-gengduo" :class="{'rotate': childIndex==0}" @click="showmore(0)"></div>
-              </div>
-            </div>
+
+      </div>
+    </div>
+    <div v-if="index==1">
+      <!-- 系统信息-->
+      <div class="item vux-1px-b">
+        <div class="fle_1" @click="showmore(0)"> <!-- 0 为 循环的index-->
+          <div class="header">
+            <span v-if="!active[0]"></span><!-- 0 为 循环的index-->
           </div>
-        </div>
-        <!-- 审核 -->
-        <div class="item vux-1px-b">
-          <div class="fle_1">
-            <div class="header"><span v-if="!active[1]"></span></div>
-            <div class="right">
-              <div class="top">
-                <div class="name">痴头呆脑</div>
-                <div class="time">09-09 09:25</div>
-              </div>
-              <div class="desc" :class="{'ess':childIndex==1}" v-if="childIndex!=1">
-                <ul class="join_s">
-                  <li><span class="key">审核状态： </span><span class="vl">未审核</span></li>
-                  <li><span class="key">昵称： </span><span class="vl">鲁迅居然姓周</span></li>
-                  <li><span class="key">报名活动：</span><span class="vl">青海到环球5日游青海到环球5日游青海到环球5日游青海到环球5日游</span></li>
-                </ul>
-                <div class="iconfont icon-gengduo" :class="{'rotate': childIndex==1}" @click="showmore(1)"></div>
-              </div>
-              <div class="desc" :class="{'ess':childIndex==1}" v-if="childIndex==1">
-                <ul class="join_s">
-                  <li><span class="key">审核状态： </span><span class="vl">未审核</span></li>
-                  <li><span class="key">昵称： </span>鲁迅居然姓周</li>
-                  <li><span class="key">报名活动：</span>青海到环球5日游青海到环球5日游</li>
-                  <li><span class="key">报名人数：</span>2人</li>
-                  <li><span class="key">车辆信息：</span>无车 需要两个座位</li>
-                  <li><span class="key">联系电话：</span>18227648954</li>
-                </ul>
-                <div class="iconfont icon-gengduo" :class="{'rotate': childIndex==1}" @click="showmore(1)"></div>
-              </div>
+          <div class="right">
+            <div class="top">
+              <div class="name">痴头呆脑</div>
+              <div class="time">09-09 09:25</div>
             </div>
-          </div>
-          <div class="btn" v-show="childIndex==1">
-            <div class="t t1" @click="">审核通过</div>
-            <div class="t t2 vux-1px-t" @click="unpass = true">审核不通过</div>
-          </div>
-        </div>
-        <!-- 审核不通过 -->
-        <div class="item vux-1px-b">
-          <div class="fle_1">
-            <div class="header">
-              <span v-if="!active[2]"></span>
-            </div>
-            <div class="right">
-              <div class="top">
-                <div class="name">痴头呆脑</div>
-                <div class="time">09-09 09:25</div>
-              </div>
-              <div class="desc" :class="{'ess':childIndex==2}" v-if="childIndex!=2">
-                <ul class="join_s">
-                  <li><span class="key">审核状态： </span><span class="vl">审核不通过</span></li>
-                  <li><span class="key">不通过原因：</span><span
-                    class="vl">青海到环球5日游青海到环球5日游青海到环球5日游青海到环球5日游青海到环球5日游青海到环球5日游</span></li>
-                </ul>
-                <div class="iconfont icon-gengduo" :class="{'rotate': childIndex==2}" @click="showmore(2)"></div>
-              </div>
-              <div class="desc" :class="{'ess':childIndex==2}" v-if="childIndex==2">
-                <ul class="join_s">
-                  <li><span class="key">审核状态： </span>审核不通过</li>
-                  <li><span class="key">不通过原因：</span>青海到环球5日游青海到环球5日游青海到环球5日游青海到环球5日游青海到环球5日游青海到环球5日游</li>
-                  <li><span class="key">昵称： </span>鲁迅居然姓周</li>
-                  <li><span class="key">报名活动：</span>青海到环球5日游青海到环球5日游</li>
-                  <li><span class="key">报名人数：</span>2人</li>
-                  <li><span class="key">车辆信息：</span>无车 需要两个座位</li>
-                  <li><span class="key">联系电话：</span>18227648954</li>
-                </ul>
-                <div class="iconfont icon-gengduo" :class="{'rotate': childIndex==2}" @click="showmore(2)"></div>
-              </div>
+            <div class="desc" :class="{'ess':childIndex==0}">
+              <span ref="he">门户网的会员您已经您注册成为中国自驾游门户网的会员您已经您注册成为中国自驾游您注册成为中国自驾游</span>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <div v-if="index==1">
-
-    </div>
     <div v-if="index==2">
+      <!-- 审核 -->
+      <div class="item vux-1px-b">
+        <div class="fle_1" @click="showmore(1)">
+          <div class="header"><span v-if="!active[1]"></span></div>
+          <div class="right">
+            <div class="top">
+              <div class="name">痴头呆脑</div>
+              <div class="time">09-09 09:25</div>
+            </div>
+            <div class="desc" v-if="childIndex!=1">
+              <ul class="join_s">
+                <li><span class="key">审核状态： </span><span class="vl">未审核</span></li>
+                <li><span class="key">昵称： </span><span class="vl">鲁迅居然姓周</span></li>
+                <li><span class="key">报名活动：</span><span class="vl">青海到环球5日游青海到环球5日游青海到环球5日游青海到环球5日游</span></li>
+              </ul>
+              <div class="iconfont icon-gengduo"></div>
+            </div>
+            <div class="desc ess" v-if="childIndex==1">
+              <ul class="join_s">
+                <li><span class="key">审核状态： </span><span class="vl">未审核</span></li>
+                <li><span class="key">昵称： </span>鲁迅居然姓周</li>
+                <li><span class="key">报名活动：</span>青海到环球5日游青海到环球5日游</li>
+                <li><span class="key">报名人数：</span>2人</li>
+                <li><span class="key">车辆信息：</span>无车 需要两个座位</li>
+                <li><span class="key">联系电话：</span>18227648954</li>
+              </ul>
+              <div class="iconfont icon-gengduo rotate"></div>
+            </div>
+          </div>
+        </div>
+        <div class="btn" v-show="childIndex==1">
+          <div class="t t1" @click="">审核通过</div>
+          <div class="t t2 vux-1px-t" @click="unpass = true">审核不通过</div>
+        </div>
+      </div>
+      <!-- 审核不通过 -->
+      <div class="item vux-1px-b">
+        <div class="fle_1" @click="showmore(2)">
+          <div class="header">
+            <span v-if="!active[2]"></span>
+          </div>
+          <div class="right">
+            <div class="top">
+              <div class="name">痴头呆脑</div>
+              <div class="time">09-09 09:25</div>
+            </div>
+            <!-- 未展開時候-->
+            <div class="desc" v-if="childIndex!=2">
+              <ul class="join_s">
+                <li><span class="key">审核状态： </span><span class="vl">审核不通过</span></li>
+                <li><span class="key">不通过原因：</span><span
+                  class="vl">青海到环球5日游青海到环球5日游青海到环球5日游青海到环球5日游青海到环球5日游青海到环球5日游</span></li>
+              </ul>
+              <div class="iconfont icon-gengduo"></div>
+            </div>
+            <!--展開的時候-->
+            <div class="desc ess" v-if="childIndex==2">
+              <ul class="join_s">
+                <li><span class="key">审核状态： </span>审核不通过</li>
+                <li><span class="key">不通过原因：</span>青海到环球5日游青海到环球5日游青海到环球5日游青海到环球5日游青海到环球5日游青海到环球5日游</li>
+                <li><span class="key">昵称： </span>鲁迅居然姓周</li>
+                <li><span class="key">报名活动：</span>青海到环球5日游青海到环球5日游</li>
+                <li><span class="key">报名人数：</span>2人</li>
+                <li><span class="key">车辆信息：</span>无车 需要两个座位</li>
+                <li><span class="key">联系电话：</span>18227648954</li>
+              </ul>
+              <div class="iconfont icon-gengduo rotate"></div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+    <div v-if="index==3"></div>
     <div class="write_ms" v-show="unpass">
       <div class="user_top">
         <span class="iconfont icon-fanhui" @click="unpass=false"></span>
@@ -117,7 +125,7 @@
 </template>
 
 <script>
-  import {Scroller, Swiper, SwiperItem, Tab, TabItem, Badge, Panel,XTextarea} from 'vux';
+  import {Scroller, Swiper, SwiperItem, Tab, TabItem, Badge, Panel, XTextarea} from 'vux';
   import vTitle from 'src/components/user/header';
 
   export default {
@@ -139,10 +147,15 @@
         childIndex: -1,
         active: [],
         unpass: false,
-        reason:'',
+        reason: '',
         getBarWidth: function () {
           return 75 + 'px'
         }
+      }
+    },
+    created(){
+      if (this.$route.query.type) {
+        this.index = (Math.round(this.$route.query.type) > 0 && Math.round(this.$route.query.type) < 4) ? Math.round(this.$route.query.type) : 0;
       }
     },
     methods: {
@@ -260,7 +273,7 @@
               }
             }
             &.ess {
-              display: inline-block;
+              /*display: inline-block;*/
               li {
                 overflow: auto;
                 text-overflow: initial;

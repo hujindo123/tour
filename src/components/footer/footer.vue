@@ -1,11 +1,11 @@
 <template>
   <div class="footer vux-1px-t">
     <router-link to="/main">
-      <i class="iconfont icon-shouye"></i>
+      <i class="iconfont icon-shouye2"></i>
       <span>首页</span>
     </router-link>
-    <router-link to="/action/0">
-      <i class="iconfont  icon-reqiqiu"></i>
+    <router-link to="/action">
+      <i class="iconfont icon-reqiqiu"></i>
       <span>活动</span>
     </router-link>
     <div class="a_r" @click="show=true">
@@ -30,7 +30,7 @@
     data () {
       return {
         show: false,
-        menus: ['发起活动',  '取消']
+        menus: ['发起活动', '取消']
       }
     },
     components: {
@@ -56,18 +56,19 @@
     background: #f8fafc;
     box-sizing: border-box;
     display: flex;
+    flex: 0 0 50px;
     flex-flow: row;
+    @include fj(center);
     a, .a_r {
       flex: 1;
       @include sc(15px, rgba(77, 77, 77, 1));
       text-decoration: none;
       text-align: center;
-      @include fj(center);
       display: flex;
       flex-flow: column;
       i {
         @include sc(18px, #999999);
-        &.icon-jiahao{
+        &.icon-jiahao {
           color: $fc;
         }
       }

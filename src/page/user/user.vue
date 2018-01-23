@@ -1,13 +1,6 @@
 <template>
   <div class="user">
-    <div class="user_top">
-      <span class="iconfont">
-        <!--icon-shezhi-->
-      </span>
-      <span class="iconfont icon-xiaoxi"  @click="goPath('/message')">
-          <badge text="8" class="badge"></badge>
-      </span>
-    </div>
+    <vHeader  :name="'我的'"></vHeader>
     <div class="user_basic_message">
       <div class="tp" @click="goPath('/editorUserMessage')">
         <div class="tp_left">
@@ -28,6 +21,11 @@
         <group>
           <cell :title="'我的活动'" is-link :link="{path:'/myAction'}"></cell>
         </group>
+        <group>
+          <cell :title="'我的消息'" is-link :link="{path:'/message'}">
+            <badge text="8" class="badge"></badge>
+          </cell>
+        </group>
        <!-- <group>
           <cell :title="'我的评论'" is-link :link="{path:'/myComment'}"></cell>
         </group>
@@ -45,13 +43,14 @@
 
 <script>
   import {Badge, Group, CellBox, Cell} from 'vux';
-
+  import vHeader from '../../components/user/header';
   export default {
     components: {
       Badge,
       Group,
       CellBox,
-      Cell
+      Cell,
+      vHeader,
     },
     data () {
       return {
@@ -76,31 +75,9 @@
   @import "../../style/mixin";
 
   .user {
-    width: 100%;
-    height: 100%;
     background: rgba(236, 236, 236, 1);
     display: flex;
     flex-flow: column;
-    .user_top {
-      display: flex;
-      background: $fc;
-      @include wh(100%, 46px);
-      box-sizing: border-box;
-      flex-flow: row;
-      @include sc(14px, #fff);
-      @include fj();
-      line-height: 46px;
-      overflow: hidden;
-      .iconfont {
-        padding: 2px 12px 0 10px;
-        @include sc(22px, #fff);
-      }
-      .badge {
-        right: 5px;
-        top: 5px;
-        position: absolute;
-      }
-    }
     .user_basic_message {
       .tp {
         padding: 24px 12px 24px 25px;

@@ -3,13 +3,13 @@
     <div class="user_top">
       <span class="iconfont icon-fanhui" @click="$router.go(-1)"></span>
       <span class="register_singin">修改电话</span>
-      <span class="iconfont icon-wechaticon27"></span>
+      <span class="iconfont"></span>
     </div>
     <div class="editor_phone">
       <div class="account_div">
         <group class="account input">
-          <x-input placeholder="请输入手机号码" v-model="update.phone">
-            <span slot="right" class="time" :class="{'hasSend': update.hasSend}">{{update.desc}}</span>
+          <x-input placeholder="请输入手机号码" is-type="china-mobile" v-model="update.phone">
+            <span slot="right" class="time" @click="send" :class="{'hasSend': update.hasSend}">{{update.desc}}</span>
           </x-input>
         </group>
         <group class="account input">
@@ -30,6 +30,7 @@
           code: '',
           hasSend: false,
           desc: '发送验证码',
+          time: 60,
         }
       }
     },
@@ -40,7 +41,24 @@
     methods: {
       change (value, label) {
         console.log('change:', value, label)
-      }
+      },
+      send(){
+        if (this.update.hasSend) {
+          return
+        } else {
+          this.update.desc = `(${this.update.time})秒后重新发送`;
+          setInterval(() => {
+            this.update.time--;
+            this.update.desc = `(${this.update.time})秒后重新发送`;
+            if (this.update.time <= 0) {
+              this.update.desc = '发送验证码';
+              this.update.hasSend = false;
+              clearInterval();
+            }
+          }, 1000)
+        }
+        this.update.hasSend = true;
+      },
     }
   }
 </script>
@@ -104,9 +122,9 @@
             }
             .time {
               color: rgba(57, 64, 67, 1);
-            }
-            .hasSend {
-              color: rgba(153, 153, 153, 1);
+              &.hasSend {
+                color: #999999;
+              }
             }
 
           }

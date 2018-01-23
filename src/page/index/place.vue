@@ -7,8 +7,7 @@
       <span class="city">
         <!--地址-->
          <x-address style="display:none;" :hide-district=true :title="title" @on-shadow-change="onShadowChange"
-                    :list="addressData"
-                    :show.sync="showAddress"></x-address>
+                    @on-hide="search" :list="addressData" :show.sync="showAddress" ></x-address>
          <label @click="showAddress = true"> {{name[0]}}<i class="iconfont icon-gengduo"></i></label>
         <!-- 标签-->
           <label for="b" @click="openLabel">标签
@@ -28,12 +27,12 @@
      </div>-->
     <scroller lock-x :scrollbar-y=false :bounce=false @on-scroll-bottom="onScrollBottom"
               ref="scrollerBottom"
-              :scroll-bottom-offst="100" :height="'-137px'">
+              :scroll-bottom-offst="100" :height="'-132px'">
       <div>
 
         <div class="main_list">
           <!--最新活动-->
-          <list :list="list" :place="true"></list>
+          <list :list="list" :place="2"></list>
         </div>
         <load-more tip="loading"></load-more>
       </div>
@@ -122,7 +121,7 @@
       /*切换导航*/
       onShadowChange (ids, names) {
         //console.log(ids, names)
-        this.name = names || ['成都'];
+        this.name = names;
       },
       openLabel(){
         this.Label = !this.Label;
@@ -131,6 +130,16 @@
         this.LabelData = [];
         this.LabelData = v;
         console.log(this.LabelData);
+        this.getData();
+      },
+      search(str){
+        if (str) {
+          this.getData();
+        }
+      },
+      getData(){
+        console.log(this.name, this.LabelData);
+        //搜索两个参数  地址 this.address.value, 标签
       },
       onScrollBottom () {
         if (this.onFetching) {

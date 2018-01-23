@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <loading v-model="isLoading"></loading>
     <router-view></router-view>
+    <loading v-model="isLoading"></loading>
   </div>
 </template>
 
@@ -24,7 +24,7 @@
 </style>
 <style lang="scss">
   @import "./style/reset.scss";
-  .router-link-exact-active {
+  .router-link-active {
     i,span{
       color: #159C5E!important;
     }

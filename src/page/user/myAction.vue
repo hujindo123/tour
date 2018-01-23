@@ -1,6 +1,6 @@
 <template>
   <div class="myaction">
-    <x-header :left-options="{backText: ''}" title="我的活动"></x-header>
+    <vTitle name="我的活动"></vTitle>
     <sticky :offset="46">
       <tab :line-width="1" class="tab_message" v-model="index">
         <tab-item selected @on-item-click="tab">发起</tab-item>
@@ -14,14 +14,12 @@
     <scroller lock-x height="-86px">
       <div>
         <div class="main_list">
-          <!--最新活动-->
-          <list :list="list" v-if="index===0"></list><!--test.list-->
-          <!--回顾活动-->
-          <list :list="list" v-if="index===1" :notButton="true"></list>
-          <!--目的地-->
-          <list :list="list" v-if="index===2" :notButton="true"></list>
-          <!--图片新闻-->
-          <list :list="list" v-if="index===3" :notButton="true"></list>
+          <!--发起活动 -->
+          <startList :list="list" v-if="index===0"></startList>
+          <!--参与活动 -->
+          <joinList :list="list" v-if="index===1"></joinList>
+          <!--收藏活动 -->
+          <collectionList :list="list" v-if="index===2"></collectionList>
         </div>
         <load-more tip="loading"></load-more>
       </div>
@@ -33,9 +31,12 @@
 
 <script>
   import {Badge, XHeader, Scroller, Tab, LoadMore,TabItem, Popover, ViewBox, Group, CellBox, Cell, XButton, Divider, Sticky} from 'vux';
-  import List from 'src/components/list/list';
-  import {list} from 'src/service/getDate'
 
+  import StartList from 'src/components/list/startList'; //发起的
+  import joinList from 'src/components/list/joinList'; //参与的
+  import collectionList from 'src/components/list/collectionList'; //参与的
+  import {list1,list2,list3} from 'src/service/getDate'
+  import vTitle from 'src/components/user/header';
   export default {
     components: {
       Scroller,
@@ -49,7 +50,7 @@
       Cell,
       Tab,
       TabItem,
-      XButton, Divider,LoadMore,List
+      XButton, Divider,LoadMore,StartList,joinList,collectionList,vTitle
 
     },
 
@@ -57,81 +58,29 @@
       return {
         index: 0,
         list: [],
-        test: {
-          guanggao: [
-            'https://static.vux.li/demo/1.jpg',
-            'https://static.vux.li/demo/1.jpg',
-            'https://static.vux.li/demo/1.jpg',
-            'https://static.vux.li/demo/1.jpg',
-            'https://static.vux.li/demo/1.jpg',
-            'https://static.vux.li/demo/1.jpg'
-          ],
-          list: [
-            {
-              title: "成都的“香格里拉”，周边三日游的绝佳去处到泸沽湖",
-              img: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1512116865699&di=da0eea64a26c83bf65a83d9d40409676&imgtype=0&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F0104cd5598bec26ac7253264c9598d.png',
-              label: ['自驾', '大明湖', '情侣'],
-              intru: '成都的“香格里拉”，周边三日游的绝佳去处到泸沽湖,成都的“香格里拉”，周边三日游的绝佳去处到泸沽湖,成都的“香格里拉”，周边三日游的绝佳去处到泸沽湖,5月1日 从成都出发，到泸沽湖、香格里径西昌行程总计大概6天来回、要求带车性别不限人数4人，绝佳去处、美丽山河约一起准备出发吧。',
-              singup: '14月28日',
-              url: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1512116865914&di=dd4ecf4506ba07fb4f9cc7ed537dcce5&imgtype=0&src=http%3A%2F%2Fwww.qqzhuangban.com%2Fuploadfile%2F2014%2F07%2F1%2F20140731061147783.jpg',
-              name: 'FGRLSxlkd',
-              id: '11144',
-              time: '04-18 11:02',
-              see: 5673,
-              say: 5267
-            },
-            {
-              title: "成都的“香格里拉”，周边三日游的绝佳去处到泸沽湖",
-              img: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1512116865914&di=dd4ecf4506ba07fb4f9cc7ed537dcce5&imgtype=0&src=http%3A%2F%2Fwww.qqzhuangban.com%2Fuploadfile%2F2014%2F07%2F1%2F20140731061147783.jpg',
-              label: ['自驾', '大明湖', '情侣'],
-              intru: '5月1日 从成都出发，到泸沽湖、香格里径西昌行程总计大概6天来回、要求带车性别不限人数4人，绝佳去处、美丽山河约一起准备出发吧。',
-              singup: '14月28日',
-              url: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1512116865914&di=dd4ecf4506ba07fb4f9cc7ed537dcce5&imgtype=0&src=http%3A%2F%2Fwww.qqzhuangban.com%2Fuploadfile%2F2014%2F07%2F1%2F20140731061147783.jpg',
-              name: 'FGRLSxlkd',
-              id: '11144',
-              time: '04-18 11:02',
-              see: 5673,
-              say: 5267
-            },
-            {
-              title: "成都的“香格里拉”，周边三日游的绝佳去处到泸沽湖",
-              img: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1512116865901&di=a2fb4a7a620afb4bf36f088f6f94bd99&imgtype=0&src=http%3A%2F%2Fdl.bbs.9game.cn%2Fattachments%2Fforum%2F201603%2F16%2F231420io1ozrprnp6iik6r.jpg',
-              label: ['自驾', '大明湖', '情侣'],
-              intru: '5月1日 从成都出发，到泸沽湖、香格里径西昌行程总计大概6天来回、要求带车性别不限人数4人，绝佳去处、美丽山河约一起准备出发吧。',
-              singup: '14月28日',
-              url: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1512116865901&di=a2fb4a7a620afb4bf36f088f6f94bd99&imgtype=0&src=http%3A%2F%2Fdl.bbs.9game.cn%2Fattachments%2Fforum%2F201603%2F16%2F231420io1ozrprnp6iik6r.jpg',
-              name: 'FGRLSxlkd',
-              id: '11144',
-              time: '04-18 11:02',
-              see: 5673,
-              say: 5267
-            },
-            {
-              title: "成都的“香格里拉”，周边三日游的绝佳去处到泸沽湖",
-              img: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1512116865895&di=1aeccc96546e81af4420278f460b7ace&imgtype=0&src=http%3A%2F%2Fwww.qqzhuangban.com%2Fuploadfile%2F2014%2F07%2F1%2F20140726053359626.jpg',
-              label: ['自驾', '大明湖', '情侣'],
-              intru: '5月1日 从成都出发，到泸沽湖、香格里径西昌行程总计大概6天来回、要求带车性别不限人数4人，绝佳去处、美丽山河约一起准备出发吧。',
-              singup: '14月28日',
-              url: 'https://static.vux.li/demo/1.jpg',
-              name: 'FGRLSxlkd',
-              id: '11144',
-              time: '04-18 11:02',
-              see: 5673,
-              say: 5267
-            }
-
-          ]
-        }
       }
     },
     async created(){
-      await list().then(data => {
+      await list1().then(data => {
         this.list = data;
       })
     },
     methods: {
-      tab(index){
+      async tab(index){
         this.index = index;
+        if(this.index ===0){
+          await list1().then(data => {
+            this.list = data;
+          })
+        }else if(this.index ===1){
+          await list2().then(data => {
+            this.list = data;
+          })
+        }else if(this.index ===2){
+          await list3().then(data => {
+            this.list = data;
+          })
+        }
       }
     }
   }

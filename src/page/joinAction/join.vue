@@ -5,63 +5,62 @@
       <span class="register_singin">报名信息填写</span>
       <span class="iconfont icon-wechaticon27" :style="{opacity: save ? 1:0.5}"></span>
     </div>
-    <scroller lock-x height="-44">
-      <div class="user_basic_message">
-        <div class="bs_other">
-          <group>
-            <!--   <x-input title="昵称" class="require" :value="'鲁迅居然姓周'">123</x-input>-->
-            <cell :title="'昵称'" :value="name"></cell>
-          </group>
-          <group>
-            <cell :title="'性别'" :value="sex"></cell>
-          </group>
-          <group>
-            <x-input title="人数" type="number" v-model="num" placeholder="填写报名人数" text-align="right"
-                     class="require" placeholder-align="right"></x-input>
-          </group>
-          <group>
-            <x-input title="联系方式" is-type="china-mobile" v-model="phone" placeholder="填写电话号码" text-align="right"
-                     class="require" placeholder-align="right"></x-input>
-          </group>
-          <group>
-            <cell :title="'车辆信息'" :value="value" placeholder="选择有无车辆" @click.native="show=true" is-link
-                  class="require"></cell>
-          </group>
-          <div v-transfer-dom>
-            <popup v-model="show">
-              <div class="popup0">
-                <group>
-                  <radio title="title" :options="options" v-model="value"></radio>
-                </group>
-              </div>
-            </popup>
-          </div>
-          <group>
-            <x-input title="需要的座位" type="number" v-show="value==='无车'" v-model="carNum" placeholder="填写需要的座位数量"
-                     class="require"
-                     text-align="right"
-                     placeholder-align="right"></x-input>
-          </group>
-          <group>
-            <x-input title="可提供的座位" type="number" v-show="value==='有车'" v-model="carNum" placeholder="填写可提供的座位数量"
-                     class="require"
-                     text-align="right"
-                     placeholder-align="right"></x-input>
-          </group>
-          <group>
-            <label for="file">
-              <cell :title="'驾驶证'" is-link :value="'上传'">
-              </cell>
-              <input type="file" id="file" style="opacity: 0;position: absolute;top: 0;left: 0;"/>
-            </label>
-          </group>
-          <group>
-            <x-switch :title="'用户协议已读'" :value-map="['0', '1']" v-model="switchs"></x-switch>
-          </group>
-          <div style="color: #3385ff;font-size: 12px;padding:15px 25px" @click="showDialogStyle=true">查看协议</div>
+    <div class="user_basic_message">
+      <div class="bs_other">
+        <group>
+          <cell :title="'昵称'" :value="name"></cell>
+        </group>
+        <group>
+          <cell :title="'性别'" :value="sex"></cell>
+        </group>
+        <group>
+          <x-input title="人数" type="number" v-model="num" placeholder="填写报名人数" text-align="right"
+                   class="require" placeholder-align="right"></x-input>
+        </group>
+        <group>
+          <x-input title="联系方式" is-type="china-mobile" v-model="phone" placeholder="填写电话号码" text-align="right"
+                   class="require" placeholder-align="right"></x-input>
+        </group>
+        <group>
+          <cell :title="'车辆信息'" :value="value" placeholder="选择有无车辆" @click.native="show=true" is-link
+                class="require"></cell>
+        </group>
+        <div v-transfer-dom>
+          <popup v-model="show">
+            <div class="popup0">
+              <group>
+                <radio title="title" :options="options" v-model="value"></radio>
+              </group>
+            </div>
+          </popup>
         </div>
+        <group>
+          <x-input title="需要的座位" type="number" v-show="value==='无车'" v-model="carNum" placeholder="填写需要的座位数量"
+                   class="require"
+                   text-align="right"
+                   placeholder-align="right"></x-input>
+        </group>
+        <group>
+          <x-input title="可提供的座位" type="number" v-show="value==='有车'" v-model="carNum" placeholder="填写可提供的座位数量"
+                   class="require"
+                   text-align="right"
+                   placeholder-align="right"></x-input>
+        </group>
+        <group>
+          <label for="file">
+            <cell :title="'驾驶证'" is-link :value="'上传'"></cell>
+            <input type="file" id="file" accept="image/*" style="opacity: 0;position: absolute;top: 0;left: 0;width: 100%;height: 100%;"/>
+          </label>
+        </group>
+        <div style="padding: 15px">
+          <img src="../../../static/img/car.png" style="width: 100%; height: auto;display: inline-block"/>
+        </div>
+        <group>
+          <x-switch :title="'用户协议已读'" :value-map="['0', '1']" v-model="switchs"></x-switch>
+        </group>
+        <div style="color: #3385ff;font-size: 12px;padding:15px 25px" @click="showDialogStyle=true">查看协议</div>
       </div>
-    </scroller>
+    </div>
     <x-dialog v-model="showDialogStyle" hide-on-blur
               :dialog-style="{'max-width': '100%', width: '100%', height: '100%', '-webkit-overflow-scrolling':'touch', 'overflow-y':'auto', 'background-color': 'transparent'}">
       <div style="color:#fff;" @click="showDialogStyle = false">
@@ -108,7 +107,6 @@
       <br>
       <br>
       <x-icon type="ios-close-outline" @click.native="showDialogStyle=false" style="fill:#fff;" size="50"></x-icon>
-
     </x-dialog>
     <x-button type="default" class="add_submit" @click.native="submit">提交报名</x-button>
   </div>
@@ -161,10 +159,10 @@
         this.inputShow = false;
       },
       back(){
-        this.$router.push(-1);
+        this.$router.go(-1);
       },
       submit(){
-        if(this.save){
+        if (this.save) {
           this.$router.push('/joinSucess/1');
         }
       }
@@ -186,18 +184,24 @@
     width: 100%;
     height: 100%;
     background: #fff;
+    -webkit-overflow-scrolling: touch;
     display: flex;
     flex-flow: column;
     .user_top {
       display: flex;
       background: $fc;
       @include wh(100%, 44px);
+      flex: 0 0 44px;
       box-sizing: border-box;
       flex-flow: row;
       @include sc(15px, #fff);
       @include fj();
       line-height: 44px;
       overflow: hidden;
+      position: fixed;
+      z-index: 500;
+      left: 0;
+      top: 0;
       .iconfont {
         @include wh(46px, 44px);
         flex: 0 0 46px;
@@ -212,6 +216,7 @@
     }
     .user_basic_message {
       flex: 1;
+      padding-top: 44px;
       @include wh(100%, 100%);
       .bs_other {
         @include wh(100%, 100%);

@@ -20,12 +20,6 @@
       <div>
         <div class="banner">
           <img src="http://pic.58pic.com/58pic/16/73/00/25x58PICySY_1024.jpg" alt="">
-          <div class="txt">
-            <!--    <Countdown endTime="1513353600" :callback="callback" endText="已经结束了"></Countdown>-->
-            <!--10 天 13 小时 27 分钟 36 秒 后报名结束-->
-            <span v-if="timeShow"><clocker :time="details.time" slots="123" @on-finish="finish"></clocker> 后报名结束</span> <span
-            v-if="!timeShow">已经结束</span>
-          </div>
         </div>
         <div class="main">
           <div class="title">{{details.title}}</div>
@@ -46,32 +40,6 @@
                   <span><i class="iconfont icon-liulan"></i> {{details.user.see}}</span>
                   <span><i class="iconfont icon-pinglun"></i> {{details.user.msg}}</span>
                 </div>
-                <div class="button" v-if="!$route.query.type"> <!-- 如果是目的地或者回顾 没有按钮-->
-                  <x-button text="编辑报名" class="txt" type="primary" @click.native="show=!show"></x-button>
-                  <div style="margin-top: 1px">
-                    <x-button text="修改报名" class="txt" type="primary" link='/joinAction' v-show="show"></x-button>
-                  </div>
-                  <div style="margin-top: 1px">
-                    <x-button text="取消报名" class="txt" type="primary" v-show="show"
-                              @click.native="show1 = true"></x-button>
-                  </div>
-                </div>
-                <!--
-                 <div class="button">
-                  <x-button text="编辑活动" class="txt" type="primary"></x-button>
-                  <div style="margin-top: 1px">
-                    <x-button text="修改活动" class="txt" type="primary" link='/joinAction' v-show="show"></x-button>
-                  </div>
-                  <div style="margin-top: 1px">
-                    <x-button text="审核报名" class="txt" type="primary" v-show="show"
-                              link='/message?type=2'></x-button>
-                  </div>
-                    <div style="margin-top: 1px">
-                    <x-button text="取消活动" class="txt" type="primary" v-show="show"
-                              @click.native="show1 = true"></x-button>
-                  </div>
-                </div>
-                -->
               </div>
             </div>
             <div class="label">
@@ -80,83 +48,28 @@
                 <router-link :to="{path: '/action', query: {id: item}}">{{item}} </router-link>
               </span>
             </div>
-            <divider class="divider">出行信息</divider>
-            <ul class="ul">
-              <li><i class="iconfont icon-chufadi"></i><span>出发地</span><span
-                class="txt">{{details.message.start}}</span></li>
-              <li><i class="iconfont icon-mudedi"></i><span>目的地</span><span class="txt">{{details.message.end}}</span>
-              </li>
-              <li><i class="iconfont icon-riqi"></i><span>往返时间</span><span class="txt">{{details.message.day}}</span>
-              </li>
-              <li><i class="iconfont icon-weibiaoti102"></i><span>约团人数</span><span
-                class="txt">{{details.message.num}}</span></li>
-              <li><i class="iconfont icon-qian"></i><span>费用分摊</span><span class="txt">{{details.message.money}}</span>
-              </li>
-              <li><i class="iconfont icon-che"></i><span>有无车</span><span class="txt">{{details.message.bus}}</span></li>
-            </ul>
+            <!-- <divider class="divider">出行信息</divider>
+             <ul class="ul">
+               <li><i class="iconfont icon-chufadi"></i><span>出发地</span><span
+                 class="txt">{{details.message.start}}</span></li>
+               <li><i class="iconfont icon-mudedi"></i><span>目的地</span><span class="txt">{{details.message.end}}</span>
+               </li>
+               <li><i class="iconfont icon-riqi"></i><span>往返时间</span><span class="txt">{{details.message.day}}</span>
+               </li>
+               <li><i class="iconfont icon-weibiaoti102"></i><span>约团人数</span><span
+                 class="txt">{{details.message.num}}</span></li>
+               <li><i class="iconfont icon-qian"></i><span>费用分摊</span><span class="txt">{{details.message.money}}</span>
+               </li>
+               <li><i class="iconfont icon-che"></i><span>有无车</span><span class="txt">{{details.message.bus}}</span></li>
+             </ul>-->
             <div class="content">
               {{details.context}}
-            </div>
-          </div>
-        </div>
-        <div class="comment_pople" v-show="!$route.query.type"> <!-- 如果是目的地或者回顾 没有按钮-->
-          <tab :line-width="2" custom-bar-width="40px" class="tab_message" v-model="index">
-            <tab-item selected @on-item-click="tab">已审核</tab-item>
-            <tab-item @on-item-click="tab">
-              未审核
-            </tab-item>
-          </tab>
-          <div class="Img_banner" :style="{paddingLeft: paddingLeft }" v-show="index ==0">
-            <div class="box-img" v-for="x in num">
-              <img
-                src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1512116865699&di=da0eea64a26c83bf65a83d9d40409676&imgtype=0&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F0104cd5598bec26ac7253264c9598d.png"
-                alt="">
-            </div>
-            <!--<div class="box-img" v-for="x in 12">
-              <img
-                src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1512116865699&di=da0eea64a26c83bf65a83d9d40409676&imgtype=0&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F0104cd5598bec26ac7253264c9598d.png"
-                alt="">
-            </div>-->
-            <div class="box-img" v-show="isShow && index == 0 " v-for="x in 3">
-              <img
-                src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1512116865699&di=da0eea64a26c83bf65a83d9d40409676&imgtype=0&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F0104cd5598bec26ac7253264c9598d.png"
-                alt="">
-            </div>
-            <div class="icon_more" v-show="false " :class="{rotate: isShow && index == 0}">
-              <i class="iconfont icon-gengduo" @click="iconMore"></i>
-            </div>
-          </div>
-          <div class="Img_banner" :style="{paddingLeft: paddingLeft }" v-show="index ==1">
-            <div class="box-img" v-for="x in num">
-              <img
-                src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1512116865699&di=da0eea64a26c83bf65a83d9d40409676&imgtype=0&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F0104cd5598bec26ac7253264c9598d.png"
-                alt="">
-            </div>
-            <!--<div class="box-img" v-for="x in 12">
-              <img
-                src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1512116865699&di=da0eea64a26c83bf65a83d9d40409676&imgtype=0&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F0104cd5598bec26ac7253264c9598d.png"
-                alt="">
-            </div>-->
-            <div class="box-img" v-show="isShow && index == 1 " v-for="x in 13">
-              <img
-                src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1512116865699&di=da0eea64a26c83bf65a83d9d40409676&imgtype=0&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F0104cd5598bec26ac7253264c9598d.png"
-                alt="">
-            </div>
-            <div class="icon_more" v-show="true" :class="{rotate: isShow && index == 1}">
-              <i class="iconfont icon-gengduo" @click="iconMore"></i>
             </div>
           </div>
         </div>
       </div>
       <!-- 评论 -->
       <btnCollection :like="like" :num="details.comment.num"></btnCollection>
-      <div v-transfer-dom>
-        <confirm v-model="show1"
-                 :close-on-confirm="false"
-                 @on-confirm="onConfirm4">
-          <p style="text-align:center;">确定取消报名吗?</p>
-        </confirm>
-      </div>
     </view-box>
   </div>
 </template>
@@ -179,7 +92,6 @@
     TransferDomDirective as TransferDom,
     Confirm
   } from 'vux';
-  import Countdown from 'src/components/HelloFromVux';
   import btnCollection from 'src/components/comment/btnCollection';
   import {details} from 'src/service/getDate'
   export default {
@@ -194,7 +106,7 @@
       Divider,
       Confirm,
       Clocker,
-      Tab, TabItem, Scroller, Countdown,btnCollection
+      Tab, TabItem, Scroller, btnCollection
     },
     directives: {
       TransferDom
@@ -203,12 +115,13 @@
       return {
         index: 0,
         details: '',
+        like: false, //是否喜歡
+        num: 0, //評論數量
         show: false,
         show1: false,
-        like: false,
         messagesShow: false,
+        time1: '2018-07-13 21:54',
         timeShow: true,
-        num: 0,
         isShow: false
       }
     },
@@ -232,9 +145,6 @@
         } else {
           this.isShow = true;
         }
-      },
-      goPath(url){
-        this.$router.push(url)
       },
       callback(v){
         console.log(v);
@@ -572,5 +482,6 @@
       }
 
     }
+
   }
 </style>

@@ -4,71 +4,76 @@
     <scroller lock-x :scrollbar-y=false :bounce=false @on-scroll-bottom="onScrollBottom" ref="scrollerBottom"
               :scroll-bottom-offst="100" :height="'-50px'">
       <div>
-        <swiper ref="swiper" :loop="true" :auto="true" :aspect-ratio="400/750">
-          <swiper-item class="swiper-demo-img" v-for="(item, index) in banner" :key="index">
-            <router-link :to="{path:'/details',query: {id: item.id,type: false}}">
-              <img :src="item.img" style="width: 100%">
-            </router-link>
-          </swiper-item>
-        </swiper>
-        <div v-show="mainShow">
-          <scroller lock-y :scrollbar-x=true :bounce=false>
-            <div class="box" ref="div">
-              <div class="box-item" v-for="(item, index) in label">
-                <router-link :to="{path: '/action/'+index}">
+        <div class="banner">
+          <swiper :options="swiperOption">
+            <swiper-slide v-for="(item, index) in banner" :key="index">
+              <router-link :to="{path:'/details2/'+item.id}">
+                <img :src="item.img" style="width: 100%">
+              </router-link>
+            </swiper-slide>
+            <div class="swiper-pagination" slot="pagination"></div>
+          </swiper>
+        </div>
+        <div class="box" v-if="banner.length">
+          <swiper :options="swiperOption1">
+            <swiper-slide v-for="(item, index) in label" :key="index">
+              <div class="box-item">
+                <router-link :to="{path: '/action', query: {id: item.name}}">
                   <div class="tab"><i class="iconfont" :class="item.icon"></i>{{item.name}}</div>
                 </router-link>
               </div>
-            </div>
-          </scroller>
-          <scroller lock-y :scrollbar-x=true :bounce=false>
-            <div class="Img_banner" ref="divs">
-              <div class="box-img" v-for="x in guanggao">
-                <router-link :to="{path:'/details',query: {id: 15,type: false}}">
-                  <img :src=x alt="">
+            </swiper-slide>
+            <div class="swiper-scrollbar" slot="scrollbar"></div>
+          </swiper>
+        </div>
+        <div class="img_banner">
+          <swiper :options="swiperOption2">
+            <swiper-slide v-for="(item, index) in guanggao" :key="index">
+              <div class="box-img">
+                <router-link :to="{path:'/details2/'+item.id}">
+                  <img :src=item alt="">
                 </router-link>
               </div>
-            </div>
-          </scroller>
-          <sticky :offset="44">
-            <tab :line-width="1" class="tab_message" v-model="index">
-              <tab-item selected @on-item-click="tab">最新活动</tab-item>
-                <tab-item @on-item-click="tab">
-                  回顾活动
-                </tab-item>
-              <tab-item @on-item-click="tab">目的地</tab-item>
-              <tab-item @on-item-click="tab">图片新闻</tab-item>
-            </tab>
-          </sticky>
-          <div class="main_list" v-if="list">
-            <!--最新活动-->
-            <list :list="list" v-if="index===0"></list>
-            <!--回顾活动-->
-            <list :list="list" v-if="index===1" :place="true"></list>
-            <!--目的地-->
-            <list :list="list" v-if="index===2" :place="true"></list>
-            <!--图片新闻-->
-            <list2 v-if="index===3"></list2>
-          </div>
-          <load-more tip="loading"></load-more>
+            </swiper-slide>
+            <div class="swiper-scrollbar" slot="scrollbar"></div>
+          </swiper>
         </div>
+
+        <tab :line-width="1" class="tab_message" v-model="index">
+          <tab-item selected @on-item-click="tab">最新活动</tab-item>
+          <!--  <tab-item @on-item-click="tab">
+              回顾活动
+            </tab-item>-->
+          <tab-item @on-item-click="tab">目的地</tab-item>
+          <tab-item @on-item-click="tab">图片新闻</tab-item>
+        </tab>
+        <div class="main_list" v-if="list">
+          <!--最新活动-->
+          <list :list="list" v-if="index===0"></list>
+          <!--目的地-->
+          <list :list="list" v-if="index===1" :place="2"></list> <!-- v-if="index===2" :place="2"-->
+          <!--图片新闻-->
+          <list2 v-if="index===2"></list2>
+        </div>
+        <load-more tip="loading"></load-more>
       </div>
     </scroller>
-
   </div>
 </template>
 
 <script>
+  import 'swiper/dist/css/swiper.css'
+
+  import {swiper, swiperSlide} from 'vue-awesome-swiper'
   import scrollTop from 'src/components/little/scrollTop';
   import List from 'src/components/list/list';
   import List2 from 'src/components/list/list2'
-  import {Swiper, SwiperItem, Sticky, Scroller, Tab, TabItem, LoadMore} from 'vux';
+  import {Scroller, Tab, TabItem, LoadMore} from 'vux';
   import {banner, guanggao, list} from 'src/service/getDate'
   export default {
     components: {
-      Sticky,
-      Swiper,
-      SwiperItem,
+      swiper,
+      swiperSlide,
       Scroller,
       Tab,
       TabItem,
@@ -81,7 +86,7 @@
       return {
         banner: '',
         list: [],
-        guanggao: '',
+        guanggao: [],
         index: 0, // 选项卡
         label: [ // 标签
           {
@@ -110,6 +115,34 @@
         mainShow: false,
         onFetching: false,
         bottomCount: 5,
+        swiperOption: {
+          slidesPerView: 1,
+          autoplay: true,
+          loop: true,
+          pagination: {
+            el: '.swiper-pagination',
+          },
+        },
+        swiperOption1: {
+          slidesPerView: 3,
+          spaceBetween: 30,
+          freeMode: true,
+          resistanceRatio:0,
+          scrollbar: {
+            el: '.swiper-scrollbar',
+            hide: false
+          }
+        },
+        swiperOption2: {
+          loop: false,
+          slidesPerView: 'auto',
+          spaceBetween: 8,
+          resistanceRatio:0,
+          scrollbar: {
+            el: '.swiper-scrollbar',
+            hide: false
+          }
+        }
       }
     },
     mounted(){
@@ -120,7 +153,6 @@
       });
       await guanggao().then(data => {
         this.guanggao = data;
-        this.$refs.divs.style.width = (160 + 4) * this.guanggao.length > window.innerWidth ? (160 + 4) * this.guanggao.length + 'px' : '100%';
         this.showList();
       });
       await list().then(data => {
@@ -134,7 +166,6 @@
       },
       showList(){
         this.mainShow = true;
-        this.$refs.div.style.width = (98 + 15) * this.$refs.div.children.length > window.innerWidth ? (98 + 15) * this.$refs.div.children.length + 'px' : '100%';
       },
       tab(index){
         this.index = index;
@@ -162,23 +193,17 @@
   @import "../../style/mixin";
 
   .box_view {
-    @include wh(100%, 100%);
     display: flex;
     flex-flow: column;
     .banner {
       position: relative;
-      .vux-slider > .vux-indicator > a > .vux-icon-dot, .vux-slider .vux-indicator-right > a > .vux-icon-dot {
-        background-color: #fff;
-        opacity: 0.5;
-      }
-      .vux-slider > .vux-indicator > a > .active {
+      font-size: 0;
+      .swiper-pagination-bullet-active {
         background-color: rgba(255, 255, 255, 1);
-        opacity: 1;
       }
     }
 
     .box {
-      padding: 15px 0;
       box-sizing: border-box;
       display: flex;
       flex-flow: row;
@@ -187,6 +212,7 @@
         @include borderRadius(20px);
         width: 98px;
         text-align: center;
+        margin: 15px 0;
         background: rgba(229, 229, 229, 1);
         a {
           display: inline-block;
@@ -201,21 +227,41 @@
           }
         }
       }
-    }
-
-    .Img_banner {
-      display: flex;
-      flex-flow: row;
-      @include fj();
-      .box-img {
-        img {
-          box-sizing: border-box;
-          padding: 0 1px;
-          @include wh(160px, 90px);
+      .swiper-scrollbar {
+        height: 2px;
+        bottom: 0;
+        background: transparent;
+        .swiper-scrollbar-drag {
+          background: $fc;
         }
       }
     }
+    .img_banner {
+      .swiper-container {
+        padding-bottom: 2px;
+        .swiper-slide {
+          @include wh(160px, 90px);
+          .box-img {
+            @include wh(160px, 90px);
+            img {
+              box-sizing: border-box;
+              padding: 0 1px;
+              display: inline-block;
+              @include wh(100%, 90px);
+            }
+          }
+        }
+        .swiper-scrollbar {
+          height: 2px;
+          bottom: 0;
+          background: transparent;
+          .swiper-scrollbar-drag {
+            background: $fc;
+          }
+        }
+      }
 
+    }
     .tab_message {
       .vux-tab-item {
         @include sc(15px, rgba(77, 77, 77, 1));

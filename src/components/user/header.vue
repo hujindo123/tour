@@ -32,6 +32,7 @@
     @include wh(100%, 44px);
     box-sizing: border-box;
     flex-flow: row;
+    flex: 0 0 44px;
     @include sc(15px, #fff);
     @include fj();
     line-height: 44px;
@@ -45,6 +46,8 @@
     .register_singin {
       flex: 1;
       text-align: center;
+      overflow: hidden;
+      @include es();
       @include sc(14px, #fff)
     }
   }

@@ -1,14 +1,57 @@
 <template>
-  <div class="list_tab2">
-    <router-link to="/" class="vux-1px">
-      <img src="https://static.vux.li/demo/1.jpg" alt="">
-      <span>初夏长坝山--但愿人长久，且白头偕老。</span>
-      <div class="line">
-        <span><i class="iconfont icon-liulan"></i>5673</span>
-        <span><i class="iconfont icon-pinglun"></i>5673</span>
-      </div>
-    </router-link>
+  <div>
+    <div class="list_tab2">
+      <router-link to="/news" class="vux-1px">
+        <img src="https://static.vux.li/demo/1.jpg" alt="">
+        <span>初夏长坝山--但愿人长久，且白头偕老。</span>
+        <div class="line">
+          <span><i class="iconfont icon-liulan"></i>5673</span>
+          <span><i class="iconfont icon-pinglun"></i>5673</span>
+        </div>
+      </router-link>
+    </div>
+    <div class="list_tab2">
+      <router-link to="/news" class="vux-1px">
+        <img src="https://static.vux.li/demo/1.jpg" alt="">
+        <span>初夏长坝山--但愿人长久，且白头偕老。</span>
+        <div class="line">
+          <span><i class="iconfont icon-liulan"></i>5673</span>
+          <span><i class="iconfont icon-pinglun"></i>5673</span>
+        </div>
+      </router-link>
+    </div>
+    <div class="list_tab2">
+      <router-link to="/news" class="vux-1px">
+        <img src="https://static.vux.li/demo/1.jpg" alt="">
+        <span>初夏长坝山--但愿人长久，且白头偕老。</span>
+        <div class="line">
+          <span><i class="iconfont icon-liulan"></i>5673</span>
+          <span><i class="iconfont icon-pinglun"></i>5673</span>
+        </div>
+      </router-link>
+    </div>
+    <div class="list_tab2">
+      <router-link to="/news" class="vux-1px">
+        <img src="https://static.vux.li/demo/1.jpg" alt="">
+        <span>初夏长坝山--但愿人长久，且白头偕老。</span>
+        <div class="line">
+          <span><i class="iconfont icon-liulan"></i>5673</span>
+          <span><i class="iconfont icon-pinglun"></i>5673</span>
+        </div>
+      </router-link>
+    </div>
+    <div class="list_tab2">
+      <router-link to="/news" class="vux-1px">
+        <img src="https://static.vux.li/demo/1.jpg" alt="">
+        <span>初夏长坝山--但愿人长久，且白头偕老。</span>
+        <div class="line">
+          <span><i class="iconfont icon-liulan"></i>5673</span>
+          <span><i class="iconfont icon-pinglun"></i>5673</span>
+        </div>
+      </router-link>
+    </div>
   </div>
+
 </template>
 
 <script>
@@ -93,18 +136,28 @@
         flex: 1;
         flex-flow: column;
         .label {
-          vertical-align: text-top;
+          height: 18px;
+          font-size: 0;
+          display: flex;
+          flex-flow: row;
+          position: relative;
+          @include fj(space-around);
           .iconfont {
-            display: inline-block;
-            vertical-align: text-top;
-            @include sc(11px, rgba(230, 230, 230, 1));
+            top: 3px;
+            display: block;
+            position: absolute;
+            left: 0;
+            @include sc(10px, rgba(230, 230, 230, 1));
           }
           span {
-            vertical-align: top;
+            display: flex;
+            box-sizing: border-box;
             margin-left: 5px;
-            padding: 3px 6px;
-            background: rgba(230, 230, 230, 1);
-            @include sc(9px, rgba(153, 153, 153, 1));
+            padding: 2px 10px;
+            letter-spacing: 1px;
+            @include borderRadius(3px);
+            background: #f0f0f0;
+            @include sc(13px, rgba(153, 153, 153, 1));
           }
 
         }

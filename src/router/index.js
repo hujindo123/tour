@@ -10,9 +10,7 @@ import third from 'src/page/third/third';
 import user from 'src/page/user/user';
 import editorUserMessage from 'src/page/user/editorUserMessage';
 import updatePhone from 'src/page/user/updatePhone';
-import introduce from 'src/page/user/introduce';
 import message from 'src/page/message/message';
-import details from 'src/page/action/details';
 import index from 'src/page/index/index';
 export default new Router({
   mode,
@@ -31,7 +29,7 @@ export default new Router({
           },
         },
         {
-          path: '/action/:typeName',
+          path: '/action',
           name: '活动',
           component: resolve => {
             require(['src/page/index/action'], resolve)
@@ -93,11 +91,6 @@ export default new Router({
       component: updatePhone
     },
     {
-      path: '/introduce',
-      name: '自我介绍信息',
-      component: introduce
-    },
-    {
       path: '/message',
       name: '消息中心',
       component: message
@@ -110,6 +103,13 @@ export default new Router({
       }
     },
     {
+      path: '/news',
+      name: '图片新闻',
+      component: resolve => {
+        require(['src/page/imgNews/news'], resolve)
+      }
+    },
+    {
       path: '/setAction',
       name: '发起活动',
       component: resolve => {
@@ -117,10 +117,17 @@ export default new Router({
       }
     },
     {
-      path: '/details',
+      path: '/details/:id',
       name: '活动详情',
       component: resolve => {
         require(['src/page/action/details'], resolve)
+      }
+    },
+    {
+      path: '/details2/:id',
+      name: '目的地详情',
+      component: resolve => {
+        require(['src/page/action/details2'], resolve)
       }
     },
     {

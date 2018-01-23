@@ -6,65 +6,75 @@
     </div>
     <div v-show="!panel">
       <vTitle name="编辑个人资料"></vTitle>
-      <scroller lock-x height="-44">
-        <div class="user_basic_message">
-          <div class="tp">
-            <div class="tp_left">
-              头像
-            </div>
-            <div class="tp_right">
-              <div class="picture"
-                   :style="message.headerImage?'backgroundImage:url('+message.headerImage+')':'backgroundImage:url('+message.url+')'"></div>
-              <input type="file" id="change" name="file" accept="image/png,image/gif,image/jpeg" @change="change">
-              <!--
-                            <input type="file" id="change" name="file"  capture="camera" accept="image/png,image/gif,image/jpeg" @change="change">
-              -->
-              <!--  <i class="iconfont icon-touxiang" ></i>-->
-              <i class="iconfont icon-fanhui-copy"></i>
-            </div>
+      <div class="user_basic_message">
+        <div class="tp">
+          <div class="tp_left">
+            头像
           </div>
-          <div class="bs_other">
-            <group>
-              <cell :title="'昵称'" is-link @click.native="showComponents('昵称', 'nickname', message.nickname)"
-                    :value="message.nickname"
-                    class="require"></cell>
-            </group>
-            <group>
-              <cell :title="'真实姓名'" @click.native="showComponents('真实姓名', 'name', message.name)" is-link
-                    :value="message.name"></cell>
-            </group>
-            <group>
-              <cell :title="'性别'" is-link @click.native="showComponents1('性别', 'sex', message.sex)" :value="message.sex"
-                    class="require"></cell>
-            </group>
-            <group>
-              <datetime
-                v-model="message.birthday"
-                :title="'生日'"
-                @on-confirm="updateBirthday(message.birthday)"
-                class="require"></datetime>
-            </group>
-            <group>
-              <cell :title="'电话'" is-link @click.native="showComponents1('电话', 'phone', message.phone)"
-                    :value="'135***2666'"></cell>
-            </group>
-            <group>
-              <cell :title="'QQ'" @click.native="showComponents('QQ','qq' ,message.qq)" is-link :value="message.qq"></cell>
-            </group>
-            <group>
-              <cell :title="'微信'" @click.native="showComponents('微信','wx' ,message.wx)" is-link :value="message.wx"></cell>
-            </group>
-            <group>
-              <cell :title="'驾驶证'" is-link :link="{path:'/demo'}" :value="'上传'"></cell>
-            </group>
-            <group>
-              <cell :title="'个人简介'" is-link :link="{path:'/introduce'}" :value="'设置'" class="require"></cell>
-            </group>
+          <div class="tp_right">
+            <div class="picture"
+                 :style="message.headerImage?'backgroundImage:url('+message.headerImage+')':'backgroundImage:url('+message.url+')'"></div>
+            <input type="file" id="change" name="file" accept="image/*" @change="change">
+            <!--
+                          <input type="file" id="change" name="file"  capture="camera" accept="image/png,image/gif,image/jpeg" @change="change">
+            -->
+            <!--  <i class="iconfont icon-touxiang" ></i>-->
+            <i class="iconfont icon-fanhui-copy"></i>
           </div>
         </div>
-      </scroller>
+        <div class="bs_other">
+          <group>
+            <cell :title="'昵称'" is-link @click.native="showComponents('昵称', 'nickname', message.nickname)"
+                  :value="message.nickname"
+                  class="require"></cell>
+          </group>
+          <group>
+            <cell :title="'真实姓名'" @click.native="showComponents('真实姓名', 'name', message.name)" is-link
+                  :value="message.name"></cell>
+          </group>
+          <group>
+            <cell :title="'性别'" is-link @click.native="showComponents1('性别', 'sex', message.sex)" :value="message.sex"
+                  class="require"></cell>
+          </group>
+          <group>
+            <datetime
+              v-model="message.birthday"
+              :title="'生日'"
+              @on-confirm="updateBirthday(message.birthday)"
+              class="require"></datetime>
+          </group>
+          <group>
+            <cell :title="'电话'" is-link @click.native="showComponents1('电话', 'phone', message.phone)"
+                  :value="'135***2666'"></cell>
+          </group>
+          <group>
+            <cell :title="'QQ'" @click.native="showComponents('QQ','qq' ,message.qq)" is-link
+                  :value="message.qq"></cell>
+          </group>
+          <group>
+            <cell :title="'微信'" @click.native="showComponents('微信','wx' ,message.wx)" is-link
+                  :value="message.wx"></cell>
+          </group>
+          <group>
+            <cell :title="'个人简介'" @click.native="showComponents('个人简介','introduce' ,message.introduce)"
+                  class="require" is-link :value="message.introduce"></cell>
+          </group>
+          <group>
+            <label for="file">
+              <cell :title="'驾驶证'" is-link :value="'上传'">
+              </cell>
+              <input type="file" id="file" accept="image/*"
+                     style="opacity: 0;position: absolute;top: 0;left: 0;width: 100%;height: 100%;"/>
+            </label>
+          </group>
+          <div style="padding: 15px">
+            <img src="../../../static/img/car.png" style="width: 100%; height: auto;display: inline-block"/>
+          </div>
+        </div>
+      </div>
       <update v-if="inputShow" :keys="keys" :name="name" :value="value" v-on:hide="hide"></update>
       <vRadio v-if="radioShow" :keys="keys" :name="name" :value="value" v-on:hide="hide"></vRadio>
+      <vIntroduce v-if="txtShow" :keys="keys" :name="name" :value="value" v-on:hide="hide"></vIntroduce>
     </div>
   </div>
 </template>
@@ -75,6 +85,8 @@
   import update from 'src/components/user/update';
   import vTitle from 'src/components/user/header';
   import vRadio from 'src/components/user/radio';
+  import vIntroduce from 'src/components/user/introduce';
+
   export default {
     components: {
       Scroller,
@@ -85,7 +97,8 @@
       Cell,
       update,
       vTitle,
-      vRadio
+      vRadio,
+      vIntroduce
     },
     data () {
       return {
@@ -99,10 +112,12 @@
           qq: '123456',
           wx: '4sdw541154',
           sex: '男', //['保密', '男', '女']
-          phone: '135***2666'
+          phone: '135***2666',
+          introduce: '这人很懒，什么都没留下',
         },
         inputShow: false,
         radioShow: false,
+        txtShow: false,
         keys: '',
         name: '',
         value: ''
@@ -202,7 +217,8 @@
         this.keys = key;
         this.name = name;
         this.value = value;
-        this.inputShow = true;
+        key === '个人简介' ? this.txtShow = true : this.inputShow = true;
+
       },
       updateBirthday(v){
         if (v !== this.message.birthday) {
@@ -220,6 +236,7 @@
         /* 重新拉接口*/
         this.radioShow = false;
         this.inputShow = false;
+        this.txtShow = false;
       },
       /* change (val, label) {
        console.log('change', val, label)

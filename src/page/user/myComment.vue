@@ -46,7 +46,7 @@
     Sticky
   } from 'vux';
   import List from 'src/components/list/list';
-  import comment from 'src/components/action/comment';
+  import comment from 'src/components/comment/comment';
 
 
   export default {

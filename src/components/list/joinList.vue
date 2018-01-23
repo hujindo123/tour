@@ -1,8 +1,7 @@
 <template>
   <div>
-    <div class="list_tab" v-if="list" v-for="(x, i) in list">
-      <!-- 最新活动 有报名的按钮-->
-      <router-link :to="{path:'/details/'+x.id}" v-if="place ==0 ">
+    <div class="list_tab_j" v-if="list" v-for="(x, i) in list">
+      <router-link :to="{path:'/details/'+x.id}">
         <div class="title">{{x.title}}</div>
         <div class="tab_center">
           <div class="tab_center_left">
@@ -16,38 +15,14 @@
             </div>
             <div class="desc">{{x.intru}}</div>
             <div class="singup" :class="'singup'+x.status">
-              <div class="time">报名截止：{{x.singup}}</div>
-              <!-- 要报名-->
-              <router-link class="btn" v-if="x.status == 0" to="/joinAction">我要报名</router-link>
-              <!-- 参与报名的-->
-              <div class="btn" v-if="x.status == 1" @click.prevent="showBtn(i)">编辑报名</div>
-              <div style="position: absolute;right: 0; top:24px; z-index: 500" @click.prevent="showBtn(i)"
-                   v-if="btnShow && indexs === i && x.status == 1">
-                <div style="margin-top: 1px">
-                  <x-button text="修改报名" class="txt" type="primary" link='/joinAction'></x-button>
-                </div>
-                <div style="margin-top: 1px">
-                  <x-button text="取消报名" class="txt" type="primary" @click.native="show = true"></x-button>
-                </div>
-              </div>
-              <!-- 发起的活动 修改-->
-              <div class="btn" v-if="x.status == 2" @click.prevent="showBtn(i)">编辑活动</div>
-              <div style="position: absolute;right: 0; top:24px; z-index: 500" @click.prevent="showBtn(i)"
-                   v-if="btnShow && indexs === i && x.status == 2">
-                <div style="margin-top: 1px">
-                  <x-button text="修改活动" class="txt" type="primary" link='/setAction'></x-button>
-                </div>
-                <div style="margin-top: 1px">
-                  <x-button text="审核报名" class="txt" type="primary" link='/message?type=2'></x-button>
-                </div>
-                <div style="margin-top: 1px">
-                  <x-button text="取消活动" class="txt" type="primary" @click.native="show = true"></x-button>
-                </div>
-              </div>
-              <!-- 发起的活动 结束-->
+              <!-- 参与活动 已审核-->
+              <div class="btn over" v-if="x.status == 1">已通过</div>
+              <!-- 参与活动 待审核-->
+              <div class="btn over" v-if="x.status == 2">待审核</div>
+              <!-- 参与活动 结束-->
               <div class="btn over" v-if="x.status == 3">已结束</div>
-              <!-- 发起的活动 取消-->
-              <div class="btn cancel" v-if="x.status == 4">已结束</div>
+              <!-- 参与活动 未通过-->
+              <div class="btn cancel" v-if="x.status == 4">未通过</div>
             </div>
           </div>
         </div>
@@ -143,9 +118,6 @@
     directives: {
       TransferDom
     },
-    created(){
-      console.log(22);
-    },
     components: {
       Loading,
       Confirm,
@@ -181,9 +153,7 @@
 
       },
       goPath(name, v){
-        if (this.$route.path !== '/action') {
-          this.$router.push(`${name}?id=${v}`);
-        }
+        this.$router.push(`${name}?id=${v}`);
       }
     }
   }
@@ -191,7 +161,7 @@
 <style lang="scss">
   @import "../../style/mixin";
 
-  .list_tab {
+  .list_tab_j {
     position: relative;
     /*overflow: hidden;*/
     padding: 12px 12px 5px 12px;
@@ -263,20 +233,19 @@
           }
         }
         .singup {
-          @include wh(161px, 25px);
+          @include wh(60px, 25px);
           line-height: 24px;
           box-sizing: border-box;
-          border: 1px solid rgba(21, 156, 94, 0.55);
           position: absolute;
           right: 0;
           bottom: 0;
           display: flex;
           flex-flow: row;
           text-align: center;
-          &.singup3 {
+          &.singup3{
             border: 1px solid rgb(198, 198, 198);
           }
-          &.singup4 {
+          &.singup4{
             border: 1px solid rgb(240, 68, 71);
           }
           .time {
@@ -290,10 +259,10 @@
             text-decoration: none;
             background: $fc;
             @include sc(12px, rgba(255, 255, 255, 1));
-            &.over {
+            &.over{
               background: rgb(198, 198, 198);
             }
-            &.cancel {
+            &.cancel{
               background: rgb(240, 68, 71);
             }
           }

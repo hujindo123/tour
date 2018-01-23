@@ -1,8 +1,7 @@
 <template>
   <div>
-    <div class="list_tab" v-if="list" v-for="(x, i) in list">
-      <!-- 最新活动 有报名的按钮-->
-      <router-link :to="{path:'/details/'+x.id}" v-if="place ==0 ">
+    <div class="list_tab_s" v-if="list" v-for="(x, i) in list">
+      <router-link :to="{path:'/details/'+x.id}">
         <div class="title">{{x.title}}</div>
         <div class="tab_center">
           <div class="tab_center_left">
@@ -17,23 +16,10 @@
             <div class="desc">{{x.intru}}</div>
             <div class="singup" :class="'singup'+x.status">
               <div class="time">报名截止：{{x.singup}}</div>
-              <!-- 要报名-->
-              <router-link class="btn" v-if="x.status == 0" to="/joinAction">我要报名</router-link>
-              <!-- 参与报名的-->
-              <div class="btn" v-if="x.status == 1" @click.prevent="showBtn(i)">编辑报名</div>
+              <!-- 发起的活动 修改-->
+              <div class="btn" v-if="x.status == 1" @click.prevent="showBtn(i)">编辑活动</div>
               <div style="position: absolute;right: 0; top:24px; z-index: 500" @click.prevent="showBtn(i)"
                    v-if="btnShow && indexs === i && x.status == 1">
-                <div style="margin-top: 1px">
-                  <x-button text="修改报名" class="txt" type="primary" link='/joinAction'></x-button>
-                </div>
-                <div style="margin-top: 1px">
-                  <x-button text="取消报名" class="txt" type="primary" @click.native="show = true"></x-button>
-                </div>
-              </div>
-              <!-- 发起的活动 修改-->
-              <div class="btn" v-if="x.status == 2" @click.prevent="showBtn(i)">编辑活动</div>
-              <div style="position: absolute;right: 0; top:24px; z-index: 500" @click.prevent="showBtn(i)"
-                   v-if="btnShow && indexs === i && x.status == 2">
                 <div style="margin-top: 1px">
                   <x-button text="修改活动" class="txt" type="primary" link='/setAction'></x-button>
                 </div>
@@ -45,13 +31,13 @@
                 </div>
               </div>
               <!-- 发起的活动 结束-->
-              <div class="btn over" v-if="x.status == 3">已结束</div>
+              <div class="btn over" v-if="x.status == 2">已结束</div>
               <!-- 发起的活动 取消-->
-              <div class="btn cancel" v-if="x.status == 4">已结束</div>
+              <div class="btn cancel" v-if="x.status == 3">已取消</div>
             </div>
           </div>
         </div>
-        <div class="tab_bottom">
+        <div class="tab_bottom" v-if="x.status != 3">
           <span><img :src=x.url alt="">   {{x.name}}</span>
           <span class="time">{{x.time}}</span>
           <span><i class="iconfont icon-liulan"></i>{{x.see}}</span>
@@ -121,7 +107,7 @@
       <confirm v-model="show"
                :close-on-confirm="false"
                @on-confirm="onConfirm4">
-        <p style="text-align:center;">确定取消报名吗?</p>
+        <p style="text-align:center;">确定取消活动吗?</p>
       </confirm>
     </div>
     <loading :show="show1" :text="text1"></loading>
@@ -142,9 +128,6 @@
     },
     directives: {
       TransferDom
-    },
-    created(){
-      console.log(22);
     },
     components: {
       Loading,
@@ -181,9 +164,7 @@
 
       },
       goPath(name, v){
-        if (this.$route.path !== '/action') {
-          this.$router.push(`${name}?id=${v}`);
-        }
+        this.$router.push(`${name}?id=${v}`);
       }
     }
   }
@@ -191,7 +172,7 @@
 <style lang="scss">
   @import "../../style/mixin";
 
-  .list_tab {
+  .list_tab_s {
     position: relative;
     /*overflow: hidden;*/
     padding: 12px 12px 5px 12px;
@@ -273,11 +254,11 @@
           display: flex;
           flex-flow: row;
           text-align: center;
-          &.singup3 {
-            border: 1px solid rgb(198, 198, 198);
+          &.singup2 {
+            border: 1px solid rgba(198, 198, 198, 0.55);
           }
-          &.singup4 {
-            border: 1px solid rgb(240, 68, 71);
+          &.singup3 {
+            border: 1px solid rgba(240, 68, 71, 0.55);
           }
           .time {
             flex: 1;
