@@ -3,7 +3,7 @@
     <div class="user_top">
       <span class="iconfont icon-fanhui" @click="back"></span>
       <span class="register_singin">报名信息填写</span>
-      <span class="iconfont icon-wechaticon27" :style="{opacity: save ? 1:0.5}"></span>
+      <span class="iconfont icon-wechaticon27" :style="{opacity: save ? 1:0.5}" @click.native="submit"></span>
     </div>
     <div class="user_basic_message">
       <div class="bs_other">
@@ -108,7 +108,7 @@
       <br>
       <x-icon type="ios-close-outline" @click.native="showDialogStyle=false" style="fill:#fff;" size="50"></x-icon>
     </x-dialog>
-    <x-button type="default" class="add_submit" @click.native="submit">提交报名</x-button>
+  <!--  <x-button type="default" class="add_submit" @click.native="submit">提交报名</x-button>-->
   </div>
 </template>
 
