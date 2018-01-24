@@ -12,14 +12,12 @@
       <group class="wear_e">
         <cell :title="'出行信息'" :value="isChoice ? '已选择':'选择'" is-link @click.native="isShow=true"></cell>
       </group>
-      <quill-editor ref="myTextEditor"
-                    v-model="content"
-                    :options="editorOption"
-                    @imageAdded="handleImageAdded"
-                    @blur="onEditorBlur($event)"
-                    @focus="onEditorFocus($event)"
-                    @ready="onEditorReady($event)">
-      </quill-editor>
+      <vue-editor id="editor"
+                  :editorToolbar="customToolbar"
+                  useCustomImageHandler
+                  :placeholder=" '请输入内容'"
+                  @imageAdded="handleImageAdded" v-model="htmlForEditor">
+      </vue-editor>
     </div>
     <chocieMessage v-show="isShow" v-on:hideChoice="isShow=!isShow" v-on:onRight="choiceMessage"></chocieMessage>
   </div>
@@ -27,12 +25,7 @@
 
 <script>
   import chocieMessage from 'src/page/action/chocieMessage';
-  /*  import {VueEditor} from 'vue2-editor';*/
-  import 'quill/dist/quill.core.css'
-  import 'quill/dist/quill.snow.css'
-  import 'quill/dist/quill.bubble.css'
-
-  import {quillEditor} from 'vue-quill-editor'
+  import {VueEditor} from 'vue2-editor';
   import {Group, Cell, XInput, XTextarea} from 'vux';
   export default {
     data () {
@@ -49,7 +42,11 @@
               ['image']
             ]
           }
-        }
+        },
+        htmlForEditor: '',
+        customToolbar: [
+          ['image']
+        ]
       }
     },
     components: {
@@ -58,7 +55,7 @@
       XInput,
       XTextarea,
       chocieMessage,
-      quillEditor
+      VueEditor
     },
     computed: {
       editor() {
@@ -88,14 +85,7 @@
         }
       },
       setCss(){
-        let pNode = document.getElementsByClassName('ql-toolbar')[0];
         let PNode1 = document.getElementsByClassName('ql-formats')[0];
-        pNode.style.cssText = 'width: 100%;display:flex;flex-flow:row;align-items: center;';
-        PNode1.style.cssText = 'display:flex;flex:1';
-
-        let file = document.getElementsByClassName('ql-image')[0];
-        file.style.cssText = 'display:flex;flex:1';
-
         let span = document.createElement('span');
         span.innerHTML = '插入图片';
         span.style.cssText = 'font-size: 12px';
@@ -103,12 +93,10 @@
       },
       async handleImageAdded (file, Editor, cursorLocation) {
         let formData = new FormData();
-        formData.append('type', 1);//通过append向form对象添加数据
         formData.append('images', file);
-        formData.append('userId', sessionStorage.getItem('userId'));
         try {
           let result = await this.$http({
-            url: this.baseURL + '/updateImg',
+            url: this.baseUrl + '/updateImg',
             method: 'POST',
             data: formData
           });
@@ -117,31 +105,7 @@
         } catch (err) {
           console.log(err.message);
         }
-        /*this.axios({
-         url: 'http://172.16.0.61:3001/updateImg',
-         method: 'POST',
-         data: formData
-         }).then(result => {
-
-         }).catch(err => {
-         console.log(err);
-         });*/
       },
-      onEditorBlur(editor) {
-        console.log('editor blur!', editor)
-      },
-      onEditorFocus(editor) {
-        /*
-         * 窗口高度减去输入框高度和输入框到顶部的距离，即输入框高度，不过获取焦点时要加个延时
-
-         */
-        var self = this;
-        self.s = document.body.offsetHeight
-
-      },
-      onEditorReady(editor) {
-        console.log('editor ready!', editor)
-      }
     }
   }
 </script>
@@ -206,7 +170,7 @@
           border-width: 1px 1px 0 0
         }
       }
-      .quill-editor {
+      .quillWrapper {
         flex: 1;
         display: flex;
         flex-flow: column;
@@ -218,7 +182,11 @@
           bottom: 0;
           left: 0;
           z-index: 300;
+          padding: 8px;
           background: #fff;
+          display: flex;
+          flex-flow: row;
+          align-items: center;
           &:after {
             width: 100%;
             content: " ";
@@ -234,11 +202,26 @@
             -webkit-transform: scaleY(0.5);
             transform: scaleY(0.5);
           }
+          .ql-formats {
+            display: flex;
+            flex: 1;
+            margin-bottom: 0;
+            padding: 0 5px;
+            .ql-image {
+              display: flex;
+              flex: 1;
+              padding: 0 5px;
+            }
+          }
         }
         .ql-container {
           border: 0;
           flex: 1;
           padding-bottom: 60px;
+          .ql-editor{
+            font-size: 14px;
+          }
+
         }
       }
     }

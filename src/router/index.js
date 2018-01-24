@@ -1,9 +1,11 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import {WechatPlugin} from 'vux'
-import {mode} from 'src/config/env';
 Vue.use(Router);
+import {WechatPlugin} from 'vux';
 Vue.use(WechatPlugin);//console.log(Vue.wechat) // 可以直接访问 wx 对象。 this.$wechat
+import {AjaxPlugin} from "vux";
+Vue.use(AjaxPlugin);
+
 import login from 'src/page/login/login';
 import register from 'src/page/register/register';
 import third from 'src/page/third/third';
@@ -13,7 +15,7 @@ import updatePhone from 'src/page/user/updatePhone';
 import message from 'src/page/message/message';
 import index from 'src/page/index/index';
 export default new Router({
-  mode,
+  mode: 'history',
   routes: [
     {
       path: '/',

@@ -1,15 +1,9 @@
 /**
  * Created by Administrator on 2017/11/21.
  */
-let mode = 'history';// 模式
-let baseUrl = 'http://172.16.0.71:3000'; //接口地址
-if (process.env.NODE_ENV == 'development') {
+import Vue from "vue";
+export const baseUrl = 'http://172.16.0.71:3000';//接口地址
+export const imgURL = 'http://172.16.0.71:3000';//图片地址
 
-}else if(process.env.NODE_ENV == 'production'){
-
-  // baseUrl = 'http://cangdu.org:8001';
-}
-export  {
-  mode,// 模式
-  baseUrl, //接口地址
-}
+Vue.prototype.imgURL = baseUrl;
+Vue.prototype.baseUrl = baseUrl;
