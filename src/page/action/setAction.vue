@@ -12,10 +12,10 @@
       <group class="wear_e">
         <cell :title="'出行信息'" :value="isChoice ? '已选择':'选择'" is-link @click.native="isShow=true"></cell>
       </group>
-      <quill-editor ref="myTextEditor" class="needsclick"
+      <quill-editor ref="myTextEditor"
                     v-model="content"
                     :options="editorOption"
-                    :placeholder="'出行信息'"
+                    @imageAdded="handleImageAdded"
                     @blur="onEditorBlur($event)"
                     @focus="onEditorFocus($event)"
                     @ready="onEditorReady($event)">
@@ -41,8 +41,9 @@
         isChoice: false,
         title: '',
         name: '01-example',
-        content: `输入活动信息`,
+        content: ``,
         editorOption: {
+          placeholder: '请输入内容',
           modules: {
             toolbar: [
               ['image']
@@ -64,13 +65,15 @@
         return this.$refs.myTextEditor.quill
       },
       save(){
-        if (this.isChoice && this.s.length>0 && this.content.length>0) {
+        if (this.isChoice && this.s.length > 0 && this.content.length > 0) {
           return true
         }
         return false
       }
     },
     mounted() {
+      //设置编辑器的样式
+      this.setCss();
     },
     methods: {
       choiceMessage(v){
@@ -80,32 +83,24 @@
         this.isShow = !this.isShow
       },
       submit(){
-        if(this.save){
+        if (this.save) {
           this.$router.push('/joinSucess/0');
         }
       },
-      update (e) {   //上传照片
-        var self = this;
-        let file = e.target.files[0];
-        /*eslint-disable no-undef */
-        let param = new FormData();  //创建form对象
-        param.append('file', file, file.name);  //通过append向form对象添加数据
-        param.append('chunk', '0'); //添加form表单中其他数据
-        console.log(param.get('file')); //FormData私有类对象，访问不到，可以通过get判断值是否传进去
-        let config = {
-          headers: {'Content-Type': 'multipart/form-data'}
-        };
-        axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
-        //添加请求头
-        axios.post('http://172.16.0.61:3001/updateImg', param, config)
-          .then(response => {
-            if (response.data.code === 0) {
-              self.ImgUrl = response.data.data;
-            }
-            console.log(response.data);
-          });
+      setCss(){
+        let pNode = document.getElementsByClassName('ql-toolbar')[0];
+        let PNode1 = document.getElementsByClassName('ql-formats')[0];
+        pNode.style.cssText = 'width: 100%;display:flex;flex-flow:row;align-items: center;';
+        PNode1.style.cssText = 'display:flex;flex:1';
+
+        let file = document.getElementsByClassName('ql-image')[0];
+        file.style.cssText = 'display:flex;flex:1';
+
+        let span = document.createElement('span');
+        span.innerHTML = '插入图片';
+        span.style.cssText = 'font-size: 12px';
+        document.getElementsByClassName('ql-snow')[0].insertBefore(span, PNode1);
       },
-      /* uill.getSelection()*/
       async handleImageAdded (file, Editor, cursorLocation) {
         let formData = new FormData();
         formData.append('type', 1);//通过append向form对象添加数据
