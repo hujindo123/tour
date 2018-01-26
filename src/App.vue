@@ -20,7 +20,7 @@
   }
 </script>
 <style lang="less">
-  @import '~vux/src/styles/1px.less';
+  @import '../node_modules/vux/src/styles/1px.less';
 </style>
 <style lang="scss">
   @import "./style/reset.scss";
