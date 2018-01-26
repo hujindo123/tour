@@ -26,6 +26,7 @@
 <script>
   import chocieMessage from 'src/page/action/chocieMessage';
   import {VueEditor} from 'vue2-editor';
+  /*https://github.com/davidroyer/vue2-editor */
   import {Group, Cell, XInput, XTextarea} from 'vux';
   export default {
     data () {
@@ -92,6 +93,7 @@
         document.getElementsByClassName('ql-snow')[0].insertBefore(span, PNode1);
       },
       async handleImageAdded (file, Editor, cursorLocation) {
+          /*组件中有个useCustomImageHandler 参数表明 是否选择上传到服务器单独的图片  负责转为base64*/
         let formData = new FormData();
         formData.append('images', file);
         try {
